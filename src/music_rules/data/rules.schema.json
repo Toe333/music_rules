@@ -1,0 +1,145 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://github.com/toe333/music-rules/data/rules.schema.json",
+    "title": "music-rules unified rule corpus",
+    "description": "Schema for rules_combined.json — the canonical rule source used by music-rules.",
+    "type": "object",
+    "required": ["rules"],
+    "additionalProperties": true,
+    "properties": {
+        "$schema":     { "type": "string" },
+        "description": { "type": "string" },
+        "systems": {
+            "type": "object",
+            "description": "Map of system_id -> human-readable description.",
+            "additionalProperties": { "type": "string" }
+        },
+        "kinds": {
+            "type": "object",
+            "description": "Map of kind_name -> documentation. The runtime accepts only hard|soft|hybrid|informational on Rule.kind, but other keys may appear in this dict for documentation purposes.",
+            "additionalProperties": { "type": "string" }
+        },
+        "input_shapes": {
+            "type": "object",
+            "description": "Canonical fragment-shape vocabulary; map of shape_name -> Python signature docstring.",
+            "additionalProperties": { "type": "string" }
+        },
+        "rules": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "$ref": "#/$defs/Rule" }
+        }
+    },
+    "$defs": {
+        "Rule": {
+            "type": "object",
+            "required": [
+                "id", "system", "category", "rule",
+                "scope", "exceptions", "tier", "source", "kind",
+                "input_shape", "species", "voices"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Stable identifier; e.g. 'P-001', 'V-014', 'H1_1'."
+                },
+                "system": {
+                    "type": "string",
+                    "enum": ["EIS", "Fux"]
+                },
+                "category": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Free-form category bucket (e.g. 'voice-leading')."
+                },
+                "rule": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Human-readable rule statement."
+                },
+                "scope": {
+                    "type": "string",
+                    "description": "Where the rule applies; may be empty for principles."
+                },
+                "exceptions": {
+                    "type": "string",
+                    "description": "Documented exceptions; empty if none."
+                },
+                "tier": {
+                    "type": "string",
+                    "enum": [
+                        "principle", "def",
+                        "elementary", "intermediate", "advanced",
+                        "hard", "soft", "hard+soft"
+                    ]
+                },
+                "source": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Provenance citation (e.g. 'TG p.34', 'FuxCP5 H1_1')."
+                },
+                "kind": {
+                    "type": "string",
+                    "enum": ["hard", "soft", "hybrid", "informational"]
+                },
+                "input_shape": {
+                    "anyOf": [
+                        { "type": "null" },
+                        {
+                            "type": "string",
+                            "enum": [
+                                "melodic-interval",
+                                "melodic-triple",
+                                "melodic-leap-sequence",
+                                "consecutive-notes",
+                                "first-interval",
+                                "final-interval",
+                                "penultimate-interval",
+                                "penultimate-note",
+                                "final-chord",
+                                "per-measure-downbeat",
+                                "weak-beat-interval",
+                                "motion-pair",
+                                "motion-sequence",
+                                "global-motion",
+                                "strong-beat-approach",
+                                "vertical-chord",
+                                "dissonance-context",
+                                "figure",
+                                "voice-pair",
+                                "cp-cf-pair",
+                                "five-note-window",
+                                "per-voice-over-piece",
+                                "rhythmic-diversity",
+                                "per-note",
+                                "interval-class"
+                            ]
+                        }
+                    ]
+                },
+                "species": {
+                    "anyOf": [
+                        { "type": "null" },
+                        { "type": "string", "enum": ["1", "2", "3", "4", "5", "all"] }
+                    ]
+                },
+                "voices": {
+                    "anyOf": [
+                        { "type": "null" },
+                        { "type": "string", "pattern": "^(any|[2-5]v(,[2-5]v)*)$" }
+                    ]
+                }
+            },
+            "allOf": [
+                {
+                    "description": "Mechanically checkable rules (hard|soft|hybrid) MUST have an input_shape; informational rules MUST NOT.",
+                    "if": { "properties": { "kind": { "const": "informational" } } },
+                    "then": { "properties": { "input_shape": { "type": "null" } } },
+                    "else": { "properties": { "input_shape": { "type": "string" } } }
+                }
+            ]
+        }
+    }
+}
