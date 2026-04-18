@@ -27,6 +27,9 @@ env/
 # --- uv ---
 uv.lock
 
+# --- hatch-vcs auto-generated ---
+src/music_rules/_version.py
+
 # --- IDE / editor ---
 .vscode/
 .idea/
