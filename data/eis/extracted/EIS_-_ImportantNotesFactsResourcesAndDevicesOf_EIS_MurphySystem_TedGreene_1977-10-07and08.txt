@@ -1,0 +1,115 @@
+      Important Notes, Facts, Resources, and Devices
+                 of EIS Murphy System
+                         Ted Greene 1977-10-07 & 08
+
+        Horizontal Composition Based on Equal Intervals (12)
+
+1)     A simplified and highly accurate method of counting, or spacing, all of the
+       horizontal and vertical intervals used in modern music.
+2)     In the advanced theory section it becomes a complete Equal Interval System
+       involving all intervals, vertical as well as horizontal, in all possible
+       combinations.
+3)     There is no key as such, all Root tones being of equal importance, but we can
+       have a tonal center (if required) which will serve the same general purpose.
+4)     For the most part, the structural design of this system consists of Horizontal
+       Patterns written in equal intervals, using various Root lines as a bass.
+5)     We learn by playing and listening, comparing and analyzing, and checking
+       and rechecking against the previous lessons. Play every note over and over
+       again, carefully observing where each and every tone originates and the
+       direction it takes (on a horizontal plane) in progressing to the following tones.
+6)     When several Root tones appear in sequence, they are called Progressions.
+       p.26  the term progression refers only to the horizontal movement of the
+       Root tones (in the bass).
+7)     The Perfect Fifth (diatonic interval) is treated as an Octave Position of a
+       fourth.
+8)     Although we use Equal Intervals in the bass with our Root tones, the scales
+       employed in the treble are based on the Natural Major scale which has the
+       diatonic intervals.
+9)     Harmony is a set of tones from any one scale sounded simultaneously. All
+       chords are built on certain intervals belonging to the various scales.
+10)    We use a Two-Octave Scale when we wish to build chords.
+11)    Vertically, this system follows as closely as possible the spacing of the
+       intervals found in the overtone series. To get the vertical sounds needed we
+       use our scales as a basis.
+12)    The first section of the course is in Equal Intervals only in the horizontal
+       relation of the tones (Root tones). Vertically, it is based on a greatly
+       expanded 7-tone system.
+13)    If we divide the overtone series into 5 octaves, we see the following:
+       1st octave contains: the fundamental and its octave position
+       2nd octave contains: a Root and a 5th
+       3rd octave contains: 1, 3, 5, -7  called Chord Tones
+       4th octave contains: 1, 2, 3, 4+, 5, 6, -7  called Scale Tones
+       5th octave contains: 1, 2, 3, 4+, 5, 6, -7  called Scale Tones
+“Important Notes, Facts, Resources, and Devices of EIS Murphy System” — Ted Greene, 1977-10-07, 08   page 2
+
+
+14)             Book II: System of Progressions – “We must start somewhere, so we select
+                lines which give us all the vertical structures known to conventional students
+                by “chord names.” starting with Open and Close Triads (major and minor
+                triads).
+15)             Equal Interval Theory: “One line at a time written Horizontally in Equal
+                Intervals.”
+16)             At the heart of this course is “the motion of the horizontal lines resulting from
+                the voice-leading plus the non-chord tones. This creates little fragments of
+                Melody which are tossed about among the various parts in a sort of
+                contrapuntal fashion. As the course of study progresses, these horizontal
+                lines become longer and more intricate, and the harmonies more complex and
+                of increasing interest. Our Final Goal is to be able to weave horizontal lines
+                from all the parts together (contrapuntal, or otherwise) into a complete and
+                perfectly organized ensemble.
+17)             Non-Chord Tones (NCT’s) do not affect the Voice-Leading (VL) as they are
+                placed between two chord tones. (p.26). (NCT substitute for or alter the
+                chord tones as shown on p.23.
+18)             Bass in Motion: Descending  use diatonic motion on p.5 (E7), EIS on all
+                other ascending: likewise, but last tone in bar is Root tone except for E2^.
+                The range limit can be extended when the bass is in motion (bass solo). The
+                movement of the bass through the ascending progressions is exactly the
+                opposite of the descending progressions.
+                Everything in this course is reversable.
+19)             The method of study we employ causes us to use the bar line as an Integrating
+                Force. That is, we do not have to worry about such technical problems as
+                Voice-leading, Root progressions, etc., except when we cross the bar line.
+                Everything contained in 1 bar, such as the scale, the chord, or the alterations
+                (NCT’s) are based on a single Root Tone. When we cross the bar line,
+                everything changes as it is then based on a new and different Root tone. This
+                is our basic theory (but not true for actual composition).
+20)             In E5, E4, E3, and E6, the bass notes may be in any order of appearance you
+                wish between Root tones.
+21)             Elision: We may leave out any intervals in the bass not necessary to our
+                pattern or which do not conform to the metric considerations present in the
+                treble.
+22)             Change of Position (C.O.P.) (the treble changing position): Use voice-
+                leading when you cross the bar.
+23)             If no tone is held over (in the same voice) from one chord to another, we have
+                a Substitute Position (S.P.)  This is necessary sometimes when crossing the
+                bas to keep a line going.
+24)             Mark everything (it will come in handy for reference later).
+“Important Notes, Facts, Resources, and Devices of EIS Murphy System” — Ted Greene, 1977-10-07, 08   page 3
+
+
+25)             Bass and Treble Motion Combined: The bass may move and the treble
+                change position at the same time.
+26)             Substitute Tones (ST’s): Can replace chord tones. Example: 6 for 5; 4 for 3; 2
+                for 1. When Substitute Tones appear first and resolve back to the chord
+                tones, we refer to them as Leading Tones. If the chord tones appear first and
+                the ST’s follow, then we refer to them as Passing Tones (PT).
+27)             A) Passing Thirds, and B) Passing 5ths in the Bass: are inserted between
+                any two tonics. For Passing 3rds, the Root Tone must appear 1st at all times,
+                but not so for Passing 5ths.
+                C) Passing 3rds & 5ths may be combined but if the 3rd is ever sounded at
+                the same time (metrically) as the Treble Structure, then the Root or 5th must
+                be doubled in the Treble (and the 3rd omitted). The Passing 3rds & 5ths will
+                be referred to as the “Chord Tones.”
+                D) Passing 3rds & 5ths may be combined with Equal Intervals used in the
+                bass (on pp 32 & 33).
+                E) Both the “Chord Tones” and the “Equal Intervals” referred to above may
+                be combined with Leading Tones and Passing Tones (2 to 1, 4 to 3
+                                                                       1 to 2, 3 to 4)
+                F) All Bass Tones may be repeated an Octave Higher or Lower.
+                                                                        (Example: T 8-3 5)
+                G) Watch out for Parallel Octaves between bass and any note in Treble.
+28)             The Six-Four chord is a separate chord with Root in the bass in this system.
+                The resolution of the “unstable” sound is 6  5
+                                                          4  3 or reverse (and either 5 or 6
+                in minor). 6 and 4 are Substitute Tones here.
+

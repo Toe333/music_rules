@@ -1,0 +1,33 @@
+            EIS (Equal Interval System) Murphy System
+                         Guides or Rules
+                                 Ted Greene 1978-07-07
+
+p.15:       There can be no harmony tone written below the 3rd space of the bass clef
+            (not including the lowest Root or 5th).
+p.17:       Voice-Leading: Hold common tones; contrary motion between one or more
+            parts and the bass; move remaining tones to nearest tones in new chord.
+p.26:       Non-chord tones do not affect the voice-leading as they are placed between
+            two chord tones.
+p.34:       Everything in this course is reversible.
+p.49:       The higher you go, the freer you get.
+p.88, 97:   No three tones together (no matter how they’re voiced in several octaves).
+p.97:       No O.O.D. [Outside Octave Dissonance] but: ¨9 is O.K. if ¨7 is in chord; ¨2
+            is O.K. over a pedal; 3 & 11 are not good but 4 & 10 are fine (likewise 11 &
+            17).
+p.127:      In chords containing ª7, the ª7 must always resolve (to 6) whenever 9 resolves
+            to 8.
+p.123:      Three Basic Principles to Master:
+                   1) Equal interval root tones
+                   2) The 18 scales
+                   3) The vertical chord structures built from the scales
+            And: How to weave melodic and harmonic lines through them.
+p.129:      EIS Method: Begin with 1) root tones, 2) choose the scales, 3) build the
+            harmonies and get the final results through the use of VL [voice-leading],
+            non-chord tones, resolutions & reverse resolutions.
+            The melody may be a single line with harmony in the bass clef (example: 15
+            10) or it may be 2P-H3 or 3P or 4P or 5P or complete chords.
+p.145:      In G sound motives: (or ?): Moving away from doubled tones by contrary
+            motion.
+p.148B:
+p.152A:     Good 4th chord scales: 1, 3, 4, 7 (11, 12 in 4-part) (4+ too?)
+

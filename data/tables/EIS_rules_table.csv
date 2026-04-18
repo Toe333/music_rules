@@ -1,0 +1,120 @@
+id,category,rule,scope,exceptions,tier,source
+P-001,principle,Everything in the course is reversible — any passage can be read backwards and still make musical sense.,all writing,,principle,TG p.34
+P-002,principle,"The higher you go, the freer you get — register relaxes the rules.",all writing,,principle,TG p.49
+P-003,principle,There is no key. All Root tones are of equal importance. A tonal center can exist only if you want one.,global,,principle,TG item 3 / Web
+P-004,principle,"The bar line is the integrating force. Inside a single bar everything shares one Root, scale, chord, and NCT set.",all writing,,principle,TG item 19
+P-005,principle,The method requires only about half a dozen rules plus practice.,general framing,,principle,Web (Murphy)
+P-006,principle,"EIS is derived from the overtone series, not from Schoenberg, Slonimsky, or Schillinger.",general framing,,principle,Web
+P-007,principle,Harmony is a set of tones from one scale sounded simultaneously. All chords are built on intervals belonging to the scales.,chord construction,,principle,TG item 9
+P-008,principle,Use a Two-Octave Scale when building chords.,chord construction,,elementary,TG item 10
+P-009,principle,Vertical spacing follows the overtone series as closely as possible.,voicings,,principle,TG item 11
+P-010,principle,Mark everything — it will come in handy for reference later.,study practice,,principle,TG item 24
+M-001,method,Step 1: begin with Root tones (pick an E-cycle or mixture).,composing,,elementary,TG p.129
+M-002,method,Step 2: choose the scales over each Root (from the 18).,composing,,elementary,TG p.129
+M-003,method,Step 3: build harmonies vertically from the chosen scale.,composing,,elementary,TG p.129
+M-004,method,"Step 4: finalize via VL, NCTs, resolutions, and reverse resolutions.",composing,,elementary,TG p.129
+M-005,method,Three Basic Principles to master: Equal-interval Root tones; the 18 scales; the vertical chord structures built from those scales.,general framing,,principle,TG p.123
+M-006,method,Overall goal: weave melodic and harmonic lines through the three principles.,composing,,principle,TG p.123
+M-007,method,"A melody may be a single line with harmony in the bass clef, or 2P-H3, 3P, 4P, 5P, or complete chords.",composing,,elementary,TG p.129
+R-001,root-progression,Root progressions are built from 6 equal-interval cycles (E1–E6).,bass line,,elementary,TG / Web
+R-002,root-progression,E1 = minor 2nd (semitone); cycle length 12.,bass line,,elementary,Web
+R-003,root-progression,E2 = major 2nd (whole tone); cycle length 6.,bass line,,elementary,Web
+R-004,root-progression,E3 = minor 3rd; cycle length 4.,bass line,,elementary,Web
+R-005,root-progression,E4 = major 3rd; cycle length 3.,bass line,,elementary,Web
+R-006,root-progression,E5 = perfect 4th; cycle length 12 (circle of 4ths).,bass line,,elementary,Web
+R-007,root-progression,E6 = tritone; cycle length 2.,bass line,,elementary,Web
+R-008,root-progression,The perfect 5th is treated as an octave position of a 4th — there is no separate E7.,bass line,,elementary,TG item 7
+R-009,root-progression,Successive Root tones in sequence are called a Progression; 'progression' refers only to horizontal movement of the bass.,terminology,,def,TG item 6 / p.26
+R-010,root-progression,Elision: leave out any bass intervals not needed to the pattern or not conforming to the meter in the treble.,bass line,,intermediate,TG item 21
+R-011,root-progression,"In E5, E4, E3, and E6 the bass notes may appear in any order of appearance between Root tones.",bass line,,elementary,TG item 20
+R-012,root-progression,Ascending E-progression: the last tone in the bar is the Root tone.,bass line,except E2 ascending,elementary,TG item 18
+R-013,root-progression,The ascending form of a progression is the exact opposite of the descending form (reversibility).,bass line,,principle,TG item 18
+V-001,voice-leading,Hold common tones when moving to the next chord.,across bar line,,elementary,TG p.17
+V-002,voice-leading,Move remaining tones to the nearest tones in the new chord.,across bar line,,elementary,TG p.17
+V-003,voice-leading,Use contrary motion between one or more parts and the bass.,across bar line,,elementary,TG p.17
+V-004,voice-leading,"Do not write three tones together, regardless of octave voicing.",vertical structure,,elementary,"TG pp.88, 97"
+V-005,voice-leading,Non-chord tones do not affect voice-leading; they are placed between two chord tones.,NCT insertion,,elementary,TG p.26 / item 17
+V-006,voice-leading,"In chords containing natural 7, the ♮7 must always resolve (to 6) whenever 9 resolves to 8.",chords with ♮7,,elementary,TG p.127
+V-007,voice-leading,Change-of-Position (C.O.P.) of the treble uses voice-leading when crossing the bar line.,across bar line,,elementary,TG item 22
+V-008,voice-leading,Use Substitute Position (S.P.) when no tone is held over in the same voice from one chord to the next.,across bar line,,elementary,TG item 23
+V-009,voice-leading,Dominant-7 VL: 3 → ♭7 and ♭7 → 3 with 1 → 1.,Dominant 7 chords,,intermediate,TG Writing
+V-010,voice-leading,Dominant-7 VL: 3 → ♭7 and ♭7 → 3 with 5 → 5.,Dominant 7 chords,,intermediate,TG Writing
+V-011,voice-leading,"Dominant-7 VL: same-bar R → 5 with brackets [ ] on 3, ♭7.",Dominant 7 chords,,intermediate,TG Writing
+V-012,voice-leading,Parallel voice-leading is allowed as a named variant.,all chord classes,,intermediate,TG Writing
+V-013,voice-leading,Bracket VL [ ]: one tone will always be missing.,VL notation,,def,TG Writing
+V-014,voice-leading,Watch for parallel octaves between the bass and any note in the treble.,bass + treble,,elementary,TG item 27G
+V-015,voice-leading,Substitute Voice-Leading (S.V.L.) is an alternative move available alongside VL and S.P.,across bar line,,intermediate,TG
+RG-001,range,No harmony tone is written below the 3rd space of the bass clef.,chord voicing,lowest Root or 5th may go lower,elementary,TG p.15
+RG-002,range,The range limit may be extended when the bass is in motion (e.g. a bass solo).,bass in motion,,intermediate,TG item 18
+O-001,OOD,Generally avoid Outside-Octave Dissonance (OOD).,vertical structure,see specific exceptions,elementary,TG p.97
+O-002,OOD,♭9 is OK if ♭7 is in the chord.,vertical structure,,elementary,TG p.97
+O-003,OOD,♭2 is OK over a pedal.,vertical structure,,elementary,TG p.97
+O-004,OOD,3 & 11 together are not good.,vertical structure,,elementary,TG p.97
+O-005,OOD,4 & 10 together are fine.,vertical structure,,elementary,TG p.97
+O-006,OOD,11 & 17 follow the same pattern as 3 & 11 — not good.,vertical structure,,elementary,TG p.97
+N-001,NCT,"There are six types of NCT: P.T., C.A., R.T., C.T., Sus., Ant.",NCT usage,,def,TG Resources/Devices
+N-002,NCT,P.T. = Passing Tone.,NCT terminology,,def,TG
+N-003,NCT,C.A. = Chromatic Alteration.,NCT terminology,,def,TG
+N-004,NCT,R.T. = Returning Tone (neighbor).,NCT terminology,,def,TG
+N-005,NCT,C.T. = Chord Tone used as a passing or substitute chord tone (e.g. in bass).,NCT terminology,,def,TG
+N-006,NCT,Sus. = Suspension.,NCT terminology,,def,TG
+N-007,NCT,Ant. = Anticipation.,NCT terminology,,def,TG
+N-008,NCT,"Substitute Tones (S.T.) can replace chord tones: 6 for 5, 4 for 3, 2 for 1, 9 for 3.",NCT usage,,intermediate,TG item 26
+N-009,NCT,When a Substitute Tone appears first and resolves back to the chord tone it is a Leading Tone.,NCT usage,,def,TG item 26
+N-010,NCT,"When the chord tone appears first and the Substitute Tone follows, the S.T. is a Passing Tone.",NCT usage,,def,TG item 26
+N-011,NCT,NCTs substitute for or alter the chord tones.,NCT usage,,elementary,"TG pp.23, 42"
+N-012,NCT,NCTs may be used in combinations or singly.,NCT usage,,elementary,TG Writing
+B-001,bass-motion,Bass may move ascending or descending.,bass in motion,,elementary,TG #6
+B-002,bass-motion,"Bass motion modes: regular, free, elision, passing 3rds, passing 5ths, leading tones.",bass in motion,,elementary,TG #6
+B-003,bass-motion,Passing 3rds: the Root tone must appear first.,passing 3rds,,elementary,TG item 27A
+B-004,bass-motion,Passing 5ths: no required ordering.,passing 5ths,,elementary,TG item 27B
+B-005,bass-motion,"When a Passing 3rd sounds metrically with the treble structure, double the Root or 5th in the treble and omit the 3rd.",passing 3rds+treble,,elementary,TG item 27C
+B-006,bass-motion,Passing 3rds & 5ths may be combined with Equal Intervals in the bass.,bass in motion,,intermediate,TG item 27D
+B-007,bass-motion,"Chord-tone and Equal-Interval bass may combine with Leading Tones and Passing Tones (2→1, 4→3, 1→2, 3→4).",bass in motion,,intermediate,TG item 27E
+B-008,bass-motion,Any bass tone may be repeated an octave higher or lower (e.g. T 8-3 5).,bass in motion,,elementary,TG item 27F
+B-009,bass-motion,"Descending bass: use diatonic motion on p.5 (E7), EIS on all others.",descending bass,,intermediate,TG item 18
+B-010,bass-motion,Bass and treble motion may be combined — bass moves and treble changes position simultaneously.,bass+treble,,intermediate,TG item 25
+S-001,six-four,The Six-Four is a separate chord with Root in the bass.,six-four chord,,intermediate,TG item 28
+S-002,six-four,"Standard Six-Four resolution: 6→5, 4→3 (or the reverse).",six-four chord,,intermediate,TG item 28
+S-003,six-four,"In minor, Six-Four resolution may use either 5 or 6.",six-four (minor),,intermediate,TG item 28
+S-004,six-four,6 and 4 in the Six-Four are treated as Substitute Tones.,six-four chord,,intermediate,TG item 28
+RS-001,resolution,Every chord class has its own resolutions and reverse resolutions.,all chord classes,,elementary,TG Writing
+RS-002,resolution,Scales may be mixed across a resolution (e.g. Scale #8 → Scale #9).,resolution,,intermediate,TG Writing p.128
+RS-003,resolution,"6 may be substituted for 7 in all 9th, 11th, and 13th chords.",9/11/13 chords,,intermediate,TG Writing
+SC-001,scales,"There are 18 scales, each based on the Natural Major scale but with diatonic intervals.",scales,,elementary,TG item 8
+SC-002,scales,"Good 4th-chord scales: 1, 3, 4, 7 (and 11, 12 in 4-part); possibly 4+.",4th chords,,intermediate,TG p.152A
+SC-003,scales,Scale #10 generates Dominant 7♭9.,dominant 7♭9,,intermediate,TG Writing
+OT-001,overtone-series,Overtone-series 1st octave: fundamental and its octave.,vertical spacing,,def,TG item 13
+OT-002,overtone-series,Overtone-series 2nd octave: Root and 5th.,vertical spacing,,def,TG item 13
+OT-003,overtone-series,"Overtone-series 3rd octave: 1, 3, 5, ♭7 — the Chord Tones.",vertical spacing,,def,TG item 13
+OT-004,overtone-series,"Overtone-series 4th octave: 1, 2, 3, 4+, 5, 6, ♭7 — Scale Tones.",vertical spacing,,def,TG item 13
+OT-005,overtone-series,"Overtone-series 5th octave: 1, 2, 3, 4+, 5, 6, ♭7 — Scale Tones.",vertical spacing,,def,TG item 13
+C-001,chord-class,"Triads (major & minor): close & open voicings, 3 inversions each, with VL / S.V.L. / S.P.",triads,,elementary,TG Writing #1
+C-002,chord-class,"Natural 7ths (major & minor): all inversions close/open, resolutions & reverse, C.O.P., NCTs, bass-in-motion, substitute tones (9 for 3).",natural 7ths,,elementary,TG Writing
+C-003,chord-class,"4P Natural 9ths (Δ9), m♮9, 6th, m6th: all inversions, resolutions to 7th or 6th chords (and reverse), C.O.P., NCTs; VL ↑, ↓, brackets or parallel.",4P 9ths etc.,,intermediate,TG Writing
+C-004,chord-class,"Dominant 7ths: 2P / 3P / 4P. VL variants: normal, brackets, 3↔♭7 with 1→1, 3↔♭7 with 5→5, same-bar R→5 with [ ] on 3,♭7, parallel, S.V.L./S.P.",dominant 7,,intermediate,TG Writing
+C-005,chord-class,"Minor 7ths: all VL variants above; also m7♭5, Δ7+, 7♭5; 2P Δ7, mΔ7, 6, m6.",minor 7,,intermediate,TG Writing
+C-006,chord-class,Minor 9ths: 3P and 4P; same treatment as minor 7ths.,minor 9,,intermediate,TG Writing
+C-007,chord-class,Dominant 7♭9: use Scale #10. All VL variants above apply.,dominant 7♭9,,intermediate,TG Writing
+C-008,chord-class,Dominant 9ths: 2P / 3P / 4P. Different 3P voicings → different tones may be added to bass in parallel.,dominant 9,,intermediate,TG Writing
+C-009,chord-class,"Dominant 13ths (Types 1 & 2 and 4+): 3P and 4P. Scales: #1, #1 w/4+, #3, #3 w/4+, #7, #7 w/4+, #8, #9, #10, #10 w/4+, #11 Type 2.",dominant 13,,intermediate,TG Writing
+C-010,chord-class,"Dominant 13ths constraint: only ♭10 with 11, or 10 with 11+; or 11 for 10.",dominant 13,,intermediate,TG Writing
+C-011,chord-class,Dominant 11 and Dominant 11+: 3P and 4P; or 11th from Scale #9 or #10; parallel bass options. For 11+ also 3 in parallel with the bass.,dominant 11,,intermediate,TG Writing
+C-012,chord-class,5-part chords are referenced but not fully detailed in Greene's pages.,5-part chords,source cut off in scan,advanced,TG Writing
+A-001,advanced,The advanced course introduces quartal (4th-based) harmony.,advanced,,advanced,Web
+A-002,advanced,The advanced course introduces quintal (5th-based) harmony.,advanced,,advanced,Web
+A-003,advanced,The advanced course introduces secondal (2nd-based) harmony.,advanced,,advanced,Web
+A-004,advanced,The advanced course introduces polytonality.,advanced,,advanced,Web
+A-005,advanced,The advanced course introduces interval relations across parts.,advanced,,advanced,Web
+A-006,advanced,The advanced course introduces music with no chords and no scales.,advanced,,advanced,Web
+A-007,advanced,The advanced course introduces 'tropes' — Murphy's version of serialism.,advanced,,advanced,Web
+A-008,advanced,"Elementary rules (range, OOD, etc.) progressively relax as the student becomes freer in later books.",advanced,,principle,Web (Sawyer)
+W-001,writing-resource,"Triad progressions in all ascending/descending symmetric cycles (close, open, and switching between them) are a first-class composing resource.",composing,,elementary,TG Writing #1
+W-002,writing-resource,Use NCTs in combinations or singly as a composing resource.,composing,,elementary,TG Writing #2
+W-003,writing-resource,Use Substitute Tones as a composing resource.,composing,,elementary,TG Writing #3
+W-004,writing-resource,Six-Four chords with their resolutions and reverse resolutions are a composing resource.,composing,,elementary,TG Writing #4
+W-005,writing-resource,Treble C.O.P. (with or without S.P.) across the bar line is a composing resource.,composing,,elementary,TG Writing #5
+W-006,writing-resource,Bass in Motion (ascending/descending; regular/free/elision/passing 3rds/5ths/leading tones) is a composing resource.,composing,,elementary,TG Writing #6
+W-007,writing-resource,Bass and treble motion combined is a composing resource.,composing,,elementary,TG Writing #7
+W-008,writing-resource,"C.O.P. of any one chord connection or progression (ascending, descending, mixed) is a composing resource.",composing,,elementary,TG Writing #8
+W-009,writing-resource,Many of the writing resources can and should be combined.,composing,,principle,TG Writing

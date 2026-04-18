@@ -1,0 +1,142 @@
+                              EIS (Equal Interval System)
+                         Resources for Writing ( This is the slant here)
+                           Ted Greene, 1977-10-14, 1978-07-20, and 1978-07-07
+
+All meters and rhythms
+
+Major and Minor
+
+1   Triad Progressions: (Major and minor) in all ascending and descending Symmetric Cycles (Equal
+                        Interval Progressions)
+(Pages of interest: 24, 26, 94, 106-A, 107, 114, 120, 123, 129, 124)
+                               1) a) Close, b) Open voicings, c) Switching from one to the other (close to open
+                               or vice versa).
+                               2) Three inversions or positions each
+                               3) V.L. [Voice-Leading], S.V.L. [Substitute Voice-Leading],
+                                   and S.P. [Substitute Position]. (Also see 1c above)
+
+2   Non-Chord Tones:           in many combinations or singly.
+    (p.23, 42)
+
+3   Substitute Tones.
+    (p.42, 44)
+
+4   Six-Four Chords, their 1) Resolutions, and 2) Reverse Resolutions.
+
+5   Treble C.O.P. [Change Of Position] with or without S.P. [Substitute Position] across the bar line.
+
+6   Bass in Motion:
+       1) a. Ascending, b. Descending.
+       2) a. Regular, b. Free, c. Elision, d. Passing 3rds, 5ths, and leading tones (starting on 5th
+          for instance)
+
+7   Bass and Treble Motion Combined.
+
+8   C.O.P of any one chord connection or progression (ascending, descending, mixed).
+    (same pages resources as 1 above. Good original example 39A)
+    Examples:
+                     C\E - F\F, C\G - F\A, etc. or
+                     C-G-Am, C-G-Am, C-G-Am (see mixed progression page 2)
+
+
+
+                  Many concepts on these pages can be combined (separate list will follow)
+           _________________________________________________________________________
+                                  EIS Resources for Writing – Ted Greene, page 2
+
+Natural 7ths in Major, Minor
+   1) Progressions a) close, b) open  all inversions or positions
+   2) Resolutions and Reverse Resolution
+   3) C.O.P. of any one chord connection.
+   4) N.C.Tones [Non-Chord Tones] in many combinations or singly.
+ ? 5) Bass in Motion
+   6) Substitute Tones (9 for 3)
+
+4P Natural 9ths (^9), m^9, 6th, m6th (bottom of p.71)
+   1) Progressions a) close, b) open  all inversions or positions
+   2) Resolutions to 7th chords or 6th chords, and Reverse Resolution
+      Mixing scales too, such as #8 to #9 (p.128)
+   3) C.O.P. of any one chord connection.
+   4) N.C.Tones [Non-Chord Tones]
+   V.L.: ↑ , ↓ [ ] or parallel
+
+Dominant 7ths
+   A) 2P
+   B) 3P
+   Voice Leading: (also called “Changing Position” or “Triad V.L.” or “3-Parts V.L.” or “Opposite V.L.”
+      1)     Normal V. L.
+      2)     Brackets ( [ ] ) even though one tone will always be missing.
+      3)     3 to ¨7, ¨7 to 3, 1 to 1
+      4)     3 to ¨7, ¨7 to 3, 5 to 5
+      5)     In same bar R to 5, along with [ ] on 3, ¨7
+      6)     Also Parallel
+      7)     S.V.L [Substitute Voice-Leading] or S.P. [Substitute Position]
+   C) 4P also parallel V.L. (all as above)
+
+Minor 7ths                                            Minor 9ths 3 & 4P
+       As above.                                               As above.
+       Also m7¨5, ^7+, 7¨5, (etc.)
+       and 2P: ^7, m^7, 6, m6
+
+Dominant 7b9 (Scale #10)
+       As above.
+
+Dominant 9ths            2P, 3P, and 4P. As above.
+For different 3P, different tones may be added to bass (in parallel).
+6th may be substituted for 7 in all 9th, 11th (or 13th) chords. Actually, we have these options:
+
+Stock 3P
+   9            9         9            9        9         9           9            ¨7    ¨7        ¨7
+  ¨7            ¨7       ¨7           ¨7        5        (5)          5            5    (5)        5
+   3            3         5           (5)       3         3          10            3     3         3
+   R            5        10           10       ¨7        ¨7           ¨7           9     9         9
+                R         R            5        R         5           R            R     5         ¨7
+                                       R                                                 R          R
+                                        EIS Resources for Writing – Ted Greene, page 3
+
+Dominant 13ths, Type 1 and 2 (and 4+)
+As above. Parallel bass options.
+
+Type 1 & 2 4P:
+                                            Only ¨10 with 11 or 10 with 11+
+13          13         13          13         13          13       13     13             13         13        13
+11          11         11          11         11          11       11     11             11         11        11
+ 9           9          9           9          9           9       10     ¨7             10         10        10
+¨7          ¨7         ¨7          ¨7         5 (or 10)    5        9      5             ¨7         ¨7         5
+R            5         10          10         ¨7          10       ¨7      9              9          9         9
+            R           R          5          R           ¨7       5      R              R          5         ¨7    or 11 for 10
+                                   R                      R        R                                R         R
+
+13ths (Type 1 & 2): Scale #1, #1 with 4+, #3, #3 with 4+, #7, #7 with 4+, #8, #9, #10, #10 with 4+.
+Also #11 Type 2.
+
+
+3P:
+13  13       13     13       13    13       13    13         13   13    13   13     13         13        13    13     13    13
+ 9  10       11      9       11     9       11     9         10   11    10   11     10         11        11    11     10    11
+¨7  ¨7       ¨7    ¨7       ¨7     ¨7      ¨7     ¨7         ¨7   ¨7     9    9      9          9         9   10      ¨7    ¨7
+1   1        1     10       10    10       10     5           5   5     ¨7   ¨7     ¨7        ¨7         10    9      9      9
+                    1        1     5        5     1           1   1      1   1      5          5         ¨7   ¨7      1      1
+                                  1        1                                        1          1         1    1
+
+                 Only ¨10 with 11 or 10 with 11+
+                 Or 11 for 10.
+
+Dominant 11, Dominant 11, 4+               3P and 4P.
+Or 11th from Scale #9 or 10. Parallel bass options:
+
+Stock 3P:
+  11              11        11              11         11          11        11
+   9               9         9               9          ¨7         ¨7        (¨7)
+  ¨7              ¨7         5              (5)         5         (5)         5
+   R              5         ¨7              ¨7          9          9          9
+                  R          R               5          R          5          ¨7
+                                             R                     R          R
+
+For 11+ also 3 in parallel with bass.
+
+
+
+Summary p.124                                                                       How about 5-part chords?
+Sequence [Scan cuts off bottom of page; can’t read much]
+

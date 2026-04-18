@@ -1,0 +1,40 @@
+id,category,rule,scope,exceptions,tier,source,species,voices,kind,input_shape
+G4,general,Counterpoint must be in the same key as the cantus firmus; borrowing a note outside the key incurs a cost.,all species,borrow allowed at a cost,hard+soft,FuxCP5 constraints.hpp,all,any,hybrid,per-note
+G6,general,No chromatic melodies — three consecutive notes ascending by a semitone are prohibited.,all species,,hard,FuxCP5 constraints.hpp,all,any,hard,melodic-triple
+G7,general,Prefer smaller melodic intervals; tritones are last-resort.,all species,,soft,FuxCP5 constraints.hpp,all,any,soft,melodic-interval
+G9,general,The last chord must be in the scale/fundamental of the composition.,all species,,hard,FuxCP5 constraints.hpp,all,any,hard,final-chord
+H1_1,harmonic,The harmonic intervals on the first note of each measure (downbeat/thesis) must be consonances.,all species,,hard,FuxCP5 constraints.hpp,all,any,hard,per-measure-downbeat
+H1_3,harmonic,"After a dissonance, the rules around five consecutive notes by stepwise (joint) degree govern where dissonance is allowed.",3rd species,,hard,FuxCP5 constraints.hpp,3,any,hard,five-note-window
+H2_1,harmonic,The first harmonic interval must be a perfect consonance (2-voice compositions).,1st species,,hard,FuxCP5 constraints.hpp,1,2v,hard,first-interval
+H2_2,harmonic,Arsis (weak-beat) harmonies cannot be dissonant.,2nd species,,hard,FuxCP5 constraints.hpp,2,any,hard,weak-beat-interval
+H2_3,harmonic,A dissonance implies diminution — it must be written as a passing or neighbor figure between two consonances.,3rd species,,hard,FuxCP5 constraints.hpp,3,any,hard,dissonance-context
+H3_1,harmonic,The last chord must be a perfect consonance (2-voice).,1st species,3v/4v handled by Stratum,hard,FuxCP5 constraints.hpp,1,2v,hard,final-interval
+H3_2,harmonic,The penultimate note has a restricted domain (must support the 2-1/7-1 approach to the final).,2nd species,,hard,FuxCP5 constraints.hpp,2,any,hard,penultimate-note
+H3_3,harmonic,Cambiata figure is soft-preferred as a dissonance-handling idiom.,3rd species,,soft,FuxCP5 constraints.hpp,3,any,soft,figure
+H5_1cf,harmonic,"CP and CF must not play the same note, except at the first and last measure.",all species,first and last note,hard,FuxCP5 constraints.hpp,all,any,hard,cp-cf-pair
+H5_1iv,harmonic,Inter-voice: two upper counterpoint voices must not play the same note (except first and last).,all species,first and last note,hard,FuxCP5 constraints.hpp,all,"3v,4v",hard,voice-pair
+H6_1,harmonic,Imperfect consonances are preferred; perfect 5ths and octaves carry a soft cost.,1st species,,soft,FuxCP5 constraints.hpp,1,any,soft,interval-class
+H7_1_2v,harmonic,The penultimate note must form a major 6th (when CP is upper) or a minor 3rd (when CP is lower) with the CF.,1st species,,hard,FuxCP5 constraints.hpp,1,2v,hard,penultimate-interval
+H7_1_3v,harmonic,"Penultimate-interval rule, 3-voice version: depends on stratum position.",1st species,,hard,FuxCP5 constraints.hpp,1,3v,hard,penultimate-interval
+H8_3v,harmonic,Prefer the complete harmonic triad as often as possible (3 voices).,all species,,soft,FuxCP5 constraints.hpp,all,3v,soft,vertical-chord
+H8_4v,harmonic,Prefer the complete harmonic triad as often as possible (4 voices).,all species,,soft,FuxCP5 constraints.hpp,all,4v,soft,vertical-chord
+M1_1_2v,melodic,Melodic intervals cannot exceed a minor 6th (2-voice).,1st species,,hard,FuxCP5 constraints.hpp,1,2v,hard,melodic-interval
+M1_1_3v,melodic,Melodic intervals cannot exceed a minor 6th; an octave leap is permitted (3-voice).,1st species,octave leap allowed,hard,FuxCP5 constraints.hpp,1,3v,hard,melodic-interval
+M1_2,melodic,"If two voices are too close for contrary motion without crossing, a melodic octave leap becomes permissible.",2nd species,,hard,FuxCP5 constraints.hpp,2,any,hard,melodic-interval
+M2_1,melodic,Variety: notes in each part should be as diverse as possible (discourages repetition within a part).,1st species,,soft,FuxCP5 constraints.hpp,1,any,soft,per-voice-over-piece
+M2_2_2v,melodic,Two consecutive notes in the same voice should not be the same pitch (2-voice).,1st species,,hard,FuxCP5 constraints.hpp,1,2v,hard,consecutive-notes
+M2_2_3v,melodic,Two consecutive notes in the same voice should not be the same pitch (3-voice).,1st species,,hard,FuxCP5 constraints.hpp,1,3v,hard,consecutive-notes
+P1_1_2v,motion,"No direct (similar) motion into a perfect consonance (2v, 1st-species variant).",1st species,,hard,FuxCP5 constraints.hpp,1,2v,hard,motion-pair
+P1_1_3v,motion,"No direct motion into a perfect consonance (3v, 1st-species variant).",1st species,,hard,FuxCP5 constraints.hpp,1,3v,hard,motion-pair
+P1_1_4v,motion,"No direct motion into a perfect consonance (4v, 1st-species variant).",1st species,,hard,FuxCP5 constraints.hpp,1,4v,hard,motion-pair
+P1_2_2v,motion,"No direct motion into a perfect consonance (2v, 2nd-species variant).",2nd species,,hard,FuxCP5 constraints.hpp,2,2v,hard,motion-pair
+P1_2_3v,motion,"No direct motion into a perfect consonance (3v, 2nd-species variant).",2nd species,,hard,FuxCP5 constraints.hpp,2,3v,hard,motion-pair
+P1_2_4v,motion,"No direct motion into a perfect consonance (4v, 2nd-species variant).",2nd species,,hard,FuxCP5 constraints.hpp,2,4v,hard,motion-pair
+P3_0,motion,No 'battuta' — forbid the struck stepwise descent to an octave on a strong beat (default variant).,all,,hard,FuxCP5 constraints.hpp,all,any,hard,strong-beat-approach
+P3_1,motion,No battuta — 1st-species variant.,1st species,,hard,FuxCP5 constraints.hpp,1,any,hard,strong-beat-approach
+P3_2,motion,No battuta — 2nd-species variant.,2nd species,,hard,FuxCP5 constraints.hpp,2,any,hard,strong-beat-approach
+P4,motion,Successive direct (similar) motion incurs a cost.,all species,,soft,FuxCP5 constraints.hpp,all,any,soft,motion-sequence
+P6_3v,motion,All voices should not move in the same direction simultaneously (3v).,all species,,hard,FuxCP5 constraints.hpp,all,3v,hard,global-motion
+P6_4v,motion,All voices should not move in the same direction simultaneously (4v).,all species,,hard,FuxCP5 constraints.hpp,all,4v,hard,global-motion
+P7,motion,No successive ascending sixth leaps.,all species,,hard,FuxCP5 constraints.hpp,all,any,hard,melodic-leap-sequence
+R9_5,rhythm,"When two voices are in 5th species simultaneously (3v), their rhythmic patterns should be as diverse as possible.",5th species,,soft,FuxCP5 constraints.hpp,5,3v,soft,rhythmic-diversity
