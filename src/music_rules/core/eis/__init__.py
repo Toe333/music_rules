@@ -1,10 +1,22 @@
-"""EIS (Equal Interval System) generators and helpers.
+"""EIS subpackage — Equal Interval System helpers.
 
-This subpackage will fill in across Phases 7+. It contains:
+Currently implemented (Phase 7):
 
-* ``roots`` — E1..E6 cycle definitions and ``pick_root_line()``.
-* ``scales`` — the 18 EIS scales.
-* ``chords`` — triad / 7 / 9 / 11 / 13 / quartal / quintal / secondal stacks.
-* ``voice_leading`` — V-001..V-015 voice-leading rules.
-* ``nct`` — non-chord-tone insertion (PT, CA, RT, CT, Sus, Ant).
+* :mod:`music_rules.core.eis.roots`  — E1..E6 cycles, ``pick_root_line``.
+* :mod:`music_rules.core.eis.scales` — registry of EIS scales with the
+  scales explicitly documented in the master rules doc filled in.
+
+Scaffolded for Phase 8:
+
+* :mod:`music_rules.core.eis.chords`         — vertical chord builders.
+* :mod:`music_rules.core.eis.voice_leading`  — V-001..V-015 enforcement.
+* :mod:`music_rules.core.eis.nct`            — PT/CA/RT/CT/Sus/Ant insertion.
+
+The Phase-8 modules exist as importable scaffolds so any caller (MCP /
+OpenAI / CLI) can already see "this surface is coming" rather than
+discovering missing modules later.
 """
+
+from music_rules.core.eis import chords, nct, roots, scales, voice_leading
+
+__all__ = ["chords", "nct", "roots", "scales", "voice_leading"]

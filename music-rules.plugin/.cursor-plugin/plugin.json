@@ -1,0 +1,21 @@
+{
+  "name": "music-rules",
+  "version": "0.1.0",
+  "description": "Constraint-based music theory checker (EIS + Fuxian counterpoint) for AI-driven MIDI generation. Adds an MCP server that exposes 27 tools — corpus introspection, fragment checkers, full-passage evaluation, EIS root-line + scale helpers, and a SkyTNT MIDI bridge — plus skills that teach the agent how to call them.",
+  "author": {
+    "name": "Tony Bove"
+  },
+  "repository": "https://github.com/tonybove/music-rules.git",
+  "keywords": [
+    "music-theory",
+    "counterpoint",
+    "fux",
+    "eis",
+    "equal-interval-system",
+    "midi",
+    "mcp",
+    "constraints",
+    "ai-music",
+    "skytnt"
+  ]
+}

@@ -34,7 +34,6 @@ import pytest
 
 from music_rules.adapters import mcp as mcp_adapter
 
-
 # ---------------------------------------------------------------------------
 # Tool registry
 # ---------------------------------------------------------------------------
@@ -63,9 +62,11 @@ _GROUP_C_PHASE3 = {
     "check_dissonance_context",
 }
 _GROUP_D = {"evaluate_passage"}
+# Phase-7: real Group B (EIS roots/scales) + Group E I/O (midi <-> rolls).
+_GROUP_B_LIVE = {"eis_pick_root_line", "eis_list_scales"}
+_GROUP_E_LIVE = {"midi_to_rolls", "rolls_to_midi"}
+# Still-stubbed Phase-8 tools.
 _GROUP_B_STUBS = {
-    "eis_pick_root_line",
-    "eis_list_scales",
     "eis_build_chord",
     "eis_voice_lead",
     "eis_insert_nct",
@@ -74,10 +75,16 @@ _GROUP_B_STUBS = {
 _GROUP_E_STUBS = {
     "skytnt_generate",
     "skytnt_constrained_generate",
-    "midi_to_rolls",
-    "rolls_to_midi",
 }
-_ALL_EXPECTED = _GROUP_A | _GROUP_C_PHASE3 | _GROUP_D | _GROUP_B_STUBS | _GROUP_E_STUBS
+_ALL_EXPECTED = (
+    _GROUP_A
+    | _GROUP_C_PHASE3
+    | _GROUP_D
+    | _GROUP_B_LIVE
+    | _GROUP_B_STUBS
+    | _GROUP_E_LIVE
+    | _GROUP_E_STUBS
+)
 
 
 class TestToolRegistry:
@@ -315,14 +322,62 @@ class TestGroupDEvaluatePassage:
 # ---------------------------------------------------------------------------
 
 
-class TestPhase7Stubs:
+class TestGroupBLive:
+    """Group B — EIS Root-line + scale registry (Phase 7 implementations)."""
+
+    def test_eis_pick_root_line_default_walks_e5(self) -> None:
+        out = mcp_adapter.call_tool(
+            "eis_pick_root_line", {"length": 4, "start_root": "C"},
+        )
+        assert out["roots"] == ["C", "F", "Bb", "Eb"]
+        assert out["cycles"] == ["E5"]
+
+    def test_eis_pick_root_line_seeded_is_deterministic(self) -> None:
+        a = mcp_adapter.call_tool(
+            "eis_pick_root_line",
+            {"length": 12, "cycles": ["E4", "E5"], "seed": 7},
+        )
+        b = mcp_adapter.call_tool(
+            "eis_pick_root_line",
+            {"length": 12, "cycles": ["E4", "E5"], "seed": 7},
+        )
+        assert a == b
+
+    def test_eis_list_scales_returns_all_eighteen(self) -> None:
+        out = mcp_adapter.call_tool("eis_list_scales")
+        assert out["summary"]["total"] == 18
+        assert len(out["scales"]) == 18
+        ids = {s["id"] for s in out["scales"]}
+        assert "EIS-18-01" in ids
+        assert "EIS-18-10" in ids
+
+    def test_eis_list_scales_filtered_to_verified(self) -> None:
+        out = mcp_adapter.call_tool("eis_list_scales", {"status": "verified"})
+        assert all(s["status"] == "verified" for s in out["scales"])
+        assert {"EIS-18-01", "EIS-18-04", "EIS-18-10"} <= {
+            s["id"] for s in out["scales"]
+        }
+
+
+class TestGroupELive:
+    """Group E — MIDI round-trip (Phase 7 implementations)."""
+
+    def test_midi_round_trip_through_adapter(self) -> None:
+        encoded = mcp_adapter.call_tool(
+            "rolls_to_midi", {"voices": [[60, 62, 64, 65]]},
+        )
+        assert "midi_base64" in encoded
+        decoded = mcp_adapter.call_tool(
+            "midi_to_rolls", {"midi_base64": encoded["midi_base64"]},
+        )
+        assert decoded["voices"][0] == [60, 62, 64, 65]
+        assert decoded["meter"] == "4/4"
+
+
+class TestPhase8Stubs:
     @pytest.fixture(params=sorted(_GROUP_B_STUBS | _GROUP_E_STUBS))
     def stub_call(self, request: pytest.FixtureRequest) -> Iterator[tuple[str, dict]]:
-        # Minimum viable args per stub so we can call them all uniformly.
-        # All keyword-only; the stubs don't actually use the values.
         sample_args: dict[str, dict[str, Any]] = {
-            "eis_pick_root_line": {"length": 8, "cycles": ["E5"]},
-            "eis_list_scales": {},
             "eis_build_chord": {
                 "root": "C", "scale_id": "EIS-18-03",
                 "chord_class": "triad-close", "parts": 4,
@@ -332,8 +387,6 @@ class TestPhase7Stubs:
             "eis_check_ood": {"chord": [60, 64, 67]},
             "skytnt_generate": {},
             "skytnt_constrained_generate": {},
-            "midi_to_rolls": {"midi_base64": "TVRoZA=="},
-            "rolls_to_midi": {"voices": [[60, 62, 64]]},
         }
         yield request.param, sample_args[request.param]
 
@@ -344,7 +397,7 @@ class TestPhase7Stubs:
         out = mcp_adapter.call_tool(name, args)
         assert out["status"] == "not_implemented"
         assert out["tool"] == name
-        assert "Phase 7" in out["available_in"]
+        assert "Phase 8" in out["available_in"]
 
 
 # ---------------------------------------------------------------------------

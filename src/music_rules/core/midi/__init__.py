@@ -1,8 +1,11 @@
-"""MIDI I/O and SkyTNT bridge.
+"""MIDI subpackage — round-trip helpers and the SkyTNT bridge.
 
-This is the **only** subpackage under ``music_rules.core`` that may import
-heavyweight third-party libraries beyond ``mido`` and ``pydantic``.
-Specifically, ``skytnt_bridge`` may import ``transformers`` and
-``huggingface_hub`` (via the optional ``[skytnt]`` extra) — see
-``pyproject.toml``.
+* :mod:`music_rules.core.midi.skytnt_bridge` — MIDI ↔ piano-roll
+  conversion (implemented today using :mod:`mido`) plus scaffolds for
+  ``skytnt_generate`` and ``skytnt_constrained_generate`` that will
+  call HuggingFace's ``midi-model`` once Phase 8 wires it in.
+
+This is the **only** place under ``core/`` allowed to import
+``transformers`` / ``huggingface_hub`` / ``torch`` (see
+``PROJECT.md`` non-negotiable constraints).
 """

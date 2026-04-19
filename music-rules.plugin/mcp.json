@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "music-rules": {
+      "command": "music-rules-mcp",
+      "args": [],
+      "env": {}
+    }
+  }
+}

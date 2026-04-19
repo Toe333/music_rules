@@ -62,7 +62,10 @@ from __future__ import annotations
 from typing import Any
 
 from music_rules.core import corpus, evaluate
+from music_rules.core.eis import roots as eis_roots
+from music_rules.core.eis import scales as eis_scales
 from music_rules.core.fux import dissonance, harmonic, melodic, motion
+from music_rules.core.midi import skytnt_bridge
 
 # ---------------------------------------------------------------------------
 # Group A — Corpus introspection
@@ -378,34 +381,66 @@ def tool_evaluate_passage(
 # implementation; the function signature stays stable.
 
 
-def _phase7_stub(name: str, summary: str) -> dict[str, Any]:
+def _stub(name: str, summary: str, *, phase: str = "Phase 8") -> dict[str, Any]:
+    """Standard "not yet implemented" payload returned by scaffolded tools.
+
+    Returning a payload (rather than raising) lets MCP clients discover
+    the future tool surface today and warn their user gracefully.
+    """
     return {
         "ok": False,
         "status": "not_implemented",
         "tool": name,
         "summary": summary,
-        "available_in": "Phase 7 (EIS helpers + SkyTNT bridge).",
-        "tracking": "See docs/MCP_TOOL_SURFACE_SPEC.md sections §2 Group B and §2 Group E.",
+        "available_in": phase,
+        "tracking": "See docs/MCP_TOOL_SURFACE_SPEC.md §2 Group B and §2 Group E.",
     }
 
 
 def tool_eis_pick_root_line(
     length: int,
-    cycles: list[str],
+    cycles: list[str] | None = None,
     start_root: str = "C",
     allow_elision: bool = True,
+    seed: int | None = None,
 ) -> dict[str, Any]:
-    """Generate an EIS Root-line through one or more cycles (E1..E6). Coming in Phase 7."""
-    del length, cycles, start_root, allow_elision
-    return _phase7_stub(
-        "eis_pick_root_line",
-        "Generate a Root-line through E1..E6 cycles.",
+    """Generate an EIS Root-line walking through one or more E1..E6 cycles.
+
+    Args:
+        length:        number of Root tones to produce (>=1).
+        cycles:        ordered list of cycle ids (``"E1"``..``"E6"``).
+                       Defaults to ``["E5"]`` (the circle of 4ths).
+        start_root:    starting note name (``"C"``, ``"Bb"``, …).
+        allow_elision: permit 1- or 2-step skips at cycle boundaries.
+        seed:          deterministic RNG seed for elision choices.
+
+    Returns:
+        ``{"roots": ["C", "F", "Bb", ...], "cycles": [...]}``
+    """
+    line = eis_roots.pick_root_line(
+        length=length,
+        cycles=cycles,                # type: ignore[arg-type]
+        start_root=start_root,
+        allow_elision=allow_elision,
+        seed=seed,
     )
+    return {"roots": line, "cycles": cycles or ["E5"]}
 
 
-def tool_eis_list_scales() -> dict[str, Any]:
-    """List the 18 EIS scales. Coming in Phase 7."""
-    return _phase7_stub("eis_list_scales", "List the 18 EIS scale templates.")
+def tool_eis_list_scales(status: str | None = None) -> dict[str, Any]:
+    """List the 18 EIS scales (verified + inferred + pending).
+
+    Args:
+        status: optional filter — ``"verified"`` | ``"inferred"`` | ``"pending"``.
+
+    Returns:
+        ``{"scales": [<scale dict>, ...], "summary": {"verified": N, ...}}``
+    """
+    scales = eis_scales.list_scales(status=status)  # type: ignore[arg-type]
+    return {
+        "scales": [dict(s) for s in scales],
+        "summary": eis_scales.available_count(),
+    }
 
 
 def tool_eis_build_chord(
@@ -414,9 +449,9 @@ def tool_eis_build_chord(
     chord_class: str,
     parts: int = 4,
 ) -> dict[str, Any]:
-    """Build an EIS chord (triad → polytonal). Coming in Phase 7."""
+    """Build an EIS chord (triad → polytonal). Coming in Phase 8."""
     del root, scale_id, chord_class, parts
-    return _phase7_stub(
+    return _stub(
         "eis_build_chord",
         "Build an EIS chord from a root + scale + chord class.",
     )
@@ -427,9 +462,9 @@ def tool_eis_voice_lead(
     next_chord: list[int],
     mode: str = "strict",
 ) -> dict[str, Any]:
-    """Voice-lead between two EIS chords (rules V-001..V-015). Coming in Phase 7."""
+    """Voice-lead between two EIS chords (rules V-001..V-015). Coming in Phase 8."""
     del prev_chord, next_chord, mode
-    return _phase7_stub(
+    return _stub(
         "eis_voice_lead",
         "Apply EIS voice-leading rules (V-001..V-015) between two chords.",
     )
@@ -440,9 +475,9 @@ def tool_eis_insert_nct(
     nct_type: str,
     beat: float,
 ) -> dict[str, Any]:
-    """Insert an EIS non-chord tone (PT/CA/RT/CT/Sus/Ant). Coming in Phase 7."""
+    """Insert an EIS non-chord tone (PT/CA/RT/CT/Sus/Ant). Coming in Phase 8."""
     del voice, nct_type, beat
-    return _phase7_stub(
+    return _stub(
         "eis_insert_nct",
         "Insert a non-chord tone into a melodic line per EIS NCT rules.",
     )
@@ -452,9 +487,9 @@ def tool_eis_check_ood(
     chord: list[int],
     outside_octave_pairs: list[list[int]] | None = None,
 ) -> dict[str, Any]:
-    """Check EIS Outside-Octave-Doubling rules. Coming in Phase 7."""
+    """Check EIS Outside-Octave-Doubling rules. Coming in Phase 8."""
     del chord, outside_octave_pairs
-    return _phase7_stub(
+    return _stub(
         "eis_check_ood",
         "Check Outside-Octave Doubling for an EIS chord voicing.",
     )
@@ -467,9 +502,9 @@ def tool_skytnt_generate(
     temperature: float = 1.0,
     seed: int | None = None,
 ) -> dict[str, Any]:
-    """Generate raw MIDI with SkyTNT's ``midi-model``. Coming in Phase 7."""
+    """Generate raw MIDI with SkyTNT's ``midi-model``. Coming in Phase 8."""
     del prompt_midi, conditioning, num_candidates, temperature, seed
-    return _phase7_stub(
+    return _stub(
         "skytnt_generate",
         "Generate MIDI candidates from SkyTNT's HuggingFace midi-model.",
     )
@@ -486,38 +521,69 @@ def tool_skytnt_constrained_generate(
     max_tries: int = 8,
     seed: int | None = None,
 ) -> dict[str, Any]:
-    """Generate + reject-sample MIDI candidates against the rule corpus. Coming in Phase 7."""
+    """Generate + reject-sample MIDI candidates against the rule corpus. Coming in Phase 8."""
     del (
         prompt_midi, conditioning, ruleset, strict,
         max_hard_violations, max_total_cost,
         num_candidates_per_try, max_tries, seed,
     )
-    return _phase7_stub(
+    return _stub(
         "skytnt_constrained_generate",
         "Loop SkyTNT generation through evaluate_passage and return the best candidate.",
     )
 
 
-def tool_midi_to_rolls(midi_base64: str) -> dict[str, Any]:
-    """Decode a base64 MIDI blob into per-voice MIDI-number lists. Coming in Phase 7."""
-    del midi_base64
-    return _phase7_stub(
-        "midi_to_rolls",
-        "Decode a base64 MIDI file into per-voice piano-roll lists.",
+def tool_midi_to_rolls(
+    midi_base64: str,
+    beats_per_quarter: int = 1,
+) -> dict[str, Any]:
+    """Decode a base64 MIDI blob into per-voice MIDI-number lists.
+
+    Args:
+        midi_base64:       base64-encoded MIDI file contents.
+        beats_per_quarter: subdivision per quarter note (1 = quarter,
+                           2 = eighth, 4 = sixteenth, ...).
+
+    Returns:
+        ``{"voices": [...], "meter": "4/4", "tempo": int,
+            "key_guess": str|None, "ticks_per_beat": int}``
+    """
+    bundle = skytnt_bridge.midi_to_rolls(
+        midi_base64, beats_per_quarter=beats_per_quarter,
     )
+    return dict(bundle)
 
 
 def tool_rolls_to_midi(
     voices: list[list[int]],
     meter: str = "4/4",
-    tempo: int = 120,
+    tempo: int = 500_000,
+    ticks_per_beat: int = 480,
+    velocity: int = 80,
+    program: int = 0,
 ) -> dict[str, Any]:
-    """Encode per-voice MIDI-number lists into a base64 MIDI blob. Coming in Phase 7."""
-    del voices, meter, tempo
-    return _phase7_stub(
-        "rolls_to_midi",
-        "Encode per-voice piano-roll lists into a base64 MIDI file.",
+    """Encode per-voice MIDI-number lists into a base64 MIDI blob.
+
+    Args:
+        voices:         one MIDI-number list per voice (``-1`` = rest).
+        meter:          time signature like ``"4/4"``.
+        tempo:          microseconds per quarter note (default 120 BPM).
+        ticks_per_beat: PPQN (default 480, GM-friendly).
+        velocity:       note-on velocity (1..127).
+        program:        General MIDI program number for every track.
+
+    Returns:
+        ``{"midi_base64": "..."}`` — round-trip exact at the grid step.
+    """
+    midi_b64 = skytnt_bridge.rolls_to_midi(
+        voices,
+        meter=meter,
+        tempo=tempo,
+        ticks_per_beat=ticks_per_beat,
+        velocity=velocity,
+        program=program,
     )
+    return {"midi_base64": midi_b64}
 
 
 # ---------------------------------------------------------------------------
@@ -597,7 +663,7 @@ def build_server() -> Any:
     ``fastmcp`` is imported lazily so the rest of the module remains
     importable in environments where ``fastmcp`` isn't installed yet.
     """
-    from fastmcp import FastMCP   # local import keeps the module light
+    from fastmcp import FastMCP  # local import keeps the module light
 
     server = FastMCP(
         "music-rules",

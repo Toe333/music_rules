@@ -9,6 +9,85 @@ and the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format.
 
 ### Added
 
+- **Phase 7 — EIS roots + scales, SkyTNT scaffolding, Cowork plugin.**
+  - **`music_rules.core.eis.roots`** — full implementation of Spud
+    Murphy's six Equal-Interval cycles (E1..E6, generating intervals
+    minor 2nd → tritone). Public API:
+    - `E_CYCLES` and `CYCLE_LENGTHS` — frozen registries.
+    - `cycle_root_pcs(cycle, start)` and `cycle_root_names(cycle,
+      start, *, style="auto")` — generate an entire cycle as pitch
+      classes or note-name strings (auto picks flats for E5 ⟂ sharps
+      elsewhere, matching how Murphy / Greene notate them).
+    - `pick_root_line(length, cycles=None, *, start_root="C",
+      allow_elision=True, seed=None)` — generate a Root-line of N
+      tones, walking through one or more cycles with optional 1- /
+      2-step elision at cycle boundaries; deterministic given a seed.
+    - `is_valid_progression(roots, *, allowed_cycles=None)` — judge
+      Root progressions by interval class, so inversions count
+      (C → G is valid in E5 even though E5's canonical step is the P4).
+  - **`music_rules.core.eis.scales`** — registry for the 18 EIS
+    scales. Ships **4 verified / inferred definitions** today
+    (Scale #1 Natural Major, #4 + #5 Lydian Dominant / overtone,
+    #10 Dominant 7♭9 / Half-Whole Diminished — all derived from
+    explicit master-rules-doc references) and 14 honest `pending`
+    placeholders so callers can already enumerate the full 1..18
+    surface. Public API: `SCALES`, `list_scales(*, status=None)`,
+    `get_scale(scale_id)`, `scale_pcs(scale_id, root)`,
+    `available_count()`.
+  - **`music_rules.core.eis.chords` / `voice_leading` / `nct`** —
+    Phase-8 stubs. Importable, documented, raise
+    `NotImplementedError` with a clear pointer to the Phase-8 plan.
+  - **`music_rules.core.midi.skytnt_bridge`** — MIDI round-trip for
+    SkyTNT integration (the *only* file in `core/` permitted to
+    import `transformers` / `huggingface_hub` per
+    Non-Negotiable #1):
+    - `midi_to_rolls(midi_input, *, beats_per_quarter=1)` decodes a
+      base64 MIDI blob (or filesystem path) into per-voice MIDI-number
+      lists with rests as `-1`, plus inferred meta (meter, tempo,
+      key guess, ticks-per-beat).
+    - `rolls_to_midi(voices, *, meter, tempo, ticks_per_beat,
+      velocity, program)` encodes per-voice piano-rolls into a
+      base64-encoded MIDI string. Round-trip with `midi_to_rolls`
+      is exact at the grid step.
+    - `skytnt_generate(...)` and `skytnt_constrained_generate(...)`
+      are scaffolded with locked signatures and a documented
+      Phase-8 implementation plan; calling either raises
+      `NotImplementedError` today.
+  - **MCP adapter** rewires Group B's `eis_pick_root_line` and
+    `eis_list_scales` and Group E's `midi_to_rolls` and
+    `rolls_to_midi` from stubs to the real implementations. The
+    remaining 6 stubs (4 EIS + `skytnt_generate{,_constrained}`)
+    keep the same shape but now report `available_in: "Phase 8"`.
+  - **`music-rules.plugin/`** — drop-in Cowork / Cursor plugin
+    bundle at the repo root, packaging the MCP server + 3 skills:
+    - `music-rules-setup` — first-time install / activation flow
+      with a `music-rules-mcp --help` health probe.
+    - `music-rules-corpus` — guided pattern for browsing rules by
+      system / category / kind / input-shape, with anti-patterns to
+      keep agents from inventing rule IDs.
+    - `music-rules-evaluate` — turn-key recipe for assembling a
+      `piece` payload, calling `evaluate_passage`, summarising
+      grade + violations, and round-tripping SkyTNT MIDI.
+    - Companion `mcp.json` (registers the `music-rules` server
+      against the `music-rules-mcp` console script) and
+      `.cursor-plugin/plugin.json` manifest.
+- 60 new tests across `test_eis_roots.py` (33), `test_eis_scales.py`
+  (14), and `test_skytnt_bridge.py` (12), plus 8 reworked tests in
+  `test_mcp_adapter.py` covering Phase-7 live wiring. Suite total:
+  **236 passing** (up from 176).
+
+### Why
+
+Phase 7 closes the loop on the "portable core, thin adapters"
+promise. By implementing E1..E6 cycles + Root-line generation +
+verified scale templates today, even the partial corpus is enough
+to drive a constrained-generation loop. Wiring the MIDI bridge
+means SkyTNT output can be evaluated round-trip *now* — the only
+piece still gated on Phase 8 is the actual `transformers` call to
+the model (everything around it works). The Cowork plugin bundle
+turns the whole stack into a one-click install for any agent
+client that speaks the Cursor plugin format.
+
 - **Phase 6 — OpenAI-compatible adapter + CLI.**
   - `music_rules.adapters.openai` auto-generates OpenAI function-calling
     schemas from each tool's Python type hints (no extra dependencies):
