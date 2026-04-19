@@ -9,6 +9,60 @@ and the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format.
 
 ### Added
 
+- **Phase 6 — OpenAI-compatible adapter + CLI.**
+  - `music_rules.adapters.openai` auto-generates OpenAI function-calling
+    schemas from each tool's Python type hints (no extra dependencies):
+    - `get_tools_schema()` → ready to pass as `tools=...` to
+      `openai.ChatCompletion.create(...)`, LiteLLM, Groq, Together,
+      Ollama, vLLM, etc.
+    - `get_tool_schema(name)` for single-tool lookup.
+    - `dispatch(name, arguments)` invokes a tool via the same
+      registry the MCP adapter uses, so MCP and OpenAI clients can
+      never drift.
+  - The schema generator handles primitives, `list[X]`, `dict[str, X]`,
+    `tuple`, `Literal[...]`, `X | Y` unions, and `Optional[X]` —
+    everything the current tool surface uses. Includes a
+    PEP 563 / 649 fix (uses `typing.get_type_hints` so string-form
+    annotations under `from __future__ import annotations` resolve
+    correctly).
+  - `music_rules.adapters.cli` is the **`music-rules` console script**,
+    built with Typer:
+    ```
+    music-rules version
+    music-rules rules list   [--system EIS|Fux] [--category C] [--kind K]
+                             [--input-shape S] [--limit N] [--json]
+    music-rules rules show   <rule_id> [--json]
+    music-rules rules search <text>    [--limit N] [--json]
+    music-rules evaluate     <piece.json> [--species N] [--strict]
+                             [--ruleset Fux|EIS|both]
+                             [--include id ...] [--exclude id ...] [--json]
+    music-rules tools list                 [--json]
+    music-rules tools schema [--name X]    [--json]
+    music-rules mcp serve                  # FastMCP over stdio
+    ```
+    Exit codes follow Unix convention: `0` for success, `1` for hard
+    rule violations, `2` for user errors (missing file, unknown rule).
+- 49 new tests (`test_openai_adapter.py` + `test_cli.py`) covering
+  schema completeness, JSON-Schema validity (validated against
+  Draft 2020-12 via `jsonschema`), every CLI subcommand, exit-code
+  semantics, and `dispatch` round-tripping. Suite total: **176 passing**.
+
+### Why
+
+These two adapters round out the "ship to any AI frontend in a day"
+promise from `PROJECT.md`. The OpenAI schema generator means
+`music_rules` works with every OpenAI-compatible API today (LiteLLM,
+Groq, Together, Ollama, vLLM, …) without writing a separate adapter
+per vendor — the schemas are generated mechanically from the same
+function signatures the MCP server already exposes. The CLI gives
+the human user (and any shell-driven workflow) the same surface
+without spinning up a chat client. Both share the MCP adapter's
+`call_tool` registry, so a rule added to the corpus tomorrow is
+automatically callable from MCP, OpenAI, AND the CLI with zero
+extra wiring.
+
+### Added
+
 - **Phase 5 — MCP adapter.** New `music_rules.adapters.mcp` module
   exposing **27 tools** to any MCP-compatible client (Claude Desktop,
   Cursor, etc.) over `fastmcp`'s stdio transport:
