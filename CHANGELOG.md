@@ -9,6 +9,116 @@ and the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format.
 
 ### Added
 
+- **Phase 8 — full EIS composer, SkyTNT generation, voice-range
+  constraints, per-voice instruments, Cowork compose skill.** All
+  Phase-7 stubs are now live. Tests: 236 → 316 (80 new). MCP tool
+  surface: 27 → 34. `core/` is still pure Python (only
+  `skytnt_bridge.py` reaches for `transformers`/`torch`, lazily).
+  - **`music_rules.core.eis.chords`** — chord builder. Public API:
+    - `CHORD_CLASSES` and `list_chord_classes()` — frozen registry
+      of triads, 6/7/9/11/13 chords, altered dominants (♭9 / ♯9 /
+      ♯11 / ♭13), suspended chords, 4th-chord stacks (3-/4-part), and
+      polytonal upper-structure stacks. Each entry is defined by
+      semitone intervals from the root (so altered tones like ♭9 are
+      handled cleanly, independent of scale degree) plus an
+      `implied_scale` and `quality` for melodic context.
+    - `pitch_classes(root, chord_class, *, scale_id=None)` and
+      `build_chord(root, chord_class, *, scale_id=None, parts=None,
+      voicing="close"|"open", inversion=0, base_octave=4)` — produce
+      MIDI numbers with smart reductions (drop the 5th first if the
+      target `parts` count is smaller than the chord's intervals,
+      then truncate from the top), inversion handling (lowest-up by
+      octave), and "open" drop-2 voicing.
+  - **`music_rules.core.eis.voice_leading`** — voice-leading
+    formalising V-001..V-015. Public API:
+    - `voice_lead(prev_chord, next_pcs, *, style="bracket"|"parallel",
+      max_jump=12)` — re-voice a target chord so each voice moves by
+      the smallest possible amount, holding common tones (V-001),
+      moving to nearest tones (V-002), and avoiding parallel octaves
+      (V-014). `parallel` style respects soft V-007 brackets.
+    - `check_progression(prev_chord, next_chord)` — score an existing
+      two-chord move. Returns `{smoothness (0..1), common_tones,
+      total_motion, contrary_motion, violations: [...rules]}` with
+      explicit V-002 (large jumps), V-007/V-008 ("no three tones
+      together"), V-014 (parallel octaves), and V-015
+      (contrary-motion preference) flagging.
+  - **`music_rules.core.eis.nct`** — Non-Chord Tone insertion. Public
+    API: `NCT_TYPES`, `list_nct_types()`, and `insert_nct(chord_a,
+    chord_b, *, voice, nct_type, scale_id, beat=0.5)` for the six
+    Murphy NCT categories (Passing Tone, Chromatic Alteration,
+    Returning Tone, Chord Tone, Suspension, Anticipation). Returns
+    an `NCTEvent` with the inserted MIDI pitch + beat position.
+  - **`music_rules.core.eis.ood`** — Outside-Octave Dissonance
+    checker. Public API: `OOD_RULES`, `check_voicing(chord, *,
+    has_b7=False, has_pedal=False)`, `check_passage(chords, ...)`.
+    Flags O-001 (♭9 across an octave), O-002 (♭9 without ♭7), and
+    O-003 (♭2 across an octave when no pedal), with the documented
+    Murphy exceptions (♭9 + ♭7 OK; ♭2 over a pedal OK).
+  - **`music_rules.core.eis.scales`** — promoted **all 14 previously
+    `pending` scales to `inferred` status** with concrete degree
+    lists derived from standard EIS / jazz / modal theory (Dorian,
+    Phrygian, Lydian, Mixolydian, Aeolian, Harmonic Minor, Melodic
+    Minor, Whole Tone, Altered, Locrian, Bebop Dominant, etc.). The
+    full 1..18 surface is now usable end-to-end; the test suite
+    keeps a synthetic-pending fixture so the `ValueError` path stays
+    exercised.
+  - **`music_rules.core.midi.skytnt_bridge`** — SkyTNT generation
+    fully wired:
+    - `skytnt_generate(prompt_midi=None, *, max_new_tokens=512,
+      temperature=1.0, top_p=0.94, top_k=20, seed=None,
+      model_id="skytnt/midi-model")` — lazy-imports `torch` +
+      `transformers` (so the dependency stays optional), caches the
+      model + tokenizer, and returns base64 MIDI.
+    - `skytnt_constrained_generate(prompt_midi, *, ruleset="both",
+      max_hard_violations=0, max_total_cost=5.0,
+      num_candidates_per_try=4, max_tries=4, ...)` — the
+      propose-then-check loop: generates `num_candidates_per_try`
+      candidates per try, runs each through `evaluate_passage`,
+      keeps the best one that satisfies the caps (or the cheapest
+      ever seen if nothing fully qualifies). Returns
+      `{midi_base64, accepted, tries, report}`.
+    - Both raise `SkyTNTUnavailableError` with a clear "install
+      `music-rules[skytnt]`" message if the optional extras are
+      missing — no surprise import failures at module load.
+    - `rolls_to_midi(voices, ..., programs=[...])` — new optional
+      `programs` parameter assigns a different General-MIDI program
+      per voice, enabling chip-tune (`[80, 80, 87, 122]`) or mixed
+      orchestrations (`[0, 48, 48, 48]` = piano + 3× ensemble
+      strings).
+  - **`music_rules.core.evaluate`** — passage evaluator extended:
+    - **EIS pass** — when `ruleset` is `"EIS"` or `"both"` (the
+      default), now actually runs `eis_ood.check_voicing` over each
+      vertical sonority and reports OOD hits as soft violations. Can
+      be disabled with `check_ood=False`.
+    - **Voice-range constraints (RG-001)** — new `voice_ranges`
+      field on `PassagePiece`. Accepts the `"satb"` preset (mapping
+      to standard SATB ranges) or an explicit `[[low, high], ...]`
+      list; pitches outside the per-voice range become hard
+      violations.
+  - **MCP adapter** — wired all new tools and bumped the surface
+    from 27 → 34 live tools. Group B (EIS helpers) and Group E
+    (SkyTNT bridge) no longer have any stubs:
+    - **Group B live**: `eis_pick_root_line`, `eis_list_scales`,
+      `eis_list_chord_classes`, `eis_build_chord`, `eis_voice_lead`,
+      `eis_check_voice_leading`, `eis_insert_nct`,
+      `eis_list_nct_types`, `eis_check_ood`.
+    - **Group E live**: `midi_to_rolls`, `rolls_to_midi` (now
+      accepts `programs`), `skytnt_generate`,
+      `skytnt_constrained_generate` (returns
+      `{"status": "skytnt_unavailable", "fix": "..."}` if extras
+      missing).
+  - **Cowork plugin bundle** — fourth skill added:
+    - **`music-rules-compose`** — the headline "generate music"
+      skill. Teaches the agent the five-step symbolic composition
+      recipe (Root-line → chord class → build → voice-lead →
+      render+grade) plus the SkyTNT propose-then-check loop, with a
+      cookbook for common requests (EIS harmonisation, Bach 3-part
+      invention in 1st species, chip-tune arrangement, piano +
+      strings re-orchestration). Hard rule: always finish with
+      `evaluate_passage` so output is graded before being handed
+      back. Plugin manifest + README updated to advertise the
+      expanded tool surface.
+
 - **Phase 7 — EIS roots + scales, SkyTNT scaffolding, Cowork plugin.**
   - **`music_rules.core.eis.roots`** — full implementation of Spud
     Murphy's six Equal-Interval cycles (E1..E6, generating intervals

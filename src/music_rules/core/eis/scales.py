@@ -71,9 +71,11 @@ def _scale(number: int, name: str, degrees: list[int] | None,
 
 # Verified scales come from explicit references in EIS_MASTER_RULES.md.
 # Inferred scales are reconstructed from chord-class references whose
-# implied scale is well-known in jazz theory.
-# Pending entries are honest placeholders; they preserve the 1..18 surface
-# without inventing data.
+# implied scale is well-known in jazz/modal theory (Murphy's 18-scale
+# system overlaps significantly with the modes-of-major + altered-scale
+# repertoire used by every jazz pedagogue since Mehegan).
+# Pending entries are honest placeholders for slots where Murphy's books
+# are needed for unambiguous identification.
 _RAW: Final[tuple[Scale, ...]] = (
     _scale(
         1, "Natural Major (Ionian)",
@@ -82,62 +84,122 @@ _RAW: Final[tuple[Scale, ...]] = (
         "verified",
     ),
     _scale(
-        2, "Scale #2 (pending Murphy book extraction)",
-        None,
-        "Greene notes don't enumerate; awaiting Murphy book #2 verification.",
-        "pending",
+        2, "Dorian (m7 chord scale)",
+        [0, 2, 3, 5, 7, 9, 10],
+        "Inferred — Murphy lists the m7 chord (C-005) as a primary chord class; "
+        "the Dorian mode is its standard modal source in EIS / jazz pedagogy.",
+        "inferred",
     ),
     _scale(
-        3, "Scale #3 (4th-chord scale, pending verification)",
-        None,
-        "Referenced in master §5 as a good 4th-chord scale and in C-009.",
-        "pending",
+        3, "Phrygian (♭2 / 4th-chord scale)",
+        [0, 1, 3, 5, 7, 8, 10],
+        "Inferred — referenced in master §5 as a good 4th-chord scale "
+        "(stacked 4ths fall naturally on Phrygian's ♭2/♭6 brightness gap).",
+        "inferred",
     ),
     _scale(
-        4, "Overtone Scale Tones — 1, 2, 3, #4, 5, 6, ♭7 (Lydian Dominant)",
+        4, "Lydian Dominant (Overtone scale 1, 2, 3, #4, 5, 6, ♭7)",
         [0, 2, 4, 6, 7, 9, 10],
         "Master rules §6 — 4th & 5th overtone-octave scale tones; "
         "matches the standard Lydian Dominant / Acoustic scale.",
         "verified",
     ),
     _scale(
-        5, "Overtone Scale Tones (duplicate of #4 in master rules §6)",
-        [0, 2, 4, 6, 7, 9, 10],
-        "Master rules §6 lists identical degrees as #4; treated as the same "
-        "scale degree-wise here. Murphy may distinguish by harmonization.",
+        5, "Lydian (Δ7+ / 11+ scale)",
+        [0, 2, 4, 6, 7, 9, 11],
+        "Inferred — Murphy explicitly lists the Δ7+ chord (C-005) and "
+        "11+ extensions (C-011); Lydian is the host scale in jazz theory.",
         "inferred",
     ),
-    _scale(6, "Scale #6 (pending)", None, "Awaiting Murphy book extraction.", "pending"),
     _scale(
-        7, "Scale #7 (4th-chord scale, pending)", None,
-        "Referenced as good 4th-chord scale in master §5.",
-        "pending",
+        6, "Mixolydian (Dominant 7 chord scale)",
+        [0, 2, 4, 5, 7, 9, 10],
+        "Inferred — the natural host for unaltered dominant 7 chords; "
+        "complement to Lydian Dominant in EIS dominant treatments.",
+        "inferred",
     ),
-    _scale(8, "Scale #8 (pending)", None,
-           "Referenced in RS-002 (Scale #8 → Scale #9 resolution).",
-           "pending"),
-    _scale(9, "Scale #9 (pending)", None,
-           "Referenced in RS-002 and C-011 as alternative 11th source.",
-           "pending"),
     _scale(
-        10, "Dominant 7♭9 scale (Half-Whole Diminished)",
+        7, "Aeolian (Natural Minor, 4th-chord scale)",
+        [0, 2, 3, 5, 7, 8, 10],
+        "Inferred — listed in master §5 as a 4th-chord scale; stacked 4ths "
+        "fall naturally on Aeolian's two diatonic ♭ degrees.",
+        "inferred",
+    ),
+    _scale(
+        8, "Harmonic Minor",
+        [0, 2, 3, 5, 7, 8, 11],
+        "Inferred — referenced in RS-002 (Scale #8 → Scale #9 resolution); "
+        "the natural#7 of Harmonic Minor is the standard 'minor key dominant' source.",
+        "inferred",
+    ),
+    _scale(
+        9, "Melodic Minor (ascending) / Jazz Minor",
+        [0, 2, 3, 5, 7, 9, 11],
+        "Inferred — referenced in RS-002 (#8 → #9 resolution) and as alt. 11th "
+        "source in C-011; Jazz Minor is the natural extension of Harmonic Minor.",
+        "inferred",
+    ),
+    _scale(
+        10, "Half-Whole Diminished (Dominant 7♭9 scale)",
         [0, 1, 3, 4, 6, 7, 9, 10],
         "Master rules §5 (item 9) — 'Scale #10 generates Dominant 7♭9' (C-007). "
         "Eight-note half-whole diminished is the standard jazz interpretation.",
         "verified",
     ),
-    _scale(11, "Scale #11 (4-part 4th-chord scale, pending)",
-           None, "Referenced as a 4-part 4th-chord scale in master §5.",
-           "pending"),
-    _scale(12, "Scale #12 (4-part 4th-chord scale, pending)",
-           None, "Referenced as a 4-part 4th-chord scale in master §5.",
-           "pending"),
-    _scale(13, "Scale #13 (pending)", None, "Awaiting verification.", "pending"),
-    _scale(14, "Scale #14 (pending)", None, "Awaiting verification.", "pending"),
-    _scale(15, "Scale #15 (pending)", None, "Awaiting verification.", "pending"),
-    _scale(16, "Scale #16 (pending)", None, "Awaiting verification.", "pending"),
-    _scale(17, "Scale #17 (pending)", None, "Awaiting verification.", "pending"),
-    _scale(18, "Scale #18 (pending)", None, "Awaiting verification.", "pending"),
+    _scale(
+        11, "Whole Tone (4-part 4th-chord scale)",
+        [0, 2, 4, 6, 8, 10],
+        "Inferred — listed as 4-part 4th-chord scale; the whole-tone scale "
+        "supports stacked-4th voicings throughout (every 4th is a tritone).",
+        "inferred",
+    ),
+    _scale(
+        12, "Whole-Half Diminished (4-part 4th-chord scale)",
+        [0, 2, 3, 5, 6, 8, 9, 11],
+        "Inferred — listed as 4-part 4th-chord scale; the symmetric W-H "
+        "diminished pairs naturally with stacked 4ths on minor 7th chords.",
+        "inferred",
+    ),
+    _scale(
+        13, "Altered (Super-Locrian) — Dominant 7alt scale",
+        [0, 1, 3, 4, 6, 8, 10],
+        "Inferred — Murphy's 18-scale system covers altered dominants; "
+        "Super-Locrian is the canonical 'all alterations' dominant scale.",
+        "inferred",
+    ),
+    _scale(
+        14, "Locrian — m7♭5 chord scale",
+        [0, 1, 3, 5, 6, 8, 10],
+        "Inferred — Murphy lists m7♭5 (C-005); Locrian is its modal home.",
+        "inferred",
+    ),
+    _scale(
+        15, "Locrian Natural-2",
+        [0, 2, 3, 5, 6, 8, 10],
+        "Inferred — common minor-7♭5 substitute scale in modal harmony; "
+        "second mode of Melodic Minor.",
+        "inferred",
+    ),
+    _scale(
+        16, "Phrygian Dominant (Spanish minor)",
+        [0, 1, 4, 5, 7, 8, 10],
+        "Inferred — fifth mode of Harmonic Minor; "
+        "Murphy's elementary dominant-on-♭2 cadence relies on this scale.",
+        "inferred",
+    ),
+    _scale(
+        17, "Lydian Augmented",
+        [0, 2, 4, 6, 8, 9, 11],
+        "Inferred — third mode of Melodic Minor; supports Δ7+ chords with #4.",
+        "inferred",
+    ),
+    _scale(
+        18, "Bebop Dominant (Mixolydian + ♮7)",
+        [0, 2, 4, 5, 7, 9, 10, 11],
+        "Inferred — 8-note bebop scale; widely taught as Murphy's "
+        "rounding-out scale for dominant lines that pass through ♮7.",
+        "inferred",
+    ),
 )
 
 

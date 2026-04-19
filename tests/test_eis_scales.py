@@ -53,8 +53,18 @@ class TestScalePcs:
         assert scales.scale_pcs("EIS-18-01", "G") == [7, 9, 11, 0, 2, 4, 6]
 
     def test_pending_scale_raises(self) -> None:
-        with pytest.raises(ValueError, match="status='pending'"):
-            scales.scale_pcs("EIS-18-02", "C")
+        # Phase 8 has no pending scales, but the registry still
+        # supports them — verify by injecting a synthetic stub.
+        synthetic = scales.Scale(
+            id="EIS-TEST", number=99, name="stub",
+            degrees=None, notes="test fixture", status="pending",
+        )
+        scales.SCALES["EIS-TEST"] = synthetic
+        try:
+            with pytest.raises(ValueError, match="status='pending'"):
+                scales.scale_pcs("EIS-TEST", "C")
+        finally:
+            del scales.SCALES["EIS-TEST"]
 
     def test_unknown_scale_id_raises(self) -> None:
         with pytest.raises(KeyError, match="Unknown scale id"):

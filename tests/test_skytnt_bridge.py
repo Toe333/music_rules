@@ -1,8 +1,8 @@
-"""Phase 7 — MIDI <-> piano-roll bridge tests.
+"""MIDI ↔ piano-roll bridge + SkyTNT generation tests.
 
-We exercise round-trip fidelity (rolls → MIDI bytes → rolls) and the
-Phase-8 generation stubs.
-"""
+We exercise round-trip fidelity (rolls → MIDI bytes → rolls), per-voice
+GM programs, and the SkyTNT generation hooks (mocked when the optional
+``transformers`` extras are not installed)."""
 
 from __future__ import annotations
 
@@ -93,15 +93,66 @@ class TestMidiToRolls:
 
 
 # ---------------------------------------------------------------------------
-# Phase-8 stubs
+# Per-voice programs (Phase 8.8)
 # ---------------------------------------------------------------------------
 
 
-class TestSkytntStubs:
-    def test_generate_raises_not_implemented(self) -> None:
-        with pytest.raises(NotImplementedError, match="phase 8"):
-            bridge.skytnt_generate()
+class TestPerVoicePrograms:
+    def test_chip_tune_programs(self) -> None:
+        # 4 voices, distinct GM programs (square / square / triangle / noise).
+        programs = [80, 80, 87, 122]
+        out = bridge.rolls_to_midi(
+            [[60, 62, 64, 65]] * 4, programs=programs,
+        )
+        assert isinstance(out, str)
+        # Re-parse and verify the program_change events landed.
+        import io
 
-    def test_constrained_generate_raises_not_implemented(self) -> None:
-        with pytest.raises(NotImplementedError, match="phase 8"):
-            bridge.skytnt_constrained_generate()
+        import mido
+        midi = mido.MidiFile(file=io.BytesIO(base64.b64decode(out)))
+        # Track 0 is meta; tracks 1..4 should each have a program_change.
+        seen = []
+        for track in midi.tracks[1:]:
+            for msg in track:
+                if msg.type == "program_change":
+                    seen.append(msg.program)
+                    break
+        assert seen == programs
+
+    def test_program_length_mismatch_raises(self) -> None:
+        with pytest.raises(ValueError, match="programs has length"):
+            bridge.rolls_to_midi(
+                [[60, 62], [60, 62]], programs=[1, 2, 3],
+            )
+
+
+# ---------------------------------------------------------------------------
+# SkyTNT generation (lazy / extras-gated)
+# ---------------------------------------------------------------------------
+
+
+class TestSkytntGeneration:
+    def test_generate_raises_unavailable_when_extras_missing(self) -> None:
+        # Force-clear the cache and ensure the loader path fires.
+        bridge._SKYTNT_MODEL = None
+        bridge._SKYTNT_TOKENIZER = None
+        bridge._SKYTNT_DEVICE = None
+        try:
+            import transformers  # noqa: F401
+        except ImportError:
+            with pytest.raises(bridge.SkyTNTUnavailableError):
+                bridge.skytnt_generate()
+        else:
+            pytest.skip("transformers installed; this test only verifies "
+                        "the no-extras path")
+
+    def test_constrained_generate_returns_dict_when_no_extras(self) -> None:
+        # When the extras are missing, _ensure_skytnt() raises and
+        # skytnt_constrained_generate() should propagate it.
+        try:
+            import transformers  # noqa: F401
+        except ImportError:
+            with pytest.raises(bridge.SkyTNTUnavailableError):
+                bridge.skytnt_constrained_generate()
+        else:
+            pytest.skip("transformers installed; skip extras-missing path")

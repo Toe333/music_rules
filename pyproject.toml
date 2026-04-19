@@ -130,11 +130,15 @@ select = [
     "RUF",           # ruff-specific
 ]
 ignore = [
-    "E501",  # line length (ruff format already handles this)
+    "E501",   # line length (ruff format already handles this)
+    "RUF002", # ambiguous unicode in docstrings (— and × used intentionally)
+    "RUF003", # ambiguous unicode in comments (× used intentionally)
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["B011"]
+"tests/*" = ["B011", "SIM102", "RUF007"]
+"src/music_rules/adapters/cli.py" = ["B008"]   # typer requires defaults
+"src/music_rules/adapters/openai.py" = ["SIM102"]
 
 [tool.ruff.format]
 quote-style = "double"

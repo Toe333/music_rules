@@ -33,8 +33,19 @@ from __future__ import annotations
 from collections.abc import Iterable
 from typing import Any, Literal, TypedDict
 
+from music_rules.core.eis import ood as eis_ood
 from music_rules.core.fux import dissonance, harmonic, melodic, motion
 from music_rules.core.report import CheckReport
+
+# Standard SATB ranges (MIDI numbers). Used as the default when the
+# caller asks for ``"satb"`` voice ranges without specifying numbers.
+_SATB_RANGES: dict[str, tuple[int, int]] = {
+    "soprano":  (60, 79),   # C4 .. G5
+    "alto":     (53, 74),   # F3 .. D5
+    "tenor":    (48, 67),   # C3 .. G4
+    "bass":     (40, 60),   # E2 .. C4
+}
+_SATB_ORDER = ("bass", "tenor", "alto", "soprano")
 
 # ---------------------------------------------------------------------------
 # Public types
@@ -51,6 +62,8 @@ class PassagePiece(TypedDict, total=False):
     key: str
     species: int | str
     cantus_firmus_voice: int
+    voice_ranges: list[list[int]] | str
+    check_ood: bool
 
 
 class HardViolation(TypedDict):
@@ -146,7 +159,20 @@ def evaluate_passage(
             hard=hard,
             soft=soft,
         )
-    # EIS pass intentionally a no-op until Phase 7.
+
+    if ruleset in ("EIS", "both"):
+        _run_eis_passes(
+            voices=voices,
+            voice_count=voice_count,
+            length=length,
+            piece=piece,
+            soft=soft,
+        )
+
+    # ---- Voice-range constraints (cross-system) ---------------------------
+    voice_ranges = _resolve_voice_ranges(piece, voice_count)
+    if voice_ranges is not None:
+        _check_voice_ranges(voices, voice_ranges, hard)
 
     hard = _filter(hard, include_set, exclude_set)
     soft = _filter(soft, include_set, exclude_set)
@@ -258,6 +284,107 @@ def _run_fux_passes(
                 r, position=pos, voices_involved=[cp_idx],
                 hard=hard, soft=soft,
             )
+
+
+def _run_eis_passes(
+    *,
+    voices: list[list[int]],
+    voice_count: int,
+    length: int,
+    piece: PassagePiece,
+    soft: list[SoftViolation],
+) -> None:
+    """Run EIS-side checkers on every chord in the passage.
+
+    Today we surface OOD (Outside-Octave Dissonance) hits as *soft*
+    violations because Murphy explicitly relaxes OOD as the student
+    advances (master rules §17, rule A-008). Use ``check_ood=False``
+    in the piece dict to silence this pass.
+    """
+    if voice_count < 2:
+        return
+    if not piece.get("check_ood", True):
+        return
+    for pos in range(length):
+        chord = sorted(voices[i][pos] for i in range(voice_count))
+        hits = eis_ood.check_voicing(chord)
+        for hit in hits:
+            soft.append({
+                "rule_id": hit["rule_id"],
+                "position": pos,
+                "cost": 0.5,    # Conservative — OOD is informational/soft.
+                "msg": hit["detail"],
+            })
+
+
+def _resolve_voice_ranges(
+    piece: PassagePiece, voice_count: int,
+) -> list[tuple[int, int]] | None:
+    """Resolve the ``voice_ranges`` field into per-voice ``(low, high)`` pairs.
+
+    Accepts:
+        * Omitted / None      — no range checking.
+        * ``"satb"``          — apply standard SATB ranges from low to high.
+                                Voices are matched bottom-up to bass / tenor /
+                                alto / soprano.
+        * ``[[40, 60], ...]`` — explicit per-voice ``[low, high]`` lists,
+                                one per voice.
+    """
+    spec = piece.get("voice_ranges")
+    if spec is None:
+        return None
+    if isinstance(spec, str):
+        if spec.lower() != "satb":
+            raise ValueError(
+                f"Unknown voice_ranges preset {spec!r} (only 'satb' is built-in)."
+            )
+        # Map bottom voice to bass, top voice to soprano.
+        out: list[tuple[int, int]] = []
+        for i in range(voice_count):
+            slot = _SATB_ORDER[min(i, len(_SATB_ORDER) - 1)]
+            out.append(_SATB_RANGES[slot])
+        return out
+    if not isinstance(spec, list) or len(spec) != voice_count:
+        raise ValueError(
+            f"voice_ranges must be 'satb' or a list of {voice_count} "
+            f"[low, high] pairs; got {spec!r}."
+        )
+    parsed: list[tuple[int, int]] = []
+    for i, pair in enumerate(spec):
+        if not isinstance(pair, list) or len(pair) != 2:
+            raise ValueError(
+                f"voice_ranges[{i}] must be a [low, high] pair; got {pair!r}."
+            )
+        low, high = int(pair[0]), int(pair[1])
+        if low > high:
+            raise ValueError(
+                f"voice_ranges[{i}] low ({low}) > high ({high})."
+            )
+        parsed.append((low, high))
+    return parsed
+
+
+def _check_voice_ranges(
+    voices: list[list[int]],
+    ranges: list[tuple[int, int]],
+    hard: list[HardViolation],
+) -> None:
+    """Flag any pitch outside its voice's [low, high] envelope as a hard hit."""
+    for v_idx, voice in enumerate(voices):
+        low, high = ranges[v_idx]
+        for pos, pitch in enumerate(voice):
+            if pitch < 0:
+                continue
+            if pitch < low or pitch > high:
+                hard.append({
+                    "rule_id": "RG-001",
+                    "position": pos,
+                    "voices_involved": [v_idx],
+                    "msg": (
+                        f"Voice {v_idx} pitch {pitch} outside range "
+                        f"[{low}..{high}]."
+                    ),
+                })
 
 
 # ---------------------------------------------------------------------------

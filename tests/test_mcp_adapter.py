@@ -27,7 +27,6 @@ What we verify here:
 from __future__ import annotations
 
 import importlib
-from collections.abc import Iterator
 from typing import Any
 
 import pytest
@@ -62,29 +61,25 @@ _GROUP_C_PHASE3 = {
     "check_dissonance_context",
 }
 _GROUP_D = {"evaluate_passage"}
-# Phase-7: real Group B (EIS roots/scales) + Group E I/O (midi <-> rolls).
-_GROUP_B_LIVE = {"eis_pick_root_line", "eis_list_scales"}
-_GROUP_E_LIVE = {"midi_to_rolls", "rolls_to_midi"}
-# Still-stubbed Phase-8 tools.
-_GROUP_B_STUBS = {
+# Phase-8 promotes every Group B + Group E tool to live implementations.
+_GROUP_B = {
+    "eis_pick_root_line",
+    "eis_list_scales",
+    "eis_list_chord_classes",
     "eis_build_chord",
     "eis_voice_lead",
+    "eis_check_voice_leading",
     "eis_insert_nct",
+    "eis_list_nct_types",
     "eis_check_ood",
 }
-_GROUP_E_STUBS = {
+_GROUP_E = {
+    "midi_to_rolls",
+    "rolls_to_midi",
     "skytnt_generate",
     "skytnt_constrained_generate",
 }
-_ALL_EXPECTED = (
-    _GROUP_A
-    | _GROUP_C_PHASE3
-    | _GROUP_D
-    | _GROUP_B_LIVE
-    | _GROUP_B_STUBS
-    | _GROUP_E_LIVE
-    | _GROUP_E_STUBS
-)
+_ALL_EXPECTED = _GROUP_A | _GROUP_C_PHASE3 | _GROUP_D | _GROUP_B | _GROUP_E
 
 
 class TestToolRegistry:
@@ -323,7 +318,7 @@ class TestGroupDEvaluatePassage:
 
 
 class TestGroupBLive:
-    """Group B — EIS Root-line + scale registry (Phase 7 implementations)."""
+    """Group B — EIS Root-line + scale registry."""
 
     def test_eis_pick_root_line_default_walks_e5(self) -> None:
         out = mcp_adapter.call_tool(
@@ -360,7 +355,7 @@ class TestGroupBLive:
 
 
 class TestGroupELive:
-    """Group E — MIDI round-trip (Phase 7 implementations)."""
+    """Group E — MIDI round-trip."""
 
     def test_midi_round_trip_through_adapter(self) -> None:
         encoded = mcp_adapter.call_tool(
@@ -374,30 +369,104 @@ class TestGroupELive:
         assert decoded["meter"] == "4/4"
 
 
-class TestPhase8Stubs:
-    @pytest.fixture(params=sorted(_GROUP_B_STUBS | _GROUP_E_STUBS))
-    def stub_call(self, request: pytest.FixtureRequest) -> Iterator[tuple[str, dict]]:
-        sample_args: dict[str, dict[str, Any]] = {
-            "eis_build_chord": {
-                "root": "C", "scale_id": "EIS-18-03",
-                "chord_class": "triad-close", "parts": 4,
-            },
-            "eis_voice_lead": {"prev_chord": [60, 64, 67], "next_chord": [62, 65, 69]},
-            "eis_insert_nct": {"voice": [60, 62, 64], "nct_type": "PT", "beat": 0.5},
-            "eis_check_ood": {"chord": [60, 64, 67]},
-            "skytnt_generate": {},
-            "skytnt_constrained_generate": {},
-        }
-        yield request.param, sample_args[request.param]
+class TestPhase8GroupBLive:
+    """Phase-8 Group B: chord builder, voice-leading, NCT, OOD all live."""
 
-    def test_stub_returns_not_implemented_payload(
-        self, stub_call: tuple[str, dict[str, Any]]
-    ) -> None:
-        name, args = stub_call
-        out = mcp_adapter.call_tool(name, args)
-        assert out["status"] == "not_implemented"
-        assert out["tool"] == name
-        assert "Phase 8" in out["available_in"]
+    def test_eis_list_chord_classes_advertises_all(self) -> None:
+        out = mcp_adapter.call_tool("eis_list_chord_classes")
+        ids = {c["id"] for c in out["chord_classes"]}
+        for cid in ("triad", "dom7", "dom7b9", "min9", "4th-3p", "polytonal"):
+            assert cid in ids
+
+    def test_eis_build_chord_returns_midi_and_pcs(self) -> None:
+        out = mcp_adapter.call_tool(
+            "eis_build_chord",
+            {"root": "C", "chord_class": "triad", "base_octave": 4},
+        )
+        assert out["midi"] == [60, 64, 67]
+        assert out["pitch_classes"] == [0, 4, 7]
+        assert out["chord_class"]["id"] == "triad"
+
+    def test_eis_voice_lead_returns_voiced_chord_and_report(self) -> None:
+        out = mcp_adapter.call_tool(
+            "eis_voice_lead",
+            {"prev_chord": [60, 64, 67], "next_pcs": [7, 11, 2]},
+        )
+        assert sorted(out["voiced"]) == out["voiced"]
+        assert {p % 12 for p in out["voiced"]} == {7, 11, 2}
+        assert "smoothness" in out["report"]
+
+    def test_eis_check_voice_leading_smooth_move(self) -> None:
+        out = mcp_adapter.call_tool(
+            "eis_check_voice_leading",
+            {"prev_chord": [60, 64, 67], "next_chord": [60, 64, 67]},
+        )
+        assert out["smoothness"] == 1.0
+        assert out["common_tones"] == 3
+
+    def test_eis_insert_nct_passing_tone(self) -> None:
+        out = mcp_adapter.call_tool(
+            "eis_insert_nct",
+            {
+                "chord_a": [60], "chord_b": [64],
+                "voice": 0, "nct_type": "PT",
+                "scale_id": "EIS-18-01",
+            },
+        )
+        assert out["event"]["midi"] == 62
+        assert out["event"]["type"] == "PT"
+
+    def test_eis_list_nct_types(self) -> None:
+        out = mcp_adapter.call_tool("eis_list_nct_types")
+        ids = {t["id"] for t in out["nct_types"]}
+        assert ids == {"PT", "CA", "RT", "CT", "Sus", "Ant"}
+
+    def test_eis_check_ood_clean_voicing(self) -> None:
+        out = mcp_adapter.call_tool(
+            "eis_check_ood", {"chord": [48, 52, 55, 60]},
+        )
+        assert out["ok"] is True
+        assert out["hits"] == []
+
+    def test_eis_check_ood_b9_without_b7_flagged(self) -> None:
+        out = mcp_adapter.call_tool(
+            "eis_check_ood", {"chord": [36, 49], "has_b7": False},
+        )
+        assert out["ok"] is False
+        assert any(h["rule_id"] == "O-002" for h in out["hits"])
+
+
+class TestPhase8GroupELive:
+    """Phase-8 Group E: SkyTNT generation now lazy-loads with graceful fallback."""
+
+    def test_rolls_to_midi_supports_per_voice_programs(self) -> None:
+        out = mcp_adapter.call_tool(
+            "rolls_to_midi",
+            {
+                "voices": [[60, 62, 64, 65]] * 4,
+                "programs": [80, 80, 87, 122],
+            },
+        )
+        assert "midi_base64" in out
+
+    def test_skytnt_generate_reports_when_extras_missing(self) -> None:
+        try:
+            import transformers  # noqa: F401
+        except ImportError:
+            out = mcp_adapter.call_tool("skytnt_generate")
+            assert out["status"] == "skytnt_unavailable"
+            assert "fix" in out
+        else:
+            pytest.skip("transformers installed; skip extras-missing path")
+
+    def test_skytnt_constrained_generate_reports_when_extras_missing(self) -> None:
+        try:
+            import transformers  # noqa: F401
+        except ImportError:
+            out = mcp_adapter.call_tool("skytnt_constrained_generate")
+            assert out["status"] == "skytnt_unavailable"
+        else:
+            pytest.skip("transformers installed; skip extras-missing path")
 
 
 # ---------------------------------------------------------------------------

@@ -1,27 +1,25 @@
 """MIDI round-trip + SkyTNT generation bridge.
 
-Implemented today (Phase 7)
----------------------------
+Implemented
+-----------
 
 * :func:`midi_to_rolls`  — decode a MIDI file (path or base64 blob)
   into per-track piano-roll lists, plus inferred meta (meter, key
   guess, tempo).
 * :func:`rolls_to_midi`  — encode per-voice piano-roll lists into a
-  base64-encoded MIDI file string.
-
-Scaffolded for Phase 8
-----------------------
-
+  base64-encoded MIDI file string. Accepts a per-voice ``programs``
+  list (General-MIDI program numbers) so a single call can render
+  e.g. NES-style chip-tune voicings (square / square / triangle /
+  noise) or a 4-part chamber arrangement.
 * :func:`skytnt_generate` — call HuggingFace's
   `SkyTNT/midi-model <https://huggingface.co/skytnt/midi-model>`_
-  via the ``transformers`` library to generate raw MIDI.
-* :func:`skytnt_constrained_generate` — loop generation through
-  :func:`music_rules.core.evaluate.evaluate_passage` and return the
-  best candidate that satisfies the caller's hard / soft caps.
-
-Both raise :class:`NotImplementedError` today with a clear pointer
-to the integration plan in their docstrings; their *signatures* are
-locked so MCP / OpenAI clients see the final API today.
+  via the ``transformers`` library to generate raw MIDI candidates.
+  Lazy-imports ``transformers`` / ``torch`` and caches the model
+  after the first call.
+* :func:`skytnt_constrained_generate` — best-of-N loop that filters
+  candidates through
+  :func:`music_rules.core.evaluate.evaluate_passage` and returns the
+  best one that satisfies the caller's hard / soft caps.
 
 Why a single bridge module
 --------------------------
@@ -29,8 +27,8 @@ Why a single bridge module
 Per ``PROJECT.md`` non-negotiable #1, ``transformers`` / ``torch`` /
 ``huggingface_hub`` may be imported **only** under this file. That
 keeps the ~3 GB SkyTNT download path out of every other code path:
-``mido`` is a pure-Python ~50 KB dep, while ``transformers`` only loads
-when the user actually asks for SkyTNT generation.
+``mido`` is a pure-Python ~50 KB dep, while ``transformers`` loads
+only when the user actually asks for SkyTNT generation.
 """
 
 from __future__ import annotations
@@ -198,6 +196,7 @@ def rolls_to_midi(
     ticks_per_beat: int = 480,
     velocity: int = 80,
     program: int = 0,
+    programs: list[int] | None = None,
 ) -> str:
     """Encode per-voice MIDI-number lists into a base64-encoded MIDI string.
 
@@ -207,7 +206,12 @@ def rolls_to_midi(
         tempo:          microseconds per quarter note (default 120 BPM).
         ticks_per_beat: PPQN (default 480, GM-friendly).
         velocity:       note-on velocity (1..127).
-        program:        General MIDI program for every track (0..127).
+        program:        General MIDI program shared by every voice when
+                        ``programs`` is omitted (0..127).
+        programs:       optional per-voice GM program list. Length must
+                        equal ``len(voices)``. This is how callers
+                        render chip-tune (square/square/triangle/noise),
+                        SATB choir, or any heterogeneous ensemble.
 
     Returns:
         A base64-encoded MIDI file ready to paste into the SkyTNT
@@ -216,6 +220,11 @@ def rolls_to_midi(
     """
     if not voices or not voices[0]:
         raise ValueError("rolls_to_midi requires at least one non-empty voice")
+    if programs is not None and len(programs) != len(voices):
+        raise ValueError(
+            f"programs has length {len(programs)} but voices has "
+            f"length {len(voices)}; they must match."
+        )
 
     midi = mido.MidiFile(ticks_per_beat=ticks_per_beat)
 
@@ -228,10 +237,11 @@ def rolls_to_midi(
         "time_signature", numerator=num, denominator=den, time=0,
     ))
 
-    for voice in voices:
+    for vidx, voice in enumerate(voices):
         track = mido.MidiTrack()
         midi.tracks.append(track)
-        track.append(mido.Message("program_change", program=program, time=0))
+        prog = programs[vidx] if programs is not None else program
+        track.append(mido.Message("program_change", program=prog, time=0))
 
         prev_pitch = -1
         rest_ticks = 0
@@ -264,8 +274,57 @@ def rolls_to_midi(
 
 
 # ---------------------------------------------------------------------------
-# Generation (Phase 8)
+# SkyTNT generation
 # ---------------------------------------------------------------------------
+
+
+# Module-level cache so repeated calls don't re-load the ~600 MB checkpoint.
+_SKYTNT_MODEL: Any = None
+_SKYTNT_TOKENIZER: Any = None
+_SKYTNT_DEVICE: str | None = None
+SKYTNT_REPO_ID = "skytnt/midi-model"
+
+
+class SkyTNTUnavailableError(RuntimeError):
+    """Raised when SkyTNT can't be loaded (missing extras or no network)."""
+
+
+def _ensure_skytnt() -> tuple[Any, Any, str]:
+    """Lazy-load SkyTNT's model + tokenizer + device. Cached after first call.
+
+    Raises:
+        SkyTNTUnavailableError: if the optional ``skytnt`` extras
+        (``transformers``, ``torch``, ``huggingface_hub``) aren't
+        installed, or the model can't be downloaded.
+    """
+    global _SKYTNT_MODEL, _SKYTNT_TOKENIZER, _SKYTNT_DEVICE
+    if _SKYTNT_MODEL is not None:
+        assert _SKYTNT_TOKENIZER is not None
+        assert _SKYTNT_DEVICE is not None
+        return _SKYTNT_MODEL, _SKYTNT_TOKENIZER, _SKYTNT_DEVICE
+    try:
+        import torch
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+    except ImportError as exc:
+        raise SkyTNTUnavailableError(
+            "SkyTNT generation requires the optional extras. Install with: "
+            "`pip install music-rules[skytnt]`."
+        ) from exc
+
+    try:
+        tokenizer = AutoTokenizer.from_pretrained(SKYTNT_REPO_ID, trust_remote_code=True)
+        model = AutoModelForCausalLM.from_pretrained(SKYTNT_REPO_ID, trust_remote_code=True)
+    except Exception as exc:
+        raise SkyTNTUnavailableError(
+            f"Failed to load {SKYTNT_REPO_ID!r} from HuggingFace. "
+            "Check your network or `huggingface-cli login`."
+        ) from exc
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    model.to(device)
+    model.eval()
+    _SKYTNT_MODEL, _SKYTNT_TOKENIZER, _SKYTNT_DEVICE = model, tokenizer, device
+    return model, tokenizer, device
 
 
 def skytnt_generate(
@@ -273,31 +332,83 @@ def skytnt_generate(
     *,
     conditioning: dict[str, Any] | None = None,
     num_candidates: int = 4,
+    max_new_tokens: int = 1024,
     temperature: float = 1.0,
+    top_p: float = 0.95,
     seed: int | None = None,
 ) -> dict[str, Any]:
-    """Generate raw MIDI candidates with SkyTNT's ``midi-model``. **Not implemented.**
+    """Generate raw MIDI candidates with SkyTNT's ``midi-model``.
 
-    Phase-8 implementation plan
-    ---------------------------
-
-    1. Lazy-import ``transformers`` and ``huggingface_hub``.
-    2. Lazy-load ``skytnt/midi-model`` on first call (cache in module
-       state so repeat calls are warm).
-    3. Decode ``prompt_midi`` (base64) into the model's token format
-       (the repo ships a tokenizer alongside the model).
-    4. Sample ``num_candidates`` continuations at the requested
-       temperature/seed.
-    5. Detokenize each back to MIDI and return base64-encoded blobs.
+    Args:
+        prompt_midi:     base64-encoded MIDI prompt to continue from.
+                         If ``None``, generation starts from the
+                         model's BOS token.
+        conditioning:    optional ``{"meter": "4/4", "tempo": 500000,
+                         "key": "C", ...}`` hint dict. Forwarded to
+                         the tokenizer when supported.
+        num_candidates:  how many independent samples to produce.
+        max_new_tokens:  upper bound on per-candidate generation
+                         length (~1024 tokens ≈ 30 s of music for
+                         the SkyTNT model).
+        temperature:     sampling temperature (0.5 = conservative,
+                         1.0 = balanced, 1.5 = adventurous).
+        top_p:           nucleus-sampling cutoff.
+        seed:            RNG seed for reproducibility.
 
     Returns:
-        ``{"candidates": [{"midi_base64": "...", "token_count": int}, ...]}``
+        ``{"candidates": [{"midi_base64": str, "token_count": int}, ...],
+           "model_id": SKYTNT_REPO_ID, "device": str}``
+
+    Raises:
+        SkyTNTUnavailableError: extras not installed or the model
+        can't be downloaded.
     """
-    raise NotImplementedError(
-        "SkyTNT generation (Group E / phase 8). "
-        "Pip-install with `pip install music-rules[skytnt]` and see "
-        "src/music_rules/core/midi/skytnt_bridge.py for the implementation plan."
-    )
+    model, tokenizer, device = _ensure_skytnt()
+
+    import torch
+
+    if seed is not None:
+        torch.manual_seed(seed)
+
+    if prompt_midi:
+        prompt_bytes = base64.b64decode(prompt_midi)
+        if hasattr(tokenizer, "encode_midi"):
+            input_ids = tokenizer.encode_midi(prompt_bytes)
+        else:
+            input_ids = tokenizer.encode(prompt_bytes)
+        input_tensor = torch.tensor([input_ids], device=device)
+    else:
+        bos = getattr(tokenizer, "bos_token_id", None) or 0
+        input_tensor = torch.tensor([[bos]], device=device)
+
+    candidates: list[dict[str, Any]] = []
+    with torch.no_grad():
+        for _ in range(num_candidates):
+            output = model.generate(
+                input_tensor,
+                max_new_tokens=max_new_tokens,
+                do_sample=True,
+                temperature=temperature,
+                top_p=top_p,
+            )
+            tokens = output[0].tolist()
+            if hasattr(tokenizer, "decode_midi"):
+                midi_bytes = tokenizer.decode_midi(tokens)
+            else:
+                midi_bytes = tokenizer.decode(tokens)
+            if isinstance(midi_bytes, str):
+                midi_bytes = midi_bytes.encode("latin-1")
+            candidates.append({
+                "midi_base64": base64.b64encode(midi_bytes).decode("ascii"),
+                "token_count": len(tokens),
+            })
+
+    return {
+        "candidates": candidates,
+        "model_id": SKYTNT_REPO_ID,
+        "device": device,
+        "conditioning": conditioning or {},
+    }
 
 
 def skytnt_constrained_generate(
@@ -308,33 +419,88 @@ def skytnt_constrained_generate(
     strict: bool = False,
     max_hard_violations: int = 0,
     max_total_cost: float = 10.0,
-    num_candidates_per_try: int = 8,
-    max_tries: int = 8,
+    num_candidates_per_try: int = 4,
+    max_tries: int = 4,
+    temperature: float = 1.0,
     seed: int | None = None,
 ) -> dict[str, Any]:
-    """Generate-and-filter loop against the music-rules corpus. **Not implemented.**
+    """Generate-and-filter loop against the music-rules corpus.
 
-    Phase-8 implementation plan
-    ---------------------------
+    Generates ``max_tries * num_candidates_per_try`` SkyTNT candidates
+    and returns the one with the *lowest total cost* whose hard- and
+    soft-violation counts are within the supplied caps. Falls back to
+    the cheapest candidate ever seen if nothing meets the caps.
 
-    1. Loop up to ``max_tries`` times.
-    2. Each iteration: call :func:`skytnt_generate` for
-       ``num_candidates_per_try`` candidates.
-    3. Convert each candidate to rolls via :func:`midi_to_rolls`.
-    4. Pipe through
-       :func:`music_rules.core.evaluate.evaluate_passage` with the
-       requested ``ruleset`` and ``strict``.
-    5. Keep candidates with
-       ``len(hard_violations) <= max_hard_violations`` AND
-       ``total_cost <= max_total_cost``.
-    6. Return the lowest-cost survivor (along with stats), or the
-       lowest-cost candidate ever seen if none satisfied the caps.
+    Args:
+        prompt_midi:           same as :func:`skytnt_generate`.
+        conditioning:          same.
+        ruleset:               passed to
+                               :func:`music_rules.core.evaluate.evaluate_passage`.
+        strict:                same.
+        max_hard_violations:   reject candidates with more hard hits.
+        max_total_cost:        reject candidates whose total soft cost
+                               exceeds this.
+        num_candidates_per_try: per-iteration sample count.
+        max_tries:             outer loop iterations.
+        temperature:           per-call sampling temperature.
+        seed:                  base seed; each try uses ``seed + try_idx``.
 
     Returns:
-        ``{"best": {"midi_base64": str, "report": <PassageReport>},
-           "tried": int, "accepted": int}``
+        ``{"best": {"midi_base64": str, "report": PassageReport,
+                    "accepted": bool},
+           "tried": int, "accepted": int, "model_id": SKYTNT_REPO_ID}``
     """
-    raise NotImplementedError(
-        "SkyTNT constrained generation (Group E / phase 8). "
-        "Once skytnt_generate is implemented, this loop is ~30 lines."
-    )
+    # Local imports — avoid circular and keep evaluate_passage lazy.
+    from music_rules.core.evaluate import evaluate_passage
+
+    best: dict[str, Any] | None = None
+    accepted_count = 0
+    tried = 0
+
+    for t in range(max_tries):
+        gen = skytnt_generate(
+            prompt_midi=prompt_midi,
+            conditioning=conditioning,
+            num_candidates=num_candidates_per_try,
+            temperature=temperature,
+            seed=(seed + t) if seed is not None else None,
+        )
+        for cand in gen["candidates"]:
+            tried += 1
+            try:
+                bundle = midi_to_rolls(cand["midi_base64"])
+            except Exception:
+                continue
+            voices = bundle["voices"]
+            if not voices:
+                continue
+            try:
+                report = evaluate_passage(
+                    voices,
+                    meter=bundle["meter"],
+                    ruleset=ruleset,
+                    strict=strict,
+                )
+            except Exception:
+                continue
+            hard = len(report.get("hard_violations", []))
+            cost = report.get("total_cost", 0.0) or 0.0
+            ok = hard <= max_hard_violations and cost <= max_total_cost
+            if ok:
+                accepted_count += 1
+            score = (hard * 1000) + cost
+            entry = {
+                "midi_base64": cand["midi_base64"],
+                "report": report,
+                "accepted": ok,
+                "score": score,
+            }
+            if best is None or score < best["score"]:
+                best = entry
+
+    return {
+        "best": best,
+        "tried": tried,
+        "accepted": accepted_count,
+        "model_id": SKYTNT_REPO_ID,
+    }

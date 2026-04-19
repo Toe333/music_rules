@@ -28,7 +28,6 @@ from .fixtures.fux_passages import (
     WRONG_OPENING_INTERVAL_FAIL,
 )
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -173,7 +172,7 @@ class TestFourBarPassage:
 
     @pytest.fixture()
     def piece(self) -> dict[str, Any]:
-        # 4 bars × 4 beats = 16 notes per voice.
+        # 4 bars * 4 beats = 16 notes per voice.
         # CF: a slow whole-note ascent and descent (repeated within bar).
         # CP: contrary-motion smooth steps.
         cf = [
@@ -244,19 +243,93 @@ class TestRuleFilters:
 
 
 class TestRulesetSwitching:
-    def test_eis_ruleset_is_currently_a_noop(self) -> None:
-        # EIS checkers don't exist yet (Phase 7); running with ruleset="EIS"
-        # should produce an empty report, not crash.
-        report = evaluate_passage(_piece(PARALLEL_FIFTHS_FAIL), ruleset="EIS")
+    def test_eis_ruleset_runs_eis_only(self) -> None:
+        # ruleset="EIS" should skip Fux checkers entirely — even the
+        # parallel-fifths failure fixture should not produce P1_1_2v hits.
+        piece = _piece(PARALLEL_FIFTHS_FAIL)
+        piece["check_ood"] = False  # silence OOD pass for this assertion
+        report = evaluate_passage(piece, ruleset="EIS")
         assert report["hard_violations"] == []
         assert report["soft_violations"] == []
 
-    def test_both_ruleset_matches_fux_for_now(self) -> None:
+    def test_both_ruleset_matches_fux_for_hard_violations(self) -> None:
+        # Hard hits come from Fux; Fux-only and "both" should agree on those.
         fux_report = evaluate_passage(_piece(PARALLEL_FIFTHS_FAIL), ruleset="Fux")
         both_report = evaluate_passage(_piece(PARALLEL_FIFTHS_FAIL), ruleset="both")
         assert _rule_ids_in(fux_report, "hard_violations") == _rule_ids_in(
             both_report, "hard_violations"
         )
+
+
+# ---------------------------------------------------------------------------
+# Voice-range constraints (Phase 8.7)
+# ---------------------------------------------------------------------------
+
+
+class TestVoiceRanges:
+    def test_satb_preset_passes_when_in_range(self) -> None:
+        piece = {
+            "voices": [[40, 43, 45, 40], [60, 64, 65, 60]],
+            "voice_ranges": "satb",
+        }
+        report = evaluate_passage(piece, ruleset="Fux")
+        rg_hits = [h for h in report["hard_violations"]
+                   if h["rule_id"] == "RG-001"]
+        assert rg_hits == []
+
+    def test_satb_preset_flags_out_of_range_pitch(self) -> None:
+        # Bass voice (index 0) gets a high B5 (83) — way above bass top (60).
+        piece = {
+            "voices": [[40, 83, 45, 40], [60, 64, 65, 60]],
+            "voice_ranges": "satb",
+        }
+        report = evaluate_passage(piece, ruleset="Fux")
+        rg_hits = [h for h in report["hard_violations"]
+                   if h["rule_id"] == "RG-001"]
+        assert len(rg_hits) == 1
+        assert rg_hits[0]["position"] == 1
+        assert rg_hits[0]["voices_involved"] == [0]
+
+    def test_explicit_per_voice_ranges(self) -> None:
+        piece = {
+            "voices": [[60, 62, 64, 60], [72, 74, 76, 72]],
+            "voice_ranges": [[55, 65], [70, 79]],
+        }
+        report = evaluate_passage(piece, ruleset="Fux")
+        rg_hits = [h for h in report["hard_violations"]
+                   if h["rule_id"] == "RG-001"]
+        assert rg_hits == []
+
+    def test_unknown_preset_raises(self) -> None:
+        with pytest.raises(ValueError, match="voice_ranges preset"):
+            evaluate_passage({
+                "voices": [[60, 62], [67, 69]],
+                "voice_ranges": "wat",
+            })
+
+    def test_wrong_length_raises(self) -> None:
+        with pytest.raises(ValueError, match="voice_ranges must be"):
+            evaluate_passage({
+                "voices": [[60, 62], [67, 69]],
+                "voice_ranges": [[40, 60]],   # only 1 entry for 2 voices
+            })
+
+
+# ---------------------------------------------------------------------------
+# EIS pass — OOD soft hits
+# ---------------------------------------------------------------------------
+
+
+class TestEISPass:
+    def test_ood_pass_can_be_disabled(self) -> None:
+        # A clean passage with check_ood=False should produce no soft hits
+        # from O-* rules.
+        piece = _piece(CLEAN_2V_1S_C_MAJOR)
+        piece["check_ood"] = False
+        report = evaluate_passage(piece, ruleset="both")
+        ood_hits = [s for s in report["soft_violations"]
+                    if s["rule_id"].startswith("O-")]
+        assert ood_hits == []
 
 
 # ---------------------------------------------------------------------------

@@ -19,9 +19,21 @@ When this plugin is enabled, the agent can:
 - **Generate EIS Root-lines** — walk through E1..E6 cycles with
   optional elision (`eis_pick_root_line`), browse all 18 EIS scales
   (`eis_list_scales`).
-- **Round-trip MIDI** — encode/decode per-voice piano-roll lists to
-  base64 MIDI (`midi_to_rolls`, `rolls_to_midi`), wired up to take
-  output from SkyTNT's `midi-model` directly.
+- **Build EIS chords and progressions** — `eis_build_chord` for any
+  chord class (triads, 7ths, 9ths, polytonal stacks, 4th-chords),
+  `eis_voice_lead` for smooth voice-leading between chords,
+  `eis_check_voice_leading` to score an existing move, `eis_insert_nct`
+  to add Passing Tones / Suspensions / Anticipations / etc., and
+  `eis_check_ood` for outside-octave dissonance.
+- **Round-trip MIDI with per-voice instruments** —
+  `midi_to_rolls` / `rolls_to_midi` (now with a `programs` parameter
+  for chip-tune / mixed orchestrations), wired to accept SkyTNT's
+  `midi-model` output directly.
+- **Generate constrained MIDI** — `skytnt_generate` (raw) and
+  `skytnt_constrained_generate` (propose-then-check loop that filters
+  candidates against `evaluate_passage`). Requires the optional
+  `[skytnt]` extras; otherwise the tools return a clear
+  `skytnt_unavailable` payload.
 
 ## Installation
 
@@ -53,9 +65,10 @@ Ask the agent:
 
 > List the available music-rules tools.
 
-You should see ~27 tools beginning with `list_rule_systems`,
+You should see ~34 tools beginning with `list_rule_systems`,
 `get_rules`, `check_motion_pair`, `evaluate_passage`,
-`eis_pick_root_line`, etc.
+`eis_pick_root_line`, `eis_build_chord`, `eis_voice_lead`,
+`skytnt_constrained_generate`, etc.
 
 Then try:
 
@@ -68,7 +81,7 @@ The agent should call `evaluate_passage` and report any hard violations
 
 ## Skills
 
-The plugin ships three skills that proactively guide the agent:
+The plugin ships four skills that proactively guide the agent:
 
 - **`music-rules-setup`** — first-time check that the MCP server is
   installed; provides install instructions if not.
@@ -76,6 +89,11 @@ The plugin ships three skills that proactively guide the agent:
   before authoring or evaluating music.
 - **`music-rules-evaluate`** — pattern for assembling a `piece` payload
   from voice lists and calling `evaluate_passage` correctly.
+- **`music-rules-compose`** — the headline "generate music" skill:
+  five-step symbolic composition (Root-line → chord class → build →
+  voice-lead → render+grade) plus the SkyTNT propose-then-check loop.
+  Triggered by requests like "harmonise this melody with EIS",
+  "write a 3-part Bach invention", or "orchestrate this for chip-tune".
 
 ## License
 

@@ -21,7 +21,6 @@ from music_rules.core import pitch
 from music_rules.core.fux._common import applicable_rules
 from music_rules.core.report import CheckReport, empty_report, finalize
 
-
 # Soft-cost weights. Tunable; chosen so that "moderately bad" intervals
 # (e.g. an A4 in G major) carry a noticeable cost without dominating the
 # evaluator's total. Documented in the rule's `tier` field semantically.

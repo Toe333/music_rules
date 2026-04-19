@@ -142,7 +142,7 @@ def _function_schema(name: str, fn: Any) -> dict[str, Any]:
     # ever wants to attach validation hints to a parameter later.
     try:
         hints = typing.get_type_hints(fn, include_extras=True)
-    except Exception:  # noqa: BLE001 - defensive; never block schema gen
+    except Exception:
         hints = {}
 
     properties: dict[str, dict[str, Any]] = {}
@@ -235,11 +235,11 @@ def _annotation_to_jsonschema(annotation: Any) -> dict[str, Any]:
     if origin in (Union, types.UnionType):
         return _union_schema(args)
 
-    if origin in (list, typing.List):
+    if origin in (list, list):
         item_schema = _annotation_to_jsonschema(args[0]) if args else {}
         return {"type": "array", "items": item_schema}
 
-    if origin in (tuple, typing.Tuple):
+    if origin in (tuple, tuple):
         if len(args) == 2 and args[1] is Ellipsis:
             return {"type": "array", "items": _annotation_to_jsonschema(args[0])}
         return {
@@ -249,7 +249,7 @@ def _annotation_to_jsonschema(annotation: Any) -> dict[str, Any]:
             "maxItems": len(args),
         }
 
-    if origin in (dict, typing.Dict):
+    if origin in (dict, dict):
         if len(args) == 2:
             return {
                 "type": "object",
