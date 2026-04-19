@@ -26,6 +26,7 @@ from __future__ import annotations
 
 from music_rules.core import corpus
 from music_rules.core.corpus import Rule
+from music_rules.core.evaluate import evaluate_passage
 
 try:
     from music_rules._version import __version__  # type: ignore[import-not-found]
@@ -36,4 +37,5 @@ __all__ = [
     "Rule",
     "__version__",
     "corpus",
+    "evaluate_passage",
 ]
