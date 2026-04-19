@@ -1,0 +1,32 @@
+{
+    "_comment": [
+        "Drop one of the entries below into your MCP-client configuration:",
+        "  • Claude Desktop:  ~/Library/Application Support/Claude/claude_desktop_config.json",
+        "  • Cursor:          ~/.cursor/mcp.json",
+        "Both files have a top-level 'mcpServers' object. Merge the entry under it.",
+        "",
+        "After editing, restart the client. The server registers itself as 'music-rules'",
+        "and exposes ~26 tools (list_rule_systems, get_rules, evaluate_passage, …).",
+        "Run `music-rules-mcp` once in a terminal to confirm the entry point works."
+    ],
+
+    "mcpServers": {
+        "music-rules": {
+            "command": "music-rules-mcp",
+            "args": [],
+            "env": {}
+        },
+
+        "_alternative_when_console_script_isn_t_on_PATH": {
+            "command": "python",
+            "args": ["-m", "music_rules.adapters.mcp"],
+            "env": {}
+        },
+
+        "_alternative_with_uv_for_isolated_install": {
+            "command": "uv",
+            "args": ["run", "--with", "music-rules", "music-rules-mcp"],
+            "env": {}
+        }
+    }
+}

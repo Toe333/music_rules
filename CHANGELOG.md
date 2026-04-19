@@ -9,6 +9,48 @@ and the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format.
 
 ### Added
 
+- **Phase 5 — MCP adapter.** New `music_rules.adapters.mcp` module
+  exposing **27 tools** to any MCP-compatible client (Claude Desktop,
+  Cursor, etc.) over `fastmcp`'s stdio transport:
+  - **Group A — Corpus introspection** (7 tools): `list_rule_systems`,
+    `list_rule_categories`, `list_rule_kinds`, `list_input_shapes`,
+    `get_rules`, `get_rule`, `explain_rule` (the last includes a
+    derived `checker_hint` so an agent can discover which Group-C tool
+    to call without a hardcoded mapping).
+  - **Group C — Fux checkers** (9 tools, the Phase-3 set):
+    `check_melodic_interval`, `check_melodic_triple`,
+    `check_motion_pair`, `check_vertical_chord`, `check_first_interval`,
+    `check_final_interval`, `check_per_measure_downbeat`,
+    `check_weak_beat_interval`, `check_dissonance_context`.
+  - **Group D** (1 tool): `evaluate_passage`.
+  - **Groups B & E — Phase-7 stubs** (10 tools): every EIS helper and
+    SkyTNT-bridge tool is exposed today as a stub returning a
+    `{"status": "not_implemented", "available_in": "Phase 7", ...}`
+    payload. This means MCP clients can already discover the *future*
+    tool surface — when Phase 7 lands, only the function bodies change.
+- The adapter is split into **(a)** plain-Python tool implementations
+  (importable and unit-testable without `fastmcp`) and **(b)** a
+  `build_server()` factory that does the lazy `fastmcp` import. Tests
+  exercise the implementation layer exhaustively (39 cases) plus a
+  smoke test that constructs the real `FastMCP` server.
+- `examples/mcp_config.json`: drop-in snippet for Claude Desktop and
+  Cursor's `~/.cursor/mcp.json` with three command alternatives
+  (console script, `python -m`, and `uv run`).
+- Suite total is now **127 tests, all passing**.
+
+### Why
+
+The MCP adapter is the first AI-facing surface — it's what Cursor's
+agent and Claude Desktop will actually call. Splitting "what each tool
+does" from "how the server is wired up" means future adapters
+(OpenAI in Phase 6, FastAPI later) can re-use the exact same
+`call_tool(name, args)` dispatcher without any of `fastmcp`'s
+runtime cost. Stubbing the Phase-7 tools today (rather than
+omitting them) lets us nail the public tool surface once and avoid a
+breaking change when EIS helpers and SkyTNT bridges land.
+
+### Added
+
 - **Phase 4 — passage evaluator.** New `music_rules.core.evaluate.evaluate_passage`
   orchestrator that walks a complete piece (any number of equal-length voices)
   and runs every Phase-3 Fux checker at every applicable position, folding the
