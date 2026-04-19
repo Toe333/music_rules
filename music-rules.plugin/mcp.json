@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "music-rules": {
-      "command": "music-rules-mcp",
+      "command": "/Users/tb/.local/bin/music-rules-mcp",
       "args": [],
       "env": {}
     }
