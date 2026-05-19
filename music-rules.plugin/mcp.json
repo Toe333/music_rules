@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "music-rules": {
-      "command": "/Users/tb/.local/bin/music-rules-mcp",
-      "args": [],
+      "command": "/home/t/.local/bin/uv",
+      "args": ["run", "--project", "/home/t/projects/music_rules", "music-rules-mcp"],
       "env": {}
     }
   }
