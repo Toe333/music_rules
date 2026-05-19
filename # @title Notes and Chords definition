@@ -46,7 +46,7 @@ chord_to_notes = {
 
     # Eleventh Chords
     'C11': ['C3', 'E3', 'G3', 'Bb4', 'D4', 'F4'],
-    'Cmaj11': ['C3', 'E3', 'G3', 'B4', 'D4', 'F4'],
+    'Cmaj#11': ['C3', 'E3', 'G3', 'B4', 'D4', 'F#4'],
     'Cm11': ['C3', 'Eb3', 'G3', 'Bb4', 'D4', 'F4'],
 
     # Thirteenth Chords
@@ -106,7 +106,7 @@ chord_to_notes = {
 
     # Eleventh Chords
     'C#11': ['C#3', 'F3', 'G#3', 'B3', 'D#4', 'F#4'],
-    'C#maj11': ['C#3', 'F3', 'G#3', 'C4', 'D#4', 'F#4'],
+    'C#maj#11': ['C#3', 'F3', 'G#3', 'C4', 'D#4', 'G4'],
     'C#m11': ['C#3', 'E3', 'G#3', 'B3', 'D#4', 'F#4'],
 
     # Thirteenth Chords
@@ -166,7 +166,7 @@ chord_to_notes = {
 
     # Eleventh Chords
     'Db11': ['Db3', 'F3', 'Ab3', 'B3', 'Eb4', 'Gb4'],
-    'Dbmaj11': ['Db3', 'F3', 'Ab3', 'C4', 'Eb4', 'Gb4'],
+    'Dbmaj#11': ['Db3', 'F3', 'Ab3', 'C4', 'Eb4', 'G4'],
     'Dbm11': ['Db3', 'E3', 'Ab3', 'B3', 'Eb4', 'Gb4'],
 
     # Thirteenth Chords
@@ -226,7 +226,7 @@ chord_to_notes = {
 
     # Eleventh Chords
     'D11': ['D3', 'F#3', 'A3', 'C4', 'E4', 'G4'],
-    'Dmaj11': ['D3', 'F#3', 'A3', 'C#4', 'E4', 'G4'],
+    'Dmaj#11': ['D3', 'F#3', 'A3', 'C#4', 'E4', 'G#4'],
     'Dm11': ['D3', 'F3', 'A3', 'C4', 'E4', 'G4'],
 
     # Thirteenth Chords
@@ -286,7 +286,7 @@ chord_to_notes = {
 
     # Eleventh Chords
     'D#11': ['D#3', 'G3', 'A#3', 'C#4', 'F4', 'G#4'],
-    'D#maj11': ['D#3', 'G3', 'A#3', 'D4', 'F4', 'G#4'],
+    'D#maj#11': ['D#3', 'G3', 'A#3', 'D4', 'F4', 'A4'],
     'D#m11': ['D#3', 'F#3', 'A#3', 'C#4', 'F4', 'G#4'],
 
     # Thirteenth Chords
@@ -347,7 +347,7 @@ chord_to_notes = {
 
     # Eleventh Chords
     'Eb11': ['Eb3', 'G3', 'Bb3', 'Db4', 'F4', 'Ab4'],
-    'Ebmaj11': ['Eb3', 'G3', 'Bb3', 'D4', 'F4', 'Ab4'],
+    'Ebmaj#11': ['Eb3', 'G3', 'Bb3', 'D4', 'F4', 'A4'],
     'Ebm11': ['Eb3', 'Gb3', 'Bb3', 'Db4', 'F4', 'Ab4'],
 
     # Thirteenth Chords
@@ -407,7 +407,7 @@ chord_to_notes = {
 
     # Eleventh Chords
     'E11': ['E3', 'G#3', 'B3', 'D4', 'F#4', 'A4'],
-    'Emaj11': ['E3', 'G#3', 'B3', 'D#4', 'F#4', 'A4'],
+    'Emaj#11': ['E3', 'G#3', 'B3', 'D#4', 'F#4', 'A#4'],
     'Em11': ['E3', 'G3', 'B3', 'D4', 'F#4', 'A4'],
 
     # Thirteenth Chords
@@ -468,7 +468,7 @@ chord_to_notes = {
 
     # Eleventh Chords
     'F11': ['F3', 'A3', 'C4', 'Eb4', 'G4', 'Bb4'],
-    'Fmaj11': ['F3', 'A3', 'C4', 'E4', 'G4', 'Bb4'],
+    'Fmaj#11': ['F3', 'A3', 'C4', 'E4', 'G4', 'B4'],
     'Fm11': ['F3', 'Ab3', 'C4', 'Eb4', 'G4', 'Bb4'],
 
     # Thirteenth Chords
@@ -528,7 +528,7 @@ chord_to_notes = {
 
     # Eleventh Chords
     'F#11': ['F#3', 'A#3', 'C#4', 'E4', 'G#4', 'B4'],
-    'F#maj11': ['F#3', 'A#3', 'C#4', 'F4', 'G#4', 'B4'],
+    'F#maj#11': ['F#3', 'A#3', 'C#4', 'F4', 'G#4', 'C5'],
     'F#m11': ['F#3', 'A3', 'C#4', 'E4', 'G#4', 'B4'],
 
     # Thirteenth Chords
@@ -588,7 +588,7 @@ chord_to_notes = {
 
     # Eleventh Chords
     'Gb11': ['Gb3', 'Bb3', 'Db4', 'E4', 'Ab4', 'B4'],
-    'Gbmaj11': ['Gb3', 'Bb3', 'Db4', 'F4', 'Ab4', 'B4'],
+    'Gbmaj#11': ['Gb3', 'Bb3', 'Db4', 'F4', 'Ab4', 'C5'],
     'Gbm11': ['Gb3', 'A3', 'Db4', 'E4', 'Ab4', 'B4'],
 
     # Thirteenth Chords
@@ -648,7 +648,7 @@ chord_to_notes = {
 
     # Eleventh Chords
     'G11': ['G3', 'B3', 'D4', 'F4', 'A4', 'C4'],
-    'Gmaj11': ['G3', 'B3', 'D4', 'F#4', 'A4', 'C4'],
+    'Gmaj#11': ['G3', 'B3', 'D4', 'F#4', 'A4', 'C#4'],
     'Gm11': ['G3', 'Bb3', 'D4', 'F4', 'A4', 'C4'],
 
     # Thirteenth Chords
@@ -708,7 +708,7 @@ chord_to_notes = {
 
     # Eleventh Chords
     'G#11': ['G#3', 'C4', 'D#4', 'F#4', 'A#4', 'C#5'],
-    'G#maj11': ['G#3', 'C4', 'D#4', 'G4', 'A#4', 'C#5'],
+    'G#maj#11': ['G#3', 'C4', 'D#4', 'G4', 'A#4', 'D5'],
     'G#m11': ['G#3', 'B3', 'D#4', 'F#4', 'A#4', 'C#5'],
 
     # Thirteenth Chords
@@ -768,7 +768,7 @@ chord_to_notes = {
 
     # Eleventh Chords
     'Ab11': ['Ab3', 'C4', 'Eb4', 'Gb4', 'Bb4', 'Db5'],
-    'Abmaj11': ['Ab3', 'C4', 'Eb4', 'G4', 'Bb4', 'Db5'],
+    'Abmaj#11': ['Ab3', 'C4', 'Eb4', 'G4', 'Bb4', 'D5'],
     'Abm11': ['Ab3', 'B3', 'Eb4', 'Gb4', 'Bb4', 'Db5'],
 
     # Thirteenth Chords
@@ -829,7 +829,7 @@ chord_to_notes = {
 
     # Eleventh Chords
     'A11': ['A3', 'C#4', 'E4', 'G4', 'B4', 'D4'],
-    'Amaj11': ['A3', 'C#4', 'E4', 'G#4', 'B4', 'D4'],
+    'Amaj#11': ['A3', 'C#4', 'E4', 'G#4', 'B4', 'D#4'],
     'Am11': ['A3', 'C4', 'E4', 'G4', 'B4', 'D4'],
 
     # Thirteenth Chords
@@ -889,7 +889,7 @@ chord_to_notes = {
 
     # Eleventh Chords
     'A#11': ['A#3', 'D4', 'F4', 'G#4', 'C5', 'D#5'],
-    'A#maj11': ['A#3', 'D4', 'F4', 'A4', 'C5', 'D#5'],
+    'A#maj#11': ['A#3', 'D4', 'F4', 'A4', 'C5', 'E5'],
     'A#m11': ['A#3', 'C#4', 'F4', 'G#4', 'C5', 'D#5'],
 
     # Thirteenth Chords
@@ -949,7 +949,7 @@ chord_to_notes = {
 
     # Eleventh Chords
     'Bb11': ['Bb3', 'D4', 'F4', 'Ab4', 'C5', 'Eb5'],
-    'Bbmaj11': ['Bb3', 'D4', 'F4', 'A4', 'C5', 'Eb5'],
+    'Bbmaj#11': ['Bb3', 'D4', 'F4', 'A4', 'C5', 'E5'],
     'Bbm11': ['Bb3', 'Db4', 'F4', 'Ab4', 'C5', 'Eb5'],
 
     # Thirteenth Chords
@@ -1009,7 +1009,7 @@ chord_to_notes = {
 
     # Eleventh Chords
     'B11': ['B3', 'D#4', 'F#4', 'A4', 'C#5', 'E5'],
-    'Bmaj11': ['B3', 'D#4', 'F#4', 'A#4', 'C#5', 'E5'],
+    'Bmaj#11': ['B3', 'D#4', 'F#4', 'A#4', 'C#5', 'F5'],
     'Bm11': ['B3', 'D4', 'F#4', 'A4', 'C#5', 'E5'],
 
     # Thirteenth Chords
