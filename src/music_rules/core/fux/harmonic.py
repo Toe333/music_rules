@@ -5,6 +5,10 @@ These checkers all look at a single vertical sonority (a chord — but in
 voices) and judge it against the rules whose ``input_shape`` indicates
 "this is a vertical context."
 
+Triad-completeness and consonance judgments are delegated to music21
+(via :mod:`._m21`); the Fuxian "P4 is dissonant in 2 voices" convention
+lives in :mod:`._m21` as a voice-count parameter and is selected here.
+
 Public API:
 
 * :func:`check_vertical_chord`     — generic vertical-chord rules (H8_*)
@@ -18,34 +22,16 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
-from music_rules.core import pitch
+from music_rules.core.fux import _m21
 from music_rules.core.fux._common import applicable_rules
 from music_rules.core.report import CheckReport, empty_report, finalize
 
 
-# Triadic interval set used by H8_*: a complete major or minor triad
-# contains a 3rd, 5th, and (for richer chords) a 7th. The simplest
-# detection: the chord includes both an imperfect consonance (3rd or 6th)
-# AND a perfect consonance (5th or 8ve). Cambiata / open-fifth chords
-# fail this test (and incur the H8 soft cost).
-def _is_complete_triad(chord_pcs: set[int]) -> bool:
-    """True iff the pitch-class set contains a 3rd and a 5th over its bass."""
-    if not chord_pcs:
-        return False
-    bass = min(chord_pcs)
-    intervals = {(pc - bass) % 12 for pc in chord_pcs}
-    has_third = bool(intervals & {3, 4})
-    has_fifth = 7 in intervals
-    return has_third and has_fifth
-
-
-def _interval_above_bass(chord: Sequence[int]) -> tuple[int, int]:
-    """Return ``(bass_midi, top_midi - bass_midi semitones)`` for a 2+-note chord."""
+def _bass_and_top(chord: Sequence[int]) -> tuple[int, int]:
+    """Return ``(bass_midi, top_midi)`` for a 2+-note chord."""
     if len(chord) < 2:
         raise ValueError(f"chord must have at least 2 notes; got {chord!r}")
-    bass = min(chord)
-    top = max(chord)
-    return bass, top - bass
+    return min(chord), max(chord)
 
 
 # ---------------------------------------------------------------------------
@@ -87,8 +73,7 @@ def check_vertical_chord(
     if not rules:
         return report
 
-    pcs = {n % 12 for n in chord}
-    if _is_complete_triad(pcs):
+    if _m21.is_complete_triad(chord):
         return report  # nothing to penalize
 
     # Otherwise, every applicable H8_* rule fires its soft cost once.
@@ -102,7 +87,7 @@ def check_vertical_chord(
                 "cost": cost,
                 "msg": (
                     f"incomplete triad at vertical sonority "
-                    f"{[pitch.name_pitch(n) for n in chord]} "
+                    f"{[_m21.name_pitch(n) for n in chord]} "
                     f"(missing 3rd or 5th over bass)."
                 ),
             }
@@ -134,14 +119,15 @@ def check_first_interval(
     if not rules:
         return report
 
-    _, interval = _interval_above_bass(chord)
-    if not pitch.is_perfect_consonance(interval):
+    bass, top = _bass_and_top(chord)
+    if not _m21.is_perfect_consonance(bass, top):
+        interval = _m21.interval_name(_m21.semitones(bass, top))
         for rule in rules:
             report["violations"].append(
                 {
                     "rule_id": rule.id,
                     "msg": (
-                        f"opening interval is {pitch.interval_name(interval)}, "
+                        f"opening interval is {interval}, "
                         f"must be a perfect consonance (P1, P5, or P8)."
                     ),
                 }
@@ -172,14 +158,15 @@ def check_final_interval(
     if not rules:
         return report
 
-    _, interval = _interval_above_bass(chord)
-    if not pitch.is_perfect_consonance(interval):
+    bass, top = _bass_and_top(chord)
+    if not _m21.is_perfect_consonance(bass, top):
+        interval = _m21.interval_name(_m21.semitones(bass, top))
         for rule in rules:
             report["violations"].append(
                 {
                     "rule_id": rule.id,
                     "msg": (
-                        f"closing interval is {pitch.interval_name(interval)}, "
+                        f"closing interval is {interval}, "
                         f"must be a perfect consonance (P1, P5, or P8)."
                     ),
                 }
@@ -202,10 +189,9 @@ def check_per_measure_downbeat(
     """Validate the harmonic intervals on a measure's downbeat (thesis).
 
     H1_1: Every downbeat sonority must be a consonance. In 2v Fuxian
-    writing this excludes the P4 (which is a dissonance in 2v even
-    though it's acoustically a perfect consonance). We delegate the
-    "is this a consonance in this voice count?" judgment to
-    :func:`pitch.is_consonance` and add the 2v-P4 special case here.
+    writing this excludes the P4 (dissonant in 2 voices, consonant once
+    a third voice supports it). The voice-count-aware consonance test
+    lives in :mod:`._m21`.
     """
     del strict
     report = empty_report()
@@ -218,11 +204,11 @@ def check_per_measure_downbeat(
     for rule in rules:
         for low_idx, low in enumerate(chord):
             for high in chord[low_idx + 1 :]:
-                semis = pitch.semitones_between(low, high)
-                if not pitch.is_consonance_in_context(semis, voice_count=voice_count):
+                if not _m21.is_consonant(low, high, voice_count=voice_count):
+                    semis = _m21.semitones(low, high)
                     p4_note = (
                         " (P4 is dissonant in 2-voice writing)"
-                        if voice_count == 2 and pitch.is_p4(semis)
+                        if voice_count == 2 and _m21.is_p4(semis)
                         else ""
                     )
                     report["violations"].append(
@@ -230,8 +216,8 @@ def check_per_measure_downbeat(
                             "rule_id": rule.id,
                             "msg": (
                                 f"downbeat sonority contains a dissonant interval "
-                                f"{pitch.interval_name(semis)} between "
-                                f"{pitch.name_pitch(low)} and {pitch.name_pitch(high)}"
+                                f"{_m21.interval_name(semis)} between "
+                                f"{_m21.name_pitch(low)} and {_m21.name_pitch(high)}"
                                 f"{p4_note}."
                             ),
                         }
@@ -266,14 +252,14 @@ def check_weak_beat_interval(
     for rule in rules:
         for low_idx, low in enumerate(chord):
             for high in chord[low_idx + 1 :]:
-                semis = pitch.semitones_between(low, high)
-                if pitch.is_dissonance(semis):
+                if _m21.is_dissonant(low, high):
+                    semis = _m21.semitones(low, high)
                     report["violations"].append(
                         {
                             "rule_id": rule.id,
                             "msg": (
-                                f"weak-beat interval {pitch.interval_name(semis)} "
-                                f"between {pitch.name_pitch(low)} and {pitch.name_pitch(high)} "
+                                f"weak-beat interval {_m21.interval_name(semis)} "
+                                f"between {_m21.name_pitch(low)} and {_m21.name_pitch(high)} "
                                 f"is dissonant (forbidden in 2nd-species arsis)."
                             ),
                         }

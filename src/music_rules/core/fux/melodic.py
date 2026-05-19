@@ -4,6 +4,10 @@ These are all *single-voice* checks: given the previous and current MIDI
 pitches in one voice (and optionally a third surrounding pitch for the
 triple checks), is the melodic motion permitted?
 
+Interval / leap math is answered by music21 (via :mod:`._m21`); the
+Fuxian *policy* (minor-sixth leap ceiling, tritone surcharge, soft-cost
+weights) stays here and is still keyed off the live corpus rule IDs.
+
 Rules covered (read live from ``rules_combined.json`` via
 :mod:`music_rules.core.corpus` — never hardcoded here):
 
@@ -17,7 +21,7 @@ melodic-triple    check_melodic_triple       three consecutive notes (n-2, n-1, 
 
 from __future__ import annotations
 
-from music_rules.core import pitch
+from music_rules.core.fux import _m21
 from music_rules.core.fux._common import applicable_rules
 from music_rules.core.report import CheckReport, empty_report, finalize
 
@@ -50,30 +54,23 @@ def check_melodic_interval(
         voices:     Total voice count for the passage (2|3|4|5 or ``"any"``).
         strict:     If True, hybrid rules (e.g. G4) escalate to hard violations.
 
-    Notes on the implementation strategy
-    ------------------------------------
-    The rule set is fetched from the corpus on every call. This is O(R)
-    where R is small (4 melodic-interval rules today) and keeps the
-    checker self-rebuilding when the JSON changes — no module-level
-    caching to invalidate, no risk of staleness in long-running
-    processes (e.g. an MCP server). We only filter on ``species`` and
-    ``voices`` once; the per-rule branch below dispatches on ``rule.id``
-    to its musical meaning. **Rule IDs are still loaded from JSON, not
-    hardcoded** — they are dynamic discriminators here, not strings
-    pasted into business logic.
+    The rule set is fetched from the corpus on every call (O(R), R small)
+    so the checker self-rebuilds when the JSON changes — no module-level
+    caching to invalidate. Interval size comes from music21; **rule IDs
+    are still loaded from JSON**, used here as dynamic discriminators.
     """
     report = empty_report()
     rules = applicable_rules("melodic-interval", species, voices)
 
-    semis = pitch.semitones_between(prev_midi, curr_midi)
-    interval = pitch.interval_name(semis)
+    semis = _m21.semitones(prev_midi, curr_midi)
+    interval = _m21.interval_name(semis)
 
     for rule in rules:
         # Hard rules (M1_*) — hard ceilings on leap size.
         if rule.kind == "hard":
             limit_octave_allowed = "octave" in rule.rule.lower() or "8" in rule.rule
-            if semis > pitch.MAX_MELODIC_LEAP_SEMITONES and not (
-                limit_octave_allowed and semis == pitch.OCTAVE
+            if semis > _m21.MAX_MELODIC_LEAP_SEMITONES and not (
+                limit_octave_allowed and semis == _m21.OCTAVE
             ):
                 report["violations"].append(
                     {
@@ -90,9 +87,9 @@ def check_melodic_interval(
         elif rule.kind == "soft":
             if semis > 2:  # only score meaningful leaps; steps are free
                 cost = (semis - 2) * _SMALL_INTERVAL_COST_PER_SEMITONE
-                if pitch.is_tritone(semis):
+                if _m21.is_tritone(semis):
                     cost += _TRITONE_LEAP_EXTRA_COST
-                if semis > pitch.OCTAVE:
+                if semis > _m21.OCTAVE:
                     cost += _LEAP_OVER_OCTAVE_COST
                 if cost > 0:
                     report["soft_costs"].append(
@@ -129,8 +126,8 @@ def check_melodic_triple(
     report = empty_report()
     rules = applicable_rules("melodic-triple", species, voices)
 
-    d1 = pitch.signed_semitones(n1, n2)
-    d2 = pitch.signed_semitones(n2, n3)
+    d1 = _m21.signed_semitones(n1, n2)
+    d2 = _m21.signed_semitones(n2, n3)
 
     for rule in rules:
         if rule.kind != "hard":
@@ -145,12 +142,10 @@ def check_melodic_triple(
                     "rule_id": rule.id,
                     "msg": (
                         f"chromatic ascending triple: "
-                        f"{pitch.name_pitch(n1)} -> {pitch.name_pitch(n2)} "
-                        f"-> {pitch.name_pitch(n3)} (semitone, semitone)."
+                        f"{_m21.name_pitch(n1)} -> {_m21.name_pitch(n2)} "
+                        f"-> {_m21.name_pitch(n3)} (semitone, semitone)."
                     ),
                 }
             )
 
     return finalize(report)
-
-

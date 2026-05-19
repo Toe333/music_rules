@@ -11,12 +11,13 @@ voice. In Fuxian 3rd species, every dissonance must be either:
 
 Anything else is forbidden. We deliberately do NOT report unprepared
 suspensions here — those have a different ``input_shape`` (``figure``,
-covered by H3_3 in 3rd species).
+covered by H3_3 in 3rd species). Whether the candidate note is actually
+dissonant against the CF is music21's call (via :mod:`._m21`).
 """
 
 from __future__ import annotations
 
-from music_rules.core import pitch
+from music_rules.core.fux import _m21
 from music_rules.core.fux._common import applicable_rules
 from music_rules.core.report import CheckReport, empty_report, finalize
 
@@ -57,19 +58,18 @@ def check_dissonance_context(
         return report
 
     if cf_pitch is not None:
-        actual_diss = pitch.is_dissonance(pitch.semitones_between(diss, cf_pitch))
-        if not actual_diss:
+        if not _m21.is_dissonant(diss, cf_pitch):
             return report  # caller mis-flagged; nothing to enforce
 
-    approach_step = pitch.is_stepwise(prev, diss)
-    leave_step = pitch.is_stepwise(diss, next_)
+    approach_step = _m21.is_stepwise(prev, diss)
+    leave_step = _m21.is_stepwise(diss, next_)
     if not (approach_step and leave_step):
         for rule in rules:
             report["violations"].append(
                 {
                     "rule_id": rule.id,
                     "msg": (
-                        f"dissonance {pitch.name_pitch(diss)} not embedded in a "
+                        f"dissonance {_m21.name_pitch(diss)} not embedded in a "
                         f"stepwise figure (approach={'step' if approach_step else 'leap'}, "
                         f"leave={'step' if leave_step else 'leap'})."
                     ),
@@ -79,8 +79,8 @@ def check_dissonance_context(
 
     # Both step — must be passing OR neighbor. Anything else (a "diminution"
     # that doesn't fit either pattern) is rejected.
-    d_in = pitch.signed_semitones(prev, diss)
-    d_out = pitch.signed_semitones(diss, next_)
+    d_in = _m21.signed_semitones(prev, diss)
+    d_out = _m21.signed_semitones(diss, next_)
     is_passing = (d_in > 0 and d_out > 0) or (d_in < 0 and d_out < 0)
     is_neighbor = next_ == prev  # returns to origin pitch
     if not (is_passing or is_neighbor):
@@ -89,10 +89,10 @@ def check_dissonance_context(
                 {
                     "rule_id": rule.id,
                     "msg": (
-                        f"dissonance {pitch.name_pitch(diss)} is approached and left "
+                        f"dissonance {_m21.name_pitch(diss)} is approached and left "
                         f"by step but is neither a passing tone nor a neighbor "
-                        f"({pitch.name_pitch(prev)} -> {pitch.name_pitch(diss)} -> "
-                        f"{pitch.name_pitch(next_)})."
+                        f"({_m21.name_pitch(prev)} -> {_m21.name_pitch(diss)} -> "
+                        f"{_m21.name_pitch(next_)})."
                     ),
                 }
             )

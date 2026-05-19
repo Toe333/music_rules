@@ -1,9 +1,10 @@
 """Two-voice motion checkers: P1_* (no direct/parallel into a perfect consonance).
 
 A "motion pair" is the transition between two adjacent vertical sonorities
-in two voices. We classify the motion (parallel / similar / contrary /
-oblique) and the destination harmonic interval, then apply each rule whose
-``input_shape == "motion-pair"``.
+in two voices. The parallel / hidden (direct) fifth-octave-unison detection
+is delegated to :class:`music21.voiceLeading.VoiceLeadingQuartet` via
+:mod:`._m21`; this module just maps a positive detection onto whichever
+corpus rule's species/voices predicate matches.
 
 Rules covered:
 
@@ -19,7 +20,7 @@ fires for whichever rule's species/voices predicate matches the call.
 
 from __future__ import annotations
 
-from music_rules.core import pitch
+from music_rules.core.fux import _m21
 from music_rules.core.fux._common import applicable_rules
 from music_rules.core.report import CheckReport, empty_report, finalize
 
@@ -52,7 +53,9 @@ def check_motion_pair(
 
     The fragment shape uses ``"cf"`` and ``"cp"`` keys for clarity, but
     the rule is symmetric — what matters is whether the two voices move
-    in the same direction into a perfect consonance.
+    by direct motion into a perfect consonance. We follow FuxCP5's
+    strictest reading (no horn-fifth / approach-by-step exception); see
+    the attribution doc and PROJECT.md "ambiguity" guidance to relax it.
     """
     del strict  # all motion-pair rules in the corpus today are pure-hard
     report = empty_report()
@@ -63,27 +66,18 @@ def check_motion_pair(
     cf_prev, cf_curr = prev_pair["cf"], curr_pair["cf"]
     cp_prev, cp_curr = prev_pair["cp"], curr_pair["cp"]
 
-    motion = pitch.classify_motion(cf_prev, cf_curr, cp_prev, cp_curr)
-    target_interval = pitch.semitones_between(cf_curr, cp_curr)
-    target_is_perfect = pitch.is_perfect_consonance(target_interval)
-
-    if motion in ("parallel", "similar") and target_is_perfect:
-        # Approach-by-step exception: many counterpoint sources allow
-        # "horn fifths" / direct motion into a perfect interval *if the
-        # upper voice moves by step*. FuxCP5's P1_* does NOT include
-        # that exception (strictest reading). We follow FuxCP5 and
-        # report the violation; see attribution doc and PROJECT.md
-        # "ambiguity" guidance for how to relax this if a user wants
-        # the more permissive Jeppesen reading.
+    if _m21.direct_into_perfect(cf_prev, cf_curr, cp_prev, cp_curr):
+        motion = _m21.motion_type(cf_prev, cf_curr, cp_prev, cp_curr)
+        target = _m21.interval_name(_m21.semitones(cf_curr, cp_curr))
         for rule in rules:
             report["violations"].append(
                 {
                     "rule_id": rule.id,
                     "msg": (
                         f"{motion} motion into a perfect consonance "
-                        f"({pitch.interval_name(target_interval)}): "
-                        f"CF {pitch.name_pitch(cf_prev)}->{pitch.name_pitch(cf_curr)}, "
-                        f"CP {pitch.name_pitch(cp_prev)}->{pitch.name_pitch(cp_curr)}."
+                        f"({target}): "
+                        f"CF {_m21.name_pitch(cf_prev)}->{_m21.name_pitch(cf_curr)}, "
+                        f"CP {_m21.name_pitch(cp_prev)}->{_m21.name_pitch(cp_curr)}."
                     ),
                 }
             )
