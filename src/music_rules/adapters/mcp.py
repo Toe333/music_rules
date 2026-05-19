@@ -62,6 +62,9 @@ This split means:
 
 from __future__ import annotations
 
+import csv
+import json
+from pathlib import Path
 from typing import Any
 
 from music_rules.core import corpus, evaluate
@@ -615,6 +618,243 @@ def tool_eis_check_ood(
     return {"hits": [dict(h) for h in hits], "ok": not hits}
 
 
+def _coerce_lexicon(
+    chord_lexicon: dict[str, Any] | None,
+    chord_lexicon_path: str | None,
+) -> dict[str, list[int]]:
+    """Normalize several lexicon JSON shapes into ``symbol -> [midi...]``."""
+    payload: dict[str, Any]
+    if chord_lexicon is not None:
+        payload = chord_lexicon
+    elif chord_lexicon_path is not None:
+        payload = json.loads(Path(chord_lexicon_path).read_text(encoding="utf-8"))
+    else:
+        raise ValueError(
+            "Provide either chord_lexicon (object) or chord_lexicon_path (JSON file path)."
+        )
+
+    out: dict[str, list[int]] = {}
+    # Exporter shape: {"chords": {"Cmaj7": {"midi": [60,64,67,71], ...}, ...}}
+    if "chords" in payload and isinstance(payload["chords"], dict):
+        for symbol, entry in payload["chords"].items():
+            if not isinstance(symbol, str):
+                continue
+            if isinstance(entry, dict) and isinstance(entry.get("midi"), list):
+                out[symbol] = [int(n) for n in entry["midi"]]
+        return out
+
+    # Also accept a flat mapping: {"Cmaj7": [60,64,67,71], ...}
+    for symbol, entry in payload.items():
+        if not isinstance(symbol, str):
+            continue
+        if isinstance(entry, list):
+            out[symbol] = [int(n) for n in entry]
+    return out
+
+
+def _progression_to_roll_grid(
+    progression: list[dict[str, Any]],
+    symbol_to_midi: dict[str, list[int]],
+    *,
+    steps_per_beat: int,
+    rest_symbol: str,
+) -> tuple[list[list[int]], int, list[str]]:
+    """Render timed chord events onto a fixed-step roll grid."""
+    if steps_per_beat < 1:
+        raise ValueError("steps_per_beat must be >= 1")
+    if not progression:
+        raise ValueError("progression must include at least one event")
+
+    cursor_beats = 0.0
+    events: list[tuple[int, int, str]] = []  # (start_step, duration_steps, symbol)
+    unresolved: list[str] = []
+    max_voices = 1
+    total_steps = 0
+
+    for idx, row in enumerate(progression):
+        symbol = str(row.get("chord_symbol", "")).strip()
+        if not symbol:
+            raise ValueError(f"progression[{idx}] missing chord_symbol")
+
+        duration_beats = float(row.get("duration_beats", 1.0))
+        if duration_beats <= 0:
+            raise ValueError(f"progression[{idx}] has non-positive duration_beats")
+        duration_steps = max(1, int(round(duration_beats * steps_per_beat)))
+
+        if "start_beat" in row:
+            start_beat = float(row["start_beat"])
+        else:
+            start_beat = cursor_beats
+        start_step = max(0, int(round(start_beat * steps_per_beat)))
+
+        cursor_beats = max(cursor_beats, start_beat + duration_beats)
+        total_steps = max(total_steps, start_step + duration_steps)
+        events.append((start_step, duration_steps, symbol))
+
+        if symbol != rest_symbol:
+            midi = symbol_to_midi.get(symbol)
+            if midi is None:
+                unresolved.append(symbol)
+            elif midi:
+                max_voices = max(max_voices, len(midi))
+
+    voices = [[-1] * total_steps for _ in range(max_voices)]
+    for start, dur, symbol in sorted(events, key=lambda e: e[0]):
+        if symbol == rest_symbol:
+            continue
+        midi = symbol_to_midi.get(symbol)
+        if not midi:
+            continue
+        end = min(total_steps, start + dur)
+        for v_idx, pitch in enumerate(midi):
+            for t in range(start, end):
+                voices[v_idx][t] = pitch
+
+    return voices, total_steps, sorted(set(unresolved))
+
+
+def _read_progression_csv(path: str) -> list[dict[str, Any]]:
+    """Read progression events from CSV (chord_symbol, duration_beats, start_beat?)."""
+    out: list[dict[str, Any]] = []
+    with Path(path).open("r", encoding="utf-8", newline="") as fh:
+        reader = csv.DictReader(fh)
+        for row in reader:
+            if not row:
+                continue
+            event: dict[str, Any] = {}
+            if row.get("bar"):
+                try:
+                    event["bar"] = int(row["bar"])
+                except (TypeError, ValueError):
+                    pass
+            if row.get("start_beat") not in (None, ""):
+                event["start_beat"] = float(row["start_beat"])
+            if row.get("duration_beats") not in (None, ""):
+                event["duration_beats"] = float(row["duration_beats"])
+            event["chord_symbol"] = str(row.get("chord_symbol", "")).strip()
+            out.append(event)
+    return out
+
+
+def tool_chord_progression_to_rolls(
+    progression: list[dict[str, Any]],
+    chord_lexicon: dict[str, Any] | None = None,
+    chord_lexicon_path: str | None = None,
+    steps_per_beat: int = 1,
+    rest_symbol: str = "REST",
+) -> dict[str, Any]:
+    """Convert a timed chord progression into SkyTNT-compatible voice rolls.
+
+    Args:
+        progression:       list of events with at least ``chord_symbol`` and
+                           optional ``start_beat`` / ``duration_beats``.
+        chord_lexicon:     optional inlined lexicon object (exporter JSON shape
+                           or flat ``{symbol: [midi...]}`` mapping).
+        chord_lexicon_path: optional filesystem path to lexicon JSON.
+        steps_per_beat:    temporal resolution (1=quarter, 2=eighth, 4=sixteenth).
+        rest_symbol:       event symbol treated as silence.
+
+    Returns:
+        ``{"voices": [[...], ...], "steps_per_beat": int, "total_steps": int,
+           "unresolved_chords": [symbol...], "ok": bool}``
+    """
+    symbol_to_midi = _coerce_lexicon(chord_lexicon, chord_lexicon_path)
+    voices, total_steps, unresolved = _progression_to_roll_grid(
+        progression, symbol_to_midi, steps_per_beat=steps_per_beat, rest_symbol=rest_symbol
+    )
+    return {
+        "voices": voices,
+        "steps_per_beat": steps_per_beat,
+        "total_steps": total_steps,
+        "unresolved_chords": unresolved,
+        "ok": not unresolved,
+    }
+
+
+def tool_chord_progression_to_midi(
+    progression: list[dict[str, Any]],
+    chord_lexicon: dict[str, Any] | None = None,
+    chord_lexicon_path: str | None = None,
+    steps_per_beat: int = 1,
+    rest_symbol: str = "REST",
+    strict_missing: bool = True,
+    meter: str = "4/4",
+    tempo: int = 500_000,
+    ticks_per_beat: int = 480,
+    velocity: int = 80,
+    program: int = 0,
+    programs: list[int] | None = None,
+) -> dict[str, Any]:
+    """Convert chord events to base64 MIDI for OpenCode / MCP calls.
+
+    This bridges lexicon/progression tables directly into the existing
+    ``rolls_to_midi`` pipeline expected by the SkyTNT tools.
+    """
+    symbol_to_midi = _coerce_lexicon(chord_lexicon, chord_lexicon_path)
+    voices, total_steps, unresolved = _progression_to_roll_grid(
+        progression, symbol_to_midi, steps_per_beat=steps_per_beat, rest_symbol=rest_symbol
+    )
+    if unresolved and strict_missing:
+        missing = ", ".join(unresolved[:8])
+        raise ValueError(
+            "Unresolved chord symbols in progression: "
+            f"{missing}{' ...' if len(unresolved) > 8 else ''}"
+        )
+
+    midi_b64 = skytnt_bridge.rolls_to_midi(
+        voices,
+        meter=meter,
+        tempo=tempo,
+        ticks_per_beat=ticks_per_beat,
+        velocity=velocity,
+        program=program,
+        programs=programs,
+    )
+    return {
+        "midi_base64": midi_b64,
+        "voices": voices,
+        "steps_per_beat": steps_per_beat,
+        "total_steps": total_steps,
+        "unresolved_chords": unresolved,
+        "ok": not unresolved,
+    }
+
+
+def tool_chord_progression_csv_to_midi(
+    progression_csv_path: str,
+    chord_lexicon_path: str,
+    steps_per_beat: int = 1,
+    rest_symbol: str = "REST",
+    strict_missing: bool = True,
+    meter: str = "4/4",
+    tempo: int = 500_000,
+    ticks_per_beat: int = 480,
+    velocity: int = 80,
+    program: int = 0,
+    programs: list[int] | None = None,
+) -> dict[str, Any]:
+    """Read progression CSV + lexicon JSON and emit base64 MIDI.
+
+    CSV columns:
+        - required: ``chord_symbol``
+        - optional: ``duration_beats`` (default 1.0), ``start_beat``
+    """
+    progression = _read_progression_csv(progression_csv_path)
+    return tool_chord_progression_to_midi(
+        progression=progression,
+        chord_lexicon_path=chord_lexicon_path,
+        steps_per_beat=steps_per_beat,
+        rest_symbol=rest_symbol,
+        strict_missing=strict_missing,
+        meter=meter,
+        tempo=tempo,
+        ticks_per_beat=ticks_per_beat,
+        velocity=velocity,
+        program=program,
+        programs=programs,
+    )
+
+
 def tool_skytnt_generate(
     prompt_midi: str | None = None,
     conditioning: dict[str, Any] | None = None,
@@ -796,6 +1036,9 @@ _TOOLS: dict[str, Any] = {
     "skytnt_constrained_generate": tool_skytnt_constrained_generate,
     "midi_to_rolls": tool_midi_to_rolls,
     "rolls_to_midi": tool_rolls_to_midi,
+    "chord_progression_to_rolls": tool_chord_progression_to_rolls,
+    "chord_progression_to_midi": tool_chord_progression_to_midi,
+    "chord_progression_csv_to_midi": tool_chord_progression_csv_to_midi,
 }
 
 

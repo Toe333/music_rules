@@ -105,6 +105,16 @@ music-rules evaluate examples/2v_1st_species.json --species 1 --strict
 }
 ```
 
+For OpenCode/OpenAI function-calling workflows, the adapter now also exposes
+chord-table bridge tools:
+
+- `chord_progression_to_rolls`
+- `chord_progression_to_midi`
+- `chord_progression_csv_to_midi`
+
+See `examples/opencode_chord_progression_example.json` and the generated
+tables under `data/chord_tables/`.
+
 ## How it's organized
 
 | Layer | Where | What it does |

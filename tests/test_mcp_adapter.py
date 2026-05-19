@@ -78,6 +78,9 @@ _GROUP_E = {
     "rolls_to_midi",
     "skytnt_generate",
     "skytnt_constrained_generate",
+    "chord_progression_to_rolls",
+    "chord_progression_to_midi",
+    "chord_progression_csv_to_midi",
 }
 _ALL_EXPECTED = _GROUP_A | _GROUP_C_PHASE3 | _GROUP_D | _GROUP_B | _GROUP_E
 
@@ -467,6 +470,63 @@ class TestPhase8GroupELive:
             assert out["status"] == "skytnt_unavailable"
         else:
             pytest.skip("transformers installed; skip extras-missing path")
+
+    def test_chord_progression_to_rolls_from_inline_lexicon(self) -> None:
+        out = mcp_adapter.call_tool(
+            "chord_progression_to_rolls",
+            {
+                "progression": [
+                    {"chord_symbol": "Cmaj7", "duration_beats": 2},
+                    {"chord_symbol": "Fmaj7", "duration_beats": 2},
+                ],
+                "chord_lexicon": {
+                    "Cmaj7": [60, 64, 67, 71],
+                    "Fmaj7": [65, 69, 72, 76],
+                },
+                "steps_per_beat": 2,
+            },
+        )
+        assert out["ok"] is True
+        assert out["total_steps"] == 8
+        assert len(out["voices"]) == 4
+        assert out["voices"][0] == [60, 60, 60, 60, 65, 65, 65, 65]
+
+    def test_chord_progression_to_midi_errors_on_unknown_symbol_in_strict_mode(self) -> None:
+        with pytest.raises(ValueError, match="Unresolved chord symbols"):
+            mcp_adapter.call_tool(
+                "chord_progression_to_midi",
+                {
+                    "progression": [{"chord_symbol": "NOPE", "duration_beats": 1}],
+                    "chord_lexicon": {"C": [60, 64, 67]},
+                },
+            )
+
+    def test_chord_progression_csv_to_midi_round_trip(self, tmp_path: Any) -> None:
+        lex_path = tmp_path / "lexicon.json"
+        csv_path = tmp_path / "prog.csv"
+        lex_path.write_text(
+            (
+                '{"chords":{"Cmaj7":{"midi":[60,64,67,71]},'
+                '"G7":{"midi":[55,59,62,65]}}}'
+            ),
+            encoding="utf-8",
+        )
+        csv_path.write_text(
+            "bar,start_beat,duration_beats,chord_symbol\n"
+            "1,0,1,Cmaj7\n"
+            "1,1,1,G7\n",
+            encoding="utf-8",
+        )
+        out = mcp_adapter.call_tool(
+            "chord_progression_csv_to_midi",
+            {
+                "progression_csv_path": str(csv_path),
+                "chord_lexicon_path": str(lex_path),
+                "steps_per_beat": 1,
+            },
+        )
+        assert out["ok"] is True
+        assert "midi_base64" in out
 
 
 # ---------------------------------------------------------------------------

@@ -1,0 +1,11734 @@
+{
+  "chords": {
+    "A": {
+      "notes": [
+        "A3",
+        "C#4",
+        "E4"
+      ],
+      "midi": [
+        57,
+        61,
+        64
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "A#": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F4"
+      ],
+      "midi": [
+        58,
+        62,
+        65
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "A#/D": {
+      "notes": [
+        "D3",
+        "F3",
+        "A#3"
+      ],
+      "midi": [
+        50,
+        53,
+        58
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "A#/F": {
+      "notes": [
+        "F3",
+        "A#3",
+        "D4"
+      ],
+      "midi": [
+        53,
+        58,
+        62
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "A#11": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F4",
+        "G#4",
+        "C5",
+        "D#5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        68,
+        72,
+        75
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "A#13": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F4",
+        "G#4",
+        "C5",
+        "D#5",
+        "F#5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        68,
+        72,
+        75,
+        78
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "A#13#11": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F4",
+        "G#4",
+        "C5",
+        "E5",
+        "F#5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        68,
+        72,
+        76,
+        78
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "A#13#9": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F4",
+        "G#4",
+        "C#5",
+        "D#5",
+        "F#5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        68,
+        73,
+        75,
+        78
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "A#13b9": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F4",
+        "G#4",
+        "B4",
+        "D#5",
+        "F#5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        68,
+        71,
+        75,
+        78
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "A#13sus4": {
+      "notes": [
+        "A#3",
+        "E4",
+        "F4",
+        "G#4",
+        "C5",
+        "D#5",
+        "F#5"
+      ],
+      "midi": [
+        58,
+        64,
+        65,
+        68,
+        72,
+        75,
+        78
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "A#6": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F4",
+        "G4"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        67
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "A#7": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F4",
+        "G#4"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        68
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "A#7#5#9": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F#4",
+        "G#4",
+        "C#5"
+      ],
+      "midi": [
+        58,
+        62,
+        66,
+        68,
+        73
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "A#7alt": {
+      "notes": [
+        "A#3",
+        "D4",
+        "E4",
+        "G#4",
+        "Bb4",
+        "Db5"
+      ],
+      "midi": [
+        58,
+        62,
+        64,
+        68,
+        70,
+        73
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "A#7sus2": {
+      "notes": [
+        "A#3",
+        "C5",
+        "F4",
+        "G#4"
+      ],
+      "midi": [
+        58,
+        72,
+        65,
+        68
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "A#7sus4": {
+      "notes": [
+        "A#3",
+        "E4",
+        "F4",
+        "G#4"
+      ],
+      "midi": [
+        58,
+        64,
+        65,
+        68
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "A#9": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F4",
+        "G#4",
+        "C5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        68,
+        72
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "A#9#5": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F#4",
+        "G#4",
+        "C5"
+      ],
+      "midi": [
+        58,
+        62,
+        66,
+        68,
+        72
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "A#9b5": {
+      "notes": [
+        "A#3",
+        "D4",
+        "E4",
+        "G#4",
+        "C5"
+      ],
+      "midi": [
+        58,
+        62,
+        64,
+        68,
+        72
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "A#Maj7": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F4",
+        "A4"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        69
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "A#aug": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F#4"
+      ],
+      "midi": [
+        58,
+        62,
+        66
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "A#aug7": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F#4",
+        "G#4"
+      ],
+      "midi": [
+        58,
+        62,
+        66,
+        68
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "A#dim": {
+      "notes": [
+        "A#3",
+        "C#4",
+        "E4"
+      ],
+      "midi": [
+        58,
+        61,
+        64
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "A#dim7": {
+      "notes": [
+        "A#3",
+        "C#4",
+        "E4",
+        "G4"
+      ],
+      "midi": [
+        58,
+        61,
+        64,
+        67
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "A#m": {
+      "notes": [
+        "A#3",
+        "C#4",
+        "F4"
+      ],
+      "midi": [
+        58,
+        61,
+        65
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "A#m11": {
+      "notes": [
+        "A#3",
+        "C#4",
+        "F4",
+        "G#4",
+        "C5",
+        "D#5"
+      ],
+      "midi": [
+        58,
+        61,
+        65,
+        68,
+        72,
+        75
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "A#m13": {
+      "notes": [
+        "A#3",
+        "C#4",
+        "F4",
+        "G#4",
+        "C5",
+        "D#5",
+        "F#5"
+      ],
+      "midi": [
+        58,
+        61,
+        65,
+        68,
+        72,
+        75,
+        78
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "A#m6": {
+      "notes": [
+        "A#3",
+        "C#4",
+        "F4",
+        "G4"
+      ],
+      "midi": [
+        58,
+        61,
+        65,
+        67
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "A#m7": {
+      "notes": [
+        "A#3",
+        "C#4",
+        "F4",
+        "G#4"
+      ],
+      "midi": [
+        58,
+        61,
+        65,
+        68
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "A#m7b5": {
+      "notes": [
+        "A#3",
+        "C#4",
+        "E4",
+        "G#4"
+      ],
+      "midi": [
+        58,
+        61,
+        64,
+        68
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "A#m9": {
+      "notes": [
+        "A#3",
+        "C#4",
+        "F4",
+        "G#4",
+        "C5"
+      ],
+      "midi": [
+        58,
+        61,
+        65,
+        68,
+        72
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "A#mMaj7": {
+      "notes": [
+        "A#3",
+        "C#4",
+        "F4",
+        "A4"
+      ],
+      "midi": [
+        58,
+        61,
+        65,
+        69
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "A#maj11": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F4",
+        "A4",
+        "C5",
+        "D#5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        69,
+        72,
+        75
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "A#maj13": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F4",
+        "A4",
+        "C5",
+        "D#5",
+        "F#5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        69,
+        72,
+        75,
+        78
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "A#maj13#11": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F4",
+        "A4",
+        "C5",
+        "D#5",
+        "F#5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        69,
+        72,
+        75,
+        78
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "A#maj7#11": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F4",
+        "A4",
+        "E5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        69,
+        76
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "A#maj9": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F4",
+        "A4",
+        "C5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        69,
+        72
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "A#maj9#11": {
+      "notes": [
+        "A#3",
+        "D4",
+        "F4",
+        "A4",
+        "C5",
+        "E5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        69,
+        72,
+        76
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "A#sus2": {
+      "notes": [
+        "A#3",
+        "C5",
+        "F4"
+      ],
+      "midi": [
+        58,
+        72,
+        65
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "A#sus4": {
+      "notes": [
+        "A#3",
+        "E4",
+        "F4"
+      ],
+      "midi": [
+        58,
+        64,
+        65
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "A/C#": {
+      "notes": [
+        "C#3",
+        "E3",
+        "A4"
+      ],
+      "midi": [
+        49,
+        52,
+        69
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "A/E": {
+      "notes": [
+        "E3",
+        "A3",
+        "C#4"
+      ],
+      "midi": [
+        52,
+        57,
+        61
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "A11": {
+      "notes": [
+        "A3",
+        "C#4",
+        "E4",
+        "G4",
+        "B4",
+        "D4"
+      ],
+      "midi": [
+        57,
+        61,
+        64,
+        67,
+        71,
+        62
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "A13": {
+      "notes": [
+        "A3",
+        "C#4",
+        "E4",
+        "G4",
+        "B4",
+        "D4",
+        "F#4"
+      ],
+      "midi": [
+        57,
+        61,
+        64,
+        67,
+        71,
+        62,
+        66
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "A13#11": {
+      "notes": [
+        "A3",
+        "C#4",
+        "E4",
+        "G4",
+        "B4",
+        "D#4",
+        "F#4"
+      ],
+      "midi": [
+        57,
+        61,
+        64,
+        67,
+        71,
+        63,
+        66
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "A13#9": {
+      "notes": [
+        "A3",
+        "C#4",
+        "E4",
+        "G4",
+        "C#4",
+        "D4",
+        "F#4"
+      ],
+      "midi": [
+        57,
+        61,
+        64,
+        67,
+        61,
+        62,
+        66
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "A13b9": {
+      "notes": [
+        "A3",
+        "C#4",
+        "E4",
+        "G4",
+        "C4",
+        "D4",
+        "F#4"
+      ],
+      "midi": [
+        57,
+        61,
+        64,
+        67,
+        60,
+        62,
+        66
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "A13sus4": {
+      "notes": [
+        "A3",
+        "D4",
+        "E4",
+        "G4",
+        "B4",
+        "D4",
+        "F#4"
+      ],
+      "midi": [
+        57,
+        62,
+        64,
+        67,
+        71,
+        62,
+        66
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "A6": {
+      "notes": [
+        "A3",
+        "C#4",
+        "E4",
+        "F#4"
+      ],
+      "midi": [
+        57,
+        61,
+        64,
+        66
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "A7": {
+      "notes": [
+        "A3",
+        "C#4",
+        "E4",
+        "G4"
+      ],
+      "midi": [
+        57,
+        61,
+        64,
+        67
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "A7#5#9": {
+      "notes": [
+        "A3",
+        "C#4",
+        "F4",
+        "G4",
+        "C#4"
+      ],
+      "midi": [
+        57,
+        61,
+        65,
+        67,
+        61
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "A7alt": {
+      "notes": [
+        "A3",
+        "C#4",
+        "Eb4",
+        "G4",
+        "Bb4",
+        "Db4"
+      ],
+      "midi": [
+        57,
+        61,
+        63,
+        67,
+        70,
+        61
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "A7sus2": {
+      "notes": [
+        "A3",
+        "B3",
+        "E4",
+        "G4"
+      ],
+      "midi": [
+        57,
+        59,
+        64,
+        67
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "A7sus4": {
+      "notes": [
+        "A3",
+        "D4",
+        "E4",
+        "G4"
+      ],
+      "midi": [
+        57,
+        62,
+        64,
+        67
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "A9": {
+      "notes": [
+        "A3",
+        "C#4",
+        "E4",
+        "G4",
+        "B4"
+      ],
+      "midi": [
+        57,
+        61,
+        64,
+        67,
+        71
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "A9#5": {
+      "notes": [
+        "A3",
+        "C#4",
+        "F4",
+        "G4",
+        "B4"
+      ],
+      "midi": [
+        57,
+        61,
+        65,
+        67,
+        71
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "A9b5": {
+      "notes": [
+        "A3",
+        "C#4",
+        "Eb4",
+        "G4",
+        "B4"
+      ],
+      "midi": [
+        57,
+        61,
+        63,
+        67,
+        71
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Aaug": {
+      "notes": [
+        "A3",
+        "C#4",
+        "F4"
+      ],
+      "midi": [
+        57,
+        61,
+        65
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Aaug7": {
+      "notes": [
+        "A3",
+        "C#4",
+        "F4",
+        "G4"
+      ],
+      "midi": [
+        57,
+        61,
+        65,
+        67
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Ab": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "Eb4"
+      ],
+      "midi": [
+        56,
+        60,
+        63
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Ab/C": {
+      "notes": [
+        "C3",
+        "Eb3",
+        "Ab3"
+      ],
+      "midi": [
+        48,
+        51,
+        56
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Ab/Eb": {
+      "notes": [
+        "Eb3",
+        "Ab3",
+        "C4"
+      ],
+      "midi": [
+        51,
+        56,
+        60
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Ab11": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "Eb4",
+        "Gb4",
+        "Bb4",
+        "Db5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        66,
+        70,
+        73
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Ab13": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "Eb4",
+        "Gb4",
+        "Bb4",
+        "Db5",
+        "F5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        66,
+        70,
+        73,
+        77
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Ab13#11": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "Eb4",
+        "Gb4",
+        "Bb4",
+        "D5",
+        "F5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        66,
+        70,
+        74,
+        77
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Ab13#9": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "Eb4",
+        "Gb4",
+        "B4",
+        "Db5",
+        "F5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        66,
+        71,
+        73,
+        77
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Ab13b9": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "Eb4",
+        "Gb4",
+        "A4",
+        "Db5",
+        "F5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        66,
+        69,
+        73,
+        77
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Ab13sus4": {
+      "notes": [
+        "Ab3",
+        "Db4",
+        "Eb4",
+        "Gb4",
+        "Bb4",
+        "Db5",
+        "F5"
+      ],
+      "midi": [
+        56,
+        61,
+        63,
+        66,
+        70,
+        73,
+        77
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Ab6": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "Eb4",
+        "F4"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        65
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Ab7": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "Eb4",
+        "Gb4"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        66
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Ab7#5#9": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "E4",
+        "Gb4",
+        "B4"
+      ],
+      "midi": [
+        56,
+        60,
+        64,
+        66,
+        71
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Ab7alt": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "D4",
+        "Gb4",
+        "A4",
+        "Bb4"
+      ],
+      "midi": [
+        56,
+        60,
+        62,
+        66,
+        69,
+        70
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Ab7sus2": {
+      "notes": [
+        "Ab3",
+        "Bb3",
+        "Eb4",
+        "Gb4"
+      ],
+      "midi": [
+        56,
+        58,
+        63,
+        66
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Ab7sus4": {
+      "notes": [
+        "Ab3",
+        "Db4",
+        "Eb4",
+        "Gb4"
+      ],
+      "midi": [
+        56,
+        61,
+        63,
+        66
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Ab9": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "Eb4",
+        "Gb4",
+        "Bb4"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        66,
+        70
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Ab9#5": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "E4",
+        "Gb4",
+        "Bb4"
+      ],
+      "midi": [
+        56,
+        60,
+        64,
+        66,
+        70
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Ab9b5": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "D4",
+        "Gb4",
+        "Bb4"
+      ],
+      "midi": [
+        56,
+        60,
+        62,
+        66,
+        70
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "AbMaj7": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "Eb4",
+        "G4"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        67
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Abaug": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "E4"
+      ],
+      "midi": [
+        56,
+        60,
+        64
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Abaug7": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "E4",
+        "Gb4"
+      ],
+      "midi": [
+        56,
+        60,
+        64,
+        66
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Abdim": {
+      "notes": [
+        "Ab3",
+        "B3",
+        "D4"
+      ],
+      "midi": [
+        56,
+        59,
+        62
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Abdim7": {
+      "notes": [
+        "Ab3",
+        "B3",
+        "D4",
+        "Fb4"
+      ],
+      "midi": [
+        56,
+        59,
+        62,
+        64
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Abm": {
+      "notes": [
+        "Ab3",
+        "B3",
+        "Eb4"
+      ],
+      "midi": [
+        56,
+        59,
+        63
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Abm11": {
+      "notes": [
+        "Ab3",
+        "B3",
+        "Eb4",
+        "Gb4",
+        "Bb4",
+        "Db5"
+      ],
+      "midi": [
+        56,
+        59,
+        63,
+        66,
+        70,
+        73
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Abm13": {
+      "notes": [
+        "Ab3",
+        "B3",
+        "Eb4",
+        "Gb4",
+        "Bb4",
+        "Db5",
+        "F5"
+      ],
+      "midi": [
+        56,
+        59,
+        63,
+        66,
+        70,
+        73,
+        77
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Abm6": {
+      "notes": [
+        "Ab3",
+        "B3",
+        "Eb4",
+        "F4"
+      ],
+      "midi": [
+        56,
+        59,
+        63,
+        65
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Abm7": {
+      "notes": [
+        "Ab3",
+        "B3",
+        "Eb4",
+        "Gb4"
+      ],
+      "midi": [
+        56,
+        59,
+        63,
+        66
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Abm7b5": {
+      "notes": [
+        "Ab3",
+        "B3",
+        "D4",
+        "Gb4"
+      ],
+      "midi": [
+        56,
+        59,
+        62,
+        66
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Abm9": {
+      "notes": [
+        "Ab3",
+        "B3",
+        "Eb4",
+        "Gb4",
+        "Bb4"
+      ],
+      "midi": [
+        56,
+        59,
+        63,
+        66,
+        70
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "AbmMaj7": {
+      "notes": [
+        "Ab3",
+        "B3",
+        "Eb4",
+        "G4"
+      ],
+      "midi": [
+        56,
+        59,
+        63,
+        67
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Abmaj11": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "Eb4",
+        "G4",
+        "Bb4",
+        "Db5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        67,
+        70,
+        73
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Abmaj13": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "Eb4",
+        "G4",
+        "Bb4",
+        "Db5",
+        "F5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        67,
+        70,
+        73,
+        77
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Abmaj13#11": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "Eb4",
+        "G4",
+        "Bb4",
+        "Db5",
+        "F5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        67,
+        70,
+        73,
+        77
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Abmaj7#11": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "Eb4",
+        "G4",
+        "D5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        67,
+        74
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Abmaj9": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "Eb4",
+        "G4",
+        "Bb4"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        67,
+        70
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Abmaj9#11": {
+      "notes": [
+        "Ab3",
+        "C4",
+        "Eb4",
+        "G4",
+        "Bb4",
+        "D5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        67,
+        70,
+        74
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Absus2": {
+      "notes": [
+        "Ab3",
+        "Bb3",
+        "Eb4"
+      ],
+      "midi": [
+        56,
+        58,
+        63
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Absus4": {
+      "notes": [
+        "Ab3",
+        "Db4",
+        "Eb4"
+      ],
+      "midi": [
+        56,
+        61,
+        63
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Adim": {
+      "notes": [
+        "A3",
+        "C4",
+        "Eb4"
+      ],
+      "midi": [
+        57,
+        60,
+        63
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Adim7": {
+      "notes": [
+        "A3",
+        "C4",
+        "Eb4",
+        "Gb4"
+      ],
+      "midi": [
+        57,
+        60,
+        63,
+        66
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Am": {
+      "notes": [
+        "A3",
+        "C4",
+        "E4"
+      ],
+      "midi": [
+        57,
+        60,
+        64
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Am11": {
+      "notes": [
+        "A3",
+        "C4",
+        "E4",
+        "G4",
+        "B4",
+        "D4"
+      ],
+      "midi": [
+        57,
+        60,
+        64,
+        67,
+        71,
+        62
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Am13": {
+      "notes": [
+        "A3",
+        "C4",
+        "E4",
+        "G4",
+        "B4",
+        "D4",
+        "F#4"
+      ],
+      "midi": [
+        57,
+        60,
+        64,
+        67,
+        71,
+        62,
+        66
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Am6": {
+      "notes": [
+        "A3",
+        "C4",
+        "E4",
+        "F#4"
+      ],
+      "midi": [
+        57,
+        60,
+        64,
+        66
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Am7": {
+      "notes": [
+        "A3",
+        "C4",
+        "E4",
+        "G4"
+      ],
+      "midi": [
+        57,
+        60,
+        64,
+        67
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Am7b5": {
+      "notes": [
+        "A3",
+        "C4",
+        "Eb4",
+        "G4"
+      ],
+      "midi": [
+        57,
+        60,
+        63,
+        67
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Am9": {
+      "notes": [
+        "A3",
+        "C4",
+        "E4",
+        "G4",
+        "B4"
+      ],
+      "midi": [
+        57,
+        60,
+        64,
+        67,
+        71
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "AmMaj7": {
+      "notes": [
+        "A3",
+        "C4",
+        "E4",
+        "G#4"
+      ],
+      "midi": [
+        57,
+        60,
+        64,
+        68
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Amaj11": {
+      "notes": [
+        "A3",
+        "C#4",
+        "E4",
+        "G#4",
+        "B4",
+        "D4"
+      ],
+      "midi": [
+        57,
+        61,
+        64,
+        68,
+        71,
+        62
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Amaj13": {
+      "notes": [
+        "A3",
+        "C#4",
+        "E4",
+        "G#4",
+        "B4",
+        "D4",
+        "F#4"
+      ],
+      "midi": [
+        57,
+        61,
+        64,
+        68,
+        71,
+        62,
+        66
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Amaj13#11": {
+      "notes": [
+        "A3",
+        "C#4",
+        "E4",
+        "G#4",
+        "B4",
+        "D#5",
+        "F#5"
+      ],
+      "midi": [
+        57,
+        61,
+        64,
+        68,
+        71,
+        75,
+        78
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Amaj7": {
+      "notes": [
+        "A3",
+        "C#4",
+        "E4",
+        "G#4"
+      ],
+      "midi": [
+        57,
+        61,
+        64,
+        68
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Amaj7#11": {
+      "notes": [
+        "A3",
+        "C#4",
+        "E4",
+        "G#4",
+        "D#5"
+      ],
+      "midi": [
+        57,
+        61,
+        64,
+        68,
+        75
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Amaj9": {
+      "notes": [
+        "A3",
+        "C#4",
+        "E4",
+        "G#4",
+        "B4"
+      ],
+      "midi": [
+        57,
+        61,
+        64,
+        68,
+        71
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Amaj9#11": {
+      "notes": [
+        "A3",
+        "C#4",
+        "E4",
+        "G#4",
+        "B4",
+        "D#5"
+      ],
+      "midi": [
+        57,
+        61,
+        64,
+        68,
+        71,
+        75
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Asus2": {
+      "notes": [
+        "A3",
+        "B3",
+        "E4"
+      ],
+      "midi": [
+        57,
+        59,
+        64
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Asus4": {
+      "notes": [
+        "A3",
+        "D4",
+        "E4"
+      ],
+      "midi": [
+        57,
+        62,
+        64
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "B": {
+      "notes": [
+        "B3",
+        "D#4",
+        "F#4"
+      ],
+      "midi": [
+        59,
+        63,
+        66
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "B/D#": {
+      "notes": [
+        "D#3",
+        "F#3",
+        "B4"
+      ],
+      "midi": [
+        51,
+        54,
+        71
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "B/F#": {
+      "notes": [
+        "F#3",
+        "B3",
+        "D#4"
+      ],
+      "midi": [
+        54,
+        59,
+        63
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "B11": {
+      "notes": [
+        "B3",
+        "D#4",
+        "F#4",
+        "A4",
+        "C#5",
+        "E5"
+      ],
+      "midi": [
+        59,
+        63,
+        66,
+        69,
+        73,
+        76
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "B13": {
+      "notes": [
+        "B3",
+        "D#4",
+        "F#4",
+        "A4",
+        "C#5",
+        "E5",
+        "G#5"
+      ],
+      "midi": [
+        59,
+        63,
+        66,
+        69,
+        73,
+        76,
+        80
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "B13#11": {
+      "notes": [
+        "B3",
+        "D#4",
+        "F#4",
+        "A4",
+        "C#5",
+        "F5",
+        "G#5"
+      ],
+      "midi": [
+        59,
+        63,
+        66,
+        69,
+        73,
+        77,
+        80
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "B13#9": {
+      "notes": [
+        "B3",
+        "D#4",
+        "F#4",
+        "A4",
+        "D5",
+        "E5",
+        "G#5"
+      ],
+      "midi": [
+        59,
+        63,
+        66,
+        69,
+        74,
+        76,
+        80
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "B13b9": {
+      "notes": [
+        "B3",
+        "D#4",
+        "F#4",
+        "A4",
+        "Db5",
+        "E5",
+        "G#5"
+      ],
+      "midi": [
+        59,
+        63,
+        66,
+        69,
+        73,
+        76,
+        80
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "B13sus4": {
+      "notes": [
+        "B3",
+        "E4",
+        "F#4",
+        "A4",
+        "C#5",
+        "E5",
+        "G#5"
+      ],
+      "midi": [
+        59,
+        64,
+        66,
+        69,
+        73,
+        76,
+        80
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "B6": {
+      "notes": [
+        "B3",
+        "D#4",
+        "F#4",
+        "G#4"
+      ],
+      "midi": [
+        59,
+        63,
+        66,
+        68
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "B7": {
+      "notes": [
+        "B3",
+        "D#4",
+        "F#4",
+        "A4"
+      ],
+      "midi": [
+        59,
+        63,
+        66,
+        69
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "B7#5#9": {
+      "notes": [
+        "B3",
+        "D#4",
+        "G4",
+        "A4",
+        "D5"
+      ],
+      "midi": [
+        59,
+        63,
+        67,
+        69,
+        74
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "B7alt": {
+      "notes": [
+        "B3",
+        "D#4",
+        "F4",
+        "A4",
+        "C5",
+        "Db5"
+      ],
+      "midi": [
+        59,
+        63,
+        65,
+        69,
+        72,
+        73
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "B7sus2": {
+      "notes": [
+        "B3",
+        "C#4",
+        "F#4",
+        "A4"
+      ],
+      "midi": [
+        59,
+        61,
+        66,
+        69
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "B7sus4": {
+      "notes": [
+        "B3",
+        "E4",
+        "F#4",
+        "A4"
+      ],
+      "midi": [
+        59,
+        64,
+        66,
+        69
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "B9": {
+      "notes": [
+        "B3",
+        "D#4",
+        "F#4",
+        "A4",
+        "C#5"
+      ],
+      "midi": [
+        59,
+        63,
+        66,
+        69,
+        73
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "B9#5": {
+      "notes": [
+        "B3",
+        "D#4",
+        "G4",
+        "A4",
+        "C#5"
+      ],
+      "midi": [
+        59,
+        63,
+        67,
+        69,
+        73
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "B9b5": {
+      "notes": [
+        "B3",
+        "D#4",
+        "F4",
+        "A4",
+        "C#5"
+      ],
+      "midi": [
+        59,
+        63,
+        65,
+        69,
+        73
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "BMaj7": {
+      "notes": [
+        "B3",
+        "D#4",
+        "F#4",
+        "A#4"
+      ],
+      "midi": [
+        59,
+        63,
+        66,
+        70
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Baug": {
+      "notes": [
+        "B3",
+        "D#4",
+        "G4"
+      ],
+      "midi": [
+        59,
+        63,
+        67
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Baug7": {
+      "notes": [
+        "B3",
+        "D#4",
+        "G4",
+        "A4"
+      ],
+      "midi": [
+        59,
+        63,
+        67,
+        69
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Bb": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F4"
+      ],
+      "midi": [
+        58,
+        62,
+        65
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Bb/D": {
+      "notes": [
+        "D3",
+        "F3",
+        "Bb3"
+      ],
+      "midi": [
+        50,
+        53,
+        58
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Bb/F": {
+      "notes": [
+        "F3",
+        "Bb3",
+        "D4"
+      ],
+      "midi": [
+        53,
+        58,
+        62
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Bb11": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F4",
+        "Ab4",
+        "C5",
+        "Eb5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        68,
+        72,
+        75
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Bb13": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F4",
+        "Ab4",
+        "C5",
+        "Eb5",
+        "G5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        68,
+        72,
+        75,
+        79
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Bb13#11": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F4",
+        "Ab4",
+        "C5",
+        "E5",
+        "G5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        68,
+        72,
+        76,
+        79
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Bb13#9": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F4",
+        "Ab4",
+        "D5",
+        "Eb5",
+        "G5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        68,
+        74,
+        75,
+        79
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Bb13b9": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F4",
+        "Ab4",
+        "Db5",
+        "Eb5",
+        "G5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        68,
+        73,
+        75,
+        79
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Bb13sus4": {
+      "notes": [
+        "Bb3",
+        "Eb4",
+        "F4",
+        "Ab4",
+        "C5",
+        "Eb5",
+        "G5"
+      ],
+      "midi": [
+        58,
+        63,
+        65,
+        68,
+        72,
+        75,
+        79
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Bb6": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F4",
+        "G4"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        67
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Bb7": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F4",
+        "Ab4"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        68
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Bb7#5#9": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F#4",
+        "Ab4",
+        "D5"
+      ],
+      "midi": [
+        58,
+        62,
+        66,
+        68,
+        74
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Bb7alt": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "E4",
+        "Ab4",
+        "Bb4",
+        "Db5"
+      ],
+      "midi": [
+        58,
+        62,
+        64,
+        68,
+        70,
+        73
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Bb7sus2": {
+      "notes": [
+        "Bb3",
+        "C4",
+        "F4",
+        "Ab4"
+      ],
+      "midi": [
+        58,
+        60,
+        65,
+        68
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Bb7sus4": {
+      "notes": [
+        "Bb3",
+        "Eb4",
+        "F4",
+        "Ab4"
+      ],
+      "midi": [
+        58,
+        63,
+        65,
+        68
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Bb9": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F4",
+        "Ab4",
+        "C5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        68,
+        72
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Bb9#5": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F#4",
+        "Ab4",
+        "C5"
+      ],
+      "midi": [
+        58,
+        62,
+        66,
+        68,
+        72
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Bb9b5": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "E4",
+        "Ab4",
+        "C5"
+      ],
+      "midi": [
+        58,
+        62,
+        64,
+        68,
+        72
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "BbMaj7": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F4",
+        "A4"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        69
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Bbaug": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F#4"
+      ],
+      "midi": [
+        58,
+        62,
+        66
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Bbaug7": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F#4",
+        "Ab4"
+      ],
+      "midi": [
+        58,
+        62,
+        66,
+        68
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Bbdim": {
+      "notes": [
+        "Bb3",
+        "Db4",
+        "E4"
+      ],
+      "midi": [
+        58,
+        61,
+        64
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Bbdim7": {
+      "notes": [
+        "Bb3",
+        "Db4",
+        "E4",
+        "Gb4"
+      ],
+      "midi": [
+        58,
+        61,
+        64,
+        66
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Bbm": {
+      "notes": [
+        "Bb3",
+        "Db4",
+        "F4"
+      ],
+      "midi": [
+        58,
+        61,
+        65
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Bbm11": {
+      "notes": [
+        "Bb3",
+        "Db4",
+        "F4",
+        "Ab4",
+        "C5",
+        "Eb5"
+      ],
+      "midi": [
+        58,
+        61,
+        65,
+        68,
+        72,
+        75
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Bbm13": {
+      "notes": [
+        "Bb3",
+        "Db4",
+        "F4",
+        "Ab4",
+        "C5",
+        "Eb5",
+        "G5"
+      ],
+      "midi": [
+        58,
+        61,
+        65,
+        68,
+        72,
+        75,
+        79
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Bbm6": {
+      "notes": [
+        "Bb3",
+        "Db4",
+        "F4",
+        "G4"
+      ],
+      "midi": [
+        58,
+        61,
+        65,
+        67
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Bbm7": {
+      "notes": [
+        "Bb3",
+        "Db4",
+        "F4",
+        "Ab4"
+      ],
+      "midi": [
+        58,
+        61,
+        65,
+        68
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Bbm7b5": {
+      "notes": [
+        "Bb3",
+        "Db4",
+        "E4",
+        "Ab4"
+      ],
+      "midi": [
+        58,
+        61,
+        64,
+        68
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Bbm9": {
+      "notes": [
+        "Bb3",
+        "Db4",
+        "F4",
+        "Ab4",
+        "C5"
+      ],
+      "midi": [
+        58,
+        61,
+        65,
+        68,
+        72
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "BbmMaj7": {
+      "notes": [
+        "Bb3",
+        "Db4",
+        "F4",
+        "A4"
+      ],
+      "midi": [
+        58,
+        61,
+        65,
+        69
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Bbmaj11": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F4",
+        "A4",
+        "C5",
+        "Eb5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        69,
+        72,
+        75
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Bbmaj13": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F4",
+        "A4",
+        "C5",
+        "Eb5",
+        "G5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        69,
+        72,
+        75,
+        79
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Bbmaj13#11": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F4",
+        "A4",
+        "C5",
+        "Eb5",
+        "G5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        69,
+        72,
+        75,
+        79
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Bbmaj7#11": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F4",
+        "A4",
+        "E5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        69,
+        76
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Bbmaj9": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F4",
+        "A4",
+        "C5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        69,
+        72
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Bbmaj9#11": {
+      "notes": [
+        "Bb3",
+        "D4",
+        "F4",
+        "A4",
+        "C5",
+        "E5"
+      ],
+      "midi": [
+        58,
+        62,
+        65,
+        69,
+        72,
+        76
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Bbsus2": {
+      "notes": [
+        "Bb3",
+        "C4",
+        "F4"
+      ],
+      "midi": [
+        58,
+        60,
+        65
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Bbsus4": {
+      "notes": [
+        "Bb3",
+        "Eb4",
+        "F4"
+      ],
+      "midi": [
+        58,
+        63,
+        65
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Bdim": {
+      "notes": [
+        "B3",
+        "D4",
+        "F4"
+      ],
+      "midi": [
+        59,
+        62,
+        65
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Bdim7": {
+      "notes": [
+        "B3",
+        "D4",
+        "F4",
+        "Ab4"
+      ],
+      "midi": [
+        59,
+        62,
+        65,
+        68
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Bm": {
+      "notes": [
+        "B3",
+        "D4",
+        "F#4"
+      ],
+      "midi": [
+        59,
+        62,
+        66
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Bm11": {
+      "notes": [
+        "B3",
+        "D4",
+        "F#4",
+        "A4",
+        "C#5",
+        "E5"
+      ],
+      "midi": [
+        59,
+        62,
+        66,
+        69,
+        73,
+        76
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Bm13": {
+      "notes": [
+        "B3",
+        "D4",
+        "F#4",
+        "A4",
+        "C#5",
+        "E5",
+        "G#5"
+      ],
+      "midi": [
+        59,
+        62,
+        66,
+        69,
+        73,
+        76,
+        80
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Bm6": {
+      "notes": [
+        "B3",
+        "D4",
+        "F#4",
+        "G#4"
+      ],
+      "midi": [
+        59,
+        62,
+        66,
+        68
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Bm7": {
+      "notes": [
+        "B3",
+        "D4",
+        "F#4",
+        "A4"
+      ],
+      "midi": [
+        59,
+        62,
+        66,
+        69
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Bm7b5": {
+      "notes": [
+        "B3",
+        "D4",
+        "F4",
+        "A4"
+      ],
+      "midi": [
+        59,
+        62,
+        65,
+        69
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Bm9": {
+      "notes": [
+        "B3",
+        "D4",
+        "F#4",
+        "A4",
+        "C#5"
+      ],
+      "midi": [
+        59,
+        62,
+        66,
+        69,
+        73
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "BmMaj7": {
+      "notes": [
+        "B3",
+        "D4",
+        "F#4",
+        "A#4"
+      ],
+      "midi": [
+        59,
+        62,
+        66,
+        70
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Bmaj11": {
+      "notes": [
+        "B3",
+        "D#4",
+        "F#4",
+        "A#4",
+        "C#5",
+        "E5"
+      ],
+      "midi": [
+        59,
+        63,
+        66,
+        70,
+        73,
+        76
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Bmaj13": {
+      "notes": [
+        "B3",
+        "D#4",
+        "F#4",
+        "A#4",
+        "C#5",
+        "E5",
+        "G#5"
+      ],
+      "midi": [
+        59,
+        63,
+        66,
+        70,
+        73,
+        76,
+        80
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Bmaj13#11": {
+      "notes": [
+        "B3",
+        "D#4",
+        "F#4",
+        "A#4",
+        "C#5",
+        "E5",
+        "G#5"
+      ],
+      "midi": [
+        59,
+        63,
+        66,
+        70,
+        73,
+        76,
+        80
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Bmaj7#11": {
+      "notes": [
+        "B3",
+        "D#4",
+        "F#4",
+        "A#4",
+        "E5"
+      ],
+      "midi": [
+        59,
+        63,
+        66,
+        70,
+        76
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Bmaj9": {
+      "notes": [
+        "B3",
+        "D#4",
+        "F#4",
+        "A#4",
+        "C#5"
+      ],
+      "midi": [
+        59,
+        63,
+        66,
+        70,
+        73
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Bmaj9#11": {
+      "notes": [
+        "B3",
+        "D#4",
+        "F#4",
+        "A#4",
+        "C#5",
+        "E5"
+      ],
+      "midi": [
+        59,
+        63,
+        66,
+        70,
+        73,
+        76
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Bsus2": {
+      "notes": [
+        "B3",
+        "C#4",
+        "F#4"
+      ],
+      "midi": [
+        59,
+        61,
+        66
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Bsus4": {
+      "notes": [
+        "B3",
+        "E4",
+        "F#4"
+      ],
+      "midi": [
+        59,
+        64,
+        66
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "C": {
+      "notes": [
+        "C3",
+        "E3",
+        "G3"
+      ],
+      "midi": [
+        48,
+        52,
+        55
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "C#": {
+      "notes": [
+        "C#3",
+        "F3",
+        "G#3"
+      ],
+      "midi": [
+        49,
+        53,
+        56
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "C#/F": {
+      "notes": [
+        "F3",
+        "G#3",
+        "C#4"
+      ],
+      "midi": [
+        53,
+        56,
+        61
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "C#/G#": {
+      "notes": [
+        "G#2",
+        "C#3",
+        "F3"
+      ],
+      "midi": [
+        44,
+        49,
+        53
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "C#11": {
+      "notes": [
+        "C#3",
+        "F3",
+        "G#3",
+        "B3",
+        "D#4",
+        "F#4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        59,
+        63,
+        66
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "C#13": {
+      "notes": [
+        "C#3",
+        "F3",
+        "G#3",
+        "B3",
+        "D#4",
+        "F#4",
+        "A#4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        59,
+        63,
+        66,
+        70
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "C#13#11": {
+      "notes": [
+        "C#3",
+        "F3",
+        "G#3",
+        "B3",
+        "D#4",
+        "G4",
+        "A#4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        59,
+        63,
+        67,
+        70
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "C#13#9": {
+      "notes": [
+        "C#3",
+        "F3",
+        "G#3",
+        "B3",
+        "E4",
+        "F#4",
+        "A#4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        59,
+        64,
+        66,
+        70
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "C#13b9": {
+      "notes": [
+        "C#3",
+        "F3",
+        "G#3",
+        "B3",
+        "D4",
+        "F#4",
+        "A#4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        59,
+        62,
+        66,
+        70
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "C#13sus4": {
+      "notes": [
+        "C#3",
+        "F#3",
+        "G#3",
+        "B3",
+        "D#4",
+        "F#4",
+        "A#4"
+      ],
+      "midi": [
+        49,
+        54,
+        56,
+        59,
+        63,
+        66,
+        70
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "C#6": {
+      "notes": [
+        "C#3",
+        "F3",
+        "G#3",
+        "A#3"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        58
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "C#7": {
+      "notes": [
+        "C#3",
+        "F3",
+        "G#3",
+        "B3"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        59
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "C#7#5#9": {
+      "notes": [
+        "C#3",
+        "F3",
+        "A3",
+        "B3",
+        "E4"
+      ],
+      "midi": [
+        49,
+        53,
+        57,
+        59,
+        64
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "C#7alt": {
+      "notes": [
+        "C#3",
+        "F3",
+        "G3",
+        "B3",
+        "D4",
+        "E4"
+      ],
+      "midi": [
+        49,
+        53,
+        55,
+        59,
+        62,
+        64
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "C#7sus2": {
+      "notes": [
+        "C#3",
+        "D#3",
+        "G#3",
+        "B3"
+      ],
+      "midi": [
+        49,
+        51,
+        56,
+        59
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "C#7sus4": {
+      "notes": [
+        "C#3",
+        "F#3",
+        "G#3",
+        "B3"
+      ],
+      "midi": [
+        49,
+        54,
+        56,
+        59
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "C#9": {
+      "notes": [
+        "C#3",
+        "F3",
+        "G#3",
+        "B3",
+        "D#4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        59,
+        63
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "C#9#5": {
+      "notes": [
+        "C#3",
+        "F3",
+        "A3",
+        "B3",
+        "D#4"
+      ],
+      "midi": [
+        49,
+        53,
+        57,
+        59,
+        63
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "C#9b5": {
+      "notes": [
+        "C#3",
+        "F3",
+        "G3",
+        "B3",
+        "D#4"
+      ],
+      "midi": [
+        49,
+        53,
+        55,
+        59,
+        63
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "C#Maj7": {
+      "notes": [
+        "C#3",
+        "F3",
+        "G#3",
+        "C4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        60
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "C#aug": {
+      "notes": [
+        "C#3",
+        "F3",
+        "A3"
+      ],
+      "midi": [
+        49,
+        53,
+        57
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "C#aug7": {
+      "notes": [
+        "C#3",
+        "F3",
+        "A3",
+        "B3"
+      ],
+      "midi": [
+        49,
+        53,
+        57,
+        59
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "C#dim": {
+      "notes": [
+        "C#3",
+        "E3",
+        "G3"
+      ],
+      "midi": [
+        49,
+        52,
+        55
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "C#dim7": {
+      "notes": [
+        "C#3",
+        "E3",
+        "G3",
+        "Bb3"
+      ],
+      "midi": [
+        49,
+        52,
+        55,
+        58
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "C#m": {
+      "notes": [
+        "C#3",
+        "E3",
+        "G#3"
+      ],
+      "midi": [
+        49,
+        52,
+        56
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "C#m11": {
+      "notes": [
+        "C#3",
+        "E3",
+        "G#3",
+        "B3",
+        "D#4",
+        "F#4"
+      ],
+      "midi": [
+        49,
+        52,
+        56,
+        59,
+        63,
+        66
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "C#m13": {
+      "notes": [
+        "C#3",
+        "E3",
+        "G#3",
+        "B3",
+        "D#4",
+        "F#4",
+        "A#4"
+      ],
+      "midi": [
+        49,
+        52,
+        56,
+        59,
+        63,
+        66,
+        70
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "C#m6": {
+      "notes": [
+        "C#3",
+        "E3",
+        "G#3",
+        "A#3"
+      ],
+      "midi": [
+        49,
+        52,
+        56,
+        58
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "C#m7": {
+      "notes": [
+        "C#3",
+        "E3",
+        "G#3",
+        "B3"
+      ],
+      "midi": [
+        49,
+        52,
+        56,
+        59
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "C#m7b5": {
+      "notes": [
+        "C#3",
+        "E3",
+        "G3",
+        "B3"
+      ],
+      "midi": [
+        49,
+        52,
+        55,
+        59
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "C#m9": {
+      "notes": [
+        "C#3",
+        "E3",
+        "G#3",
+        "B3",
+        "D#4"
+      ],
+      "midi": [
+        49,
+        52,
+        56,
+        59,
+        63
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "C#mMaj7": {
+      "notes": [
+        "C#3",
+        "E3",
+        "G#3",
+        "C4"
+      ],
+      "midi": [
+        49,
+        52,
+        56,
+        60
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "C#maj11": {
+      "notes": [
+        "C#3",
+        "F3",
+        "G#3",
+        "C4",
+        "D#4",
+        "F#4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        60,
+        63,
+        66
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "C#maj13": {
+      "notes": [
+        "C#3",
+        "F3",
+        "G#3",
+        "C4",
+        "D#4",
+        "F#4",
+        "A#4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        60,
+        63,
+        66,
+        70
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "C#maj13#11": {
+      "notes": [
+        "C#3",
+        "F3",
+        "G#3",
+        "C4",
+        "D#4",
+        "G4",
+        "A#4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        60,
+        63,
+        67,
+        70
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "C#maj7#11": {
+      "notes": [
+        "C#3",
+        "F3",
+        "G#3",
+        "C4",
+        "G4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        60,
+        67
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "C#maj9": {
+      "notes": [
+        "C#3",
+        "F3",
+        "G#3",
+        "C4",
+        "D#4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        60,
+        63
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "C#maj9#11": {
+      "notes": [
+        "C#3",
+        "F3",
+        "G#3",
+        "C4",
+        "D#4",
+        "G4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        60,
+        63,
+        67
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "C#sus2": {
+      "notes": [
+        "C#3",
+        "D#3",
+        "G#3"
+      ],
+      "midi": [
+        49,
+        51,
+        56
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "C#sus4": {
+      "notes": [
+        "C#3",
+        "F#3",
+        "G#3"
+      ],
+      "midi": [
+        49,
+        54,
+        56
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "C/E": {
+      "notes": [
+        "E3",
+        "G3",
+        "C4"
+      ],
+      "midi": [
+        52,
+        55,
+        60
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "C/G": {
+      "notes": [
+        "G2",
+        "C3",
+        "E3"
+      ],
+      "midi": [
+        43,
+        48,
+        52
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "C11": {
+      "notes": [
+        "C3",
+        "E3",
+        "G3",
+        "Bb4",
+        "D4",
+        "F4"
+      ],
+      "midi": [
+        48,
+        52,
+        55,
+        70,
+        62,
+        65
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "C13": {
+      "notes": [
+        "C3",
+        "E3",
+        "G3",
+        "Bb4",
+        "D4",
+        "F4",
+        "A4"
+      ],
+      "midi": [
+        48,
+        52,
+        55,
+        70,
+        62,
+        65,
+        69
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "C13#11": {
+      "notes": [
+        "C3",
+        "E3",
+        "G3",
+        "Bb4",
+        "D4",
+        "F#4",
+        "A4"
+      ],
+      "midi": [
+        48,
+        52,
+        55,
+        70,
+        62,
+        66,
+        69
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "C13#9": {
+      "notes": [
+        "C3",
+        "E3",
+        "G3",
+        "Bb4",
+        "D#4",
+        "F4",
+        "A4"
+      ],
+      "midi": [
+        48,
+        52,
+        55,
+        70,
+        63,
+        65,
+        69
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "C13b9": {
+      "notes": [
+        "C3",
+        "E3",
+        "G3",
+        "Bb4",
+        "Db4",
+        "F4",
+        "A4"
+      ],
+      "midi": [
+        48,
+        52,
+        55,
+        70,
+        61,
+        65,
+        69
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "C13sus4": {
+      "notes": [
+        "C3",
+        "F3",
+        "G3",
+        "Bb3",
+        "D4",
+        "F4",
+        "A4"
+      ],
+      "midi": [
+        48,
+        53,
+        55,
+        58,
+        62,
+        65,
+        69
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "C6": {
+      "notes": [
+        "C3",
+        "E3",
+        "G3",
+        "A3"
+      ],
+      "midi": [
+        48,
+        52,
+        55,
+        57
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "C7": {
+      "notes": [
+        "C3",
+        "E3",
+        "G3",
+        "Bb4"
+      ],
+      "midi": [
+        48,
+        52,
+        55,
+        70
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "C7#5#9": {
+      "notes": [
+        "C3",
+        "E3",
+        "G#3",
+        "Bb4",
+        "D#4"
+      ],
+      "midi": [
+        48,
+        52,
+        56,
+        70,
+        63
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "C7alt": {
+      "notes": [
+        "C3",
+        "E3",
+        "Gb3",
+        "Bb4",
+        "Db4",
+        "Eb4"
+      ],
+      "midi": [
+        48,
+        52,
+        54,
+        70,
+        61,
+        63
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "C7sus2": {
+      "notes": [
+        "C3",
+        "D3",
+        "G3",
+        "Bb3"
+      ],
+      "midi": [
+        48,
+        50,
+        55,
+        58
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "C7sus4": {
+      "notes": [
+        "C3",
+        "F3",
+        "G3",
+        "Bb3"
+      ],
+      "midi": [
+        48,
+        53,
+        55,
+        58
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "C9": {
+      "notes": [
+        "C3",
+        "E3",
+        "G3",
+        "Bb4",
+        "D4"
+      ],
+      "midi": [
+        48,
+        52,
+        55,
+        70,
+        62
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "C9#5": {
+      "notes": [
+        "C3",
+        "E3",
+        "G#3",
+        "Bb4",
+        "D4"
+      ],
+      "midi": [
+        48,
+        52,
+        56,
+        70,
+        62
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "C9b5": {
+      "notes": [
+        "C3",
+        "E3",
+        "Gb3",
+        "Bb4",
+        "D4"
+      ],
+      "midi": [
+        48,
+        52,
+        54,
+        70,
+        62
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Caug": {
+      "notes": [
+        "C3",
+        "E3",
+        "G#3"
+      ],
+      "midi": [
+        48,
+        52,
+        56
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Caug7": {
+      "notes": [
+        "C3",
+        "E3",
+        "G#3",
+        "Bb4"
+      ],
+      "midi": [
+        48,
+        52,
+        56,
+        70
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Cdim": {
+      "notes": [
+        "C3",
+        "Eb3",
+        "Gb3"
+      ],
+      "midi": [
+        48,
+        51,
+        54
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Cdim7": {
+      "notes": [
+        "C3",
+        "Eb3",
+        "Gb3",
+        "A4"
+      ],
+      "midi": [
+        48,
+        51,
+        54,
+        69
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Cm": {
+      "notes": [
+        "C3",
+        "Eb3",
+        "G3"
+      ],
+      "midi": [
+        48,
+        51,
+        55
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Cm11": {
+      "notes": [
+        "C3",
+        "Eb3",
+        "G3",
+        "Bb4",
+        "D4",
+        "F4"
+      ],
+      "midi": [
+        48,
+        51,
+        55,
+        70,
+        62,
+        65
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Cm13": {
+      "notes": [
+        "C3",
+        "Eb3",
+        "G3",
+        "Bb4",
+        "D4",
+        "F4",
+        "A4"
+      ],
+      "midi": [
+        48,
+        51,
+        55,
+        70,
+        62,
+        65,
+        69
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Cm6": {
+      "notes": [
+        "C3",
+        "Eb3",
+        "G3",
+        "A3"
+      ],
+      "midi": [
+        48,
+        51,
+        55,
+        57
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Cm7": {
+      "notes": [
+        "C3",
+        "Eb3",
+        "G3",
+        "Bb4"
+      ],
+      "midi": [
+        48,
+        51,
+        55,
+        70
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Cm7b5": {
+      "notes": [
+        "C3",
+        "Eb3",
+        "Gb3",
+        "Bb4"
+      ],
+      "midi": [
+        48,
+        51,
+        54,
+        70
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Cm9": {
+      "notes": [
+        "C3",
+        "Eb3",
+        "G3",
+        "Bb4",
+        "D4"
+      ],
+      "midi": [
+        48,
+        51,
+        55,
+        70,
+        62
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "CmMaj7": {
+      "notes": [
+        "C3",
+        "Eb3",
+        "G3",
+        "B4"
+      ],
+      "midi": [
+        48,
+        51,
+        55,
+        71
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Cmaj11": {
+      "notes": [
+        "C3",
+        "E3",
+        "G3",
+        "B4",
+        "D4",
+        "F4"
+      ],
+      "midi": [
+        48,
+        52,
+        55,
+        71,
+        62,
+        65
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Cmaj13": {
+      "notes": [
+        "C3",
+        "E3",
+        "G3",
+        "B4",
+        "D4",
+        "F4",
+        "A4"
+      ],
+      "midi": [
+        48,
+        52,
+        55,
+        71,
+        62,
+        65,
+        69
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Cmaj13#11": {
+      "notes": [
+        "C3",
+        "E3",
+        "G3",
+        "B3",
+        "D4",
+        "F#4",
+        "A4"
+      ],
+      "midi": [
+        48,
+        52,
+        55,
+        59,
+        62,
+        66,
+        69
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Cmaj7": {
+      "notes": [
+        "C3",
+        "E3",
+        "G3",
+        "B4"
+      ],
+      "midi": [
+        48,
+        52,
+        55,
+        71
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Cmaj7#11": {
+      "notes": [
+        "C3",
+        "E3",
+        "G3",
+        "B3",
+        "F#4"
+      ],
+      "midi": [
+        48,
+        52,
+        55,
+        59,
+        66
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Cmaj9": {
+      "notes": [
+        "C3",
+        "E3",
+        "G3",
+        "B4",
+        "D4"
+      ],
+      "midi": [
+        48,
+        52,
+        55,
+        71,
+        62
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Cmaj9#11": {
+      "notes": [
+        "C3",
+        "E3",
+        "G3",
+        "B3",
+        "D4",
+        "F#4"
+      ],
+      "midi": [
+        48,
+        52,
+        55,
+        59,
+        62,
+        66
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Csus2": {
+      "notes": [
+        "C3",
+        "D3",
+        "G3"
+      ],
+      "midi": [
+        48,
+        50,
+        55
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Csus4": {
+      "notes": [
+        "C3",
+        "F3",
+        "G3"
+      ],
+      "midi": [
+        48,
+        53,
+        55
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "D": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A3"
+      ],
+      "midi": [
+        50,
+        54,
+        57
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "D#": {
+      "notes": [
+        "D#3",
+        "G3",
+        "A#3"
+      ],
+      "midi": [
+        51,
+        55,
+        58
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "D#/A#": {
+      "notes": [
+        "A#2",
+        "D#3",
+        "G3"
+      ],
+      "midi": [
+        46,
+        51,
+        55
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "D#/G": {
+      "notes": [
+        "G3",
+        "A#3",
+        "D#4"
+      ],
+      "midi": [
+        55,
+        58,
+        63
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "D#11": {
+      "notes": [
+        "D#3",
+        "G3",
+        "A#3",
+        "C#4",
+        "F4",
+        "G#4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        61,
+        65,
+        68
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "D#13": {
+      "notes": [
+        "D#3",
+        "G3",
+        "A#3",
+        "C#4",
+        "F4",
+        "G#4",
+        "C4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        61,
+        65,
+        68,
+        60
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "D#13#11": {
+      "notes": [
+        "D#3",
+        "G3",
+        "A#3",
+        "C#4",
+        "F4",
+        "A4",
+        "C4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        61,
+        65,
+        69,
+        60
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "D#13#9": {
+      "notes": [
+        "D#3",
+        "G3",
+        "A#3",
+        "C#4",
+        "G4",
+        "G#4",
+        "C4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        61,
+        67,
+        68,
+        60
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "D#13b9": {
+      "notes": [
+        "D#3",
+        "G3",
+        "A#3",
+        "C#4",
+        "E4",
+        "G#4",
+        "C4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        61,
+        64,
+        68,
+        60
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "D#13sus4": {
+      "notes": [
+        "D#3",
+        "A3",
+        "A#3",
+        "C#4",
+        "F4",
+        "A4",
+        "C4"
+      ],
+      "midi": [
+        51,
+        57,
+        58,
+        61,
+        65,
+        69,
+        60
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "D#6": {
+      "notes": [
+        "D#3",
+        "G3",
+        "A#3",
+        "C4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        60
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "D#7": {
+      "notes": [
+        "D#3",
+        "G3",
+        "A#3",
+        "C#4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        61
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "D#7#5#9": {
+      "notes": [
+        "D#3",
+        "G3",
+        "B3",
+        "C#4",
+        "G4"
+      ],
+      "midi": [
+        51,
+        55,
+        59,
+        61,
+        67
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "D#7alt": {
+      "notes": [
+        "D#3",
+        "G3",
+        "A3",
+        "C#4",
+        "E4",
+        "F4"
+      ],
+      "midi": [
+        51,
+        55,
+        57,
+        61,
+        64,
+        65
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "D#7sus2": {
+      "notes": [
+        "D#3",
+        "F4",
+        "A#3",
+        "C#4"
+      ],
+      "midi": [
+        51,
+        65,
+        58,
+        61
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "D#7sus4": {
+      "notes": [
+        "D#3",
+        "G#3",
+        "A#3",
+        "C#4"
+      ],
+      "midi": [
+        51,
+        56,
+        58,
+        61
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "D#9": {
+      "notes": [
+        "D#3",
+        "G3",
+        "A#3",
+        "C#4",
+        "F4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        61,
+        65
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "D#9#5": {
+      "notes": [
+        "D#3",
+        "G3",
+        "B3",
+        "C#4",
+        "F4"
+      ],
+      "midi": [
+        51,
+        55,
+        59,
+        61,
+        65
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "D#9b5": {
+      "notes": [
+        "D#3",
+        "G3",
+        "A3",
+        "C#4",
+        "F4"
+      ],
+      "midi": [
+        51,
+        55,
+        57,
+        61,
+        65
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "D#Maj7": {
+      "notes": [
+        "D#3",
+        "G3",
+        "A#3",
+        "D4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        62
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "D#aug": {
+      "notes": [
+        "D#3",
+        "G3",
+        "B3"
+      ],
+      "midi": [
+        51,
+        55,
+        59
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "D#aug7": {
+      "notes": [
+        "D#3",
+        "G3",
+        "B3",
+        "C#4"
+      ],
+      "midi": [
+        51,
+        55,
+        59,
+        61
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "D#dim": {
+      "notes": [
+        "D#3",
+        "F#3",
+        "A3"
+      ],
+      "midi": [
+        51,
+        54,
+        57
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "D#dim7": {
+      "notes": [
+        "D#3",
+        "F#3",
+        "A3",
+        "C3"
+      ],
+      "midi": [
+        51,
+        54,
+        57,
+        48
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "D#m": {
+      "notes": [
+        "D#3",
+        "F#3",
+        "A#3"
+      ],
+      "midi": [
+        51,
+        54,
+        58
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "D#m11": {
+      "notes": [
+        "D#3",
+        "F#3",
+        "A#3",
+        "C#4",
+        "F4",
+        "G#4"
+      ],
+      "midi": [
+        51,
+        54,
+        58,
+        61,
+        65,
+        68
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "D#m13": {
+      "notes": [
+        "D#3",
+        "F#3",
+        "A#3",
+        "C#4",
+        "F4",
+        "G#4",
+        "C4"
+      ],
+      "midi": [
+        51,
+        54,
+        58,
+        61,
+        65,
+        68,
+        60
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "D#m6": {
+      "notes": [
+        "D#3",
+        "F#3",
+        "A#3",
+        "C4"
+      ],
+      "midi": [
+        51,
+        54,
+        58,
+        60
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "D#m7": {
+      "notes": [
+        "D#3",
+        "F#3",
+        "A#3",
+        "C#4"
+      ],
+      "midi": [
+        51,
+        54,
+        58,
+        61
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "D#m7b5": {
+      "notes": [
+        "D#3",
+        "F#3",
+        "A3",
+        "C#4"
+      ],
+      "midi": [
+        51,
+        54,
+        57,
+        61
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "D#m9": {
+      "notes": [
+        "D#3",
+        "F#3",
+        "A#3",
+        "C#4",
+        "F4"
+      ],
+      "midi": [
+        51,
+        54,
+        58,
+        61,
+        65
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "D#mMaj7": {
+      "notes": [
+        "D#3",
+        "F#3",
+        "A#3",
+        "D4"
+      ],
+      "midi": [
+        51,
+        54,
+        58,
+        62
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "D#maj11": {
+      "notes": [
+        "D#3",
+        "G3",
+        "A#3",
+        "D4",
+        "F4",
+        "G#4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        62,
+        65,
+        68
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "D#maj13": {
+      "notes": [
+        "D#3",
+        "G3",
+        "A#3",
+        "D4",
+        "F4",
+        "G#4",
+        "C4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        62,
+        65,
+        68,
+        60
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "D#maj13#11": {
+      "notes": [
+        "D#3",
+        "G3",
+        "A#3",
+        "D4",
+        "F4",
+        "A4",
+        "C4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        62,
+        65,
+        69,
+        60
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "D#maj7#11": {
+      "notes": [
+        "D#3",
+        "G3",
+        "A#3",
+        "D4",
+        "A4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        62,
+        69
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "D#maj9": {
+      "notes": [
+        "D#3",
+        "G3",
+        "A#3",
+        "D4",
+        "F4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        62,
+        65
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "D#maj9#11": {
+      "notes": [
+        "D#3",
+        "G3",
+        "A#3",
+        "D4",
+        "F4",
+        "A4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        62,
+        65,
+        69
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "D#sus2": {
+      "notes": [
+        "D#3",
+        "F4",
+        "A#3"
+      ],
+      "midi": [
+        51,
+        65,
+        58
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "D#sus4": {
+      "notes": [
+        "D#3",
+        "G#3",
+        "A#3"
+      ],
+      "midi": [
+        51,
+        56,
+        58
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "D/A": {
+      "notes": [
+        "A2",
+        "D3",
+        "F#3"
+      ],
+      "midi": [
+        45,
+        50,
+        54
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "D/F#": {
+      "notes": [
+        "F#3",
+        "A3",
+        "D4"
+      ],
+      "midi": [
+        54,
+        57,
+        62
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "D11": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A3",
+        "C4",
+        "E4",
+        "G4"
+      ],
+      "midi": [
+        50,
+        54,
+        57,
+        60,
+        64,
+        67
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "D13": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A3",
+        "C4",
+        "E4",
+        "G4",
+        "B4"
+      ],
+      "midi": [
+        50,
+        54,
+        57,
+        60,
+        64,
+        67,
+        71
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "D13#11": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A3",
+        "C4",
+        "E4",
+        "G#4",
+        "B4"
+      ],
+      "midi": [
+        50,
+        54,
+        57,
+        60,
+        64,
+        68,
+        71
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "D13#9": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A3",
+        "C4",
+        "F4",
+        "G4",
+        "B4"
+      ],
+      "midi": [
+        50,
+        54,
+        57,
+        60,
+        65,
+        67,
+        71
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "D13b9": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A3",
+        "C4",
+        "Db4",
+        "G4",
+        "B4"
+      ],
+      "midi": [
+        50,
+        54,
+        57,
+        60,
+        61,
+        67,
+        71
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "D13sus4": {
+      "notes": [
+        "D3",
+        "G3",
+        "A3",
+        "C4",
+        "E4",
+        "G4",
+        "B4"
+      ],
+      "midi": [
+        50,
+        55,
+        57,
+        60,
+        64,
+        67,
+        71
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "D6": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A3",
+        "B3"
+      ],
+      "midi": [
+        50,
+        54,
+        57,
+        59
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "D7": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A3",
+        "C4"
+      ],
+      "midi": [
+        50,
+        54,
+        57,
+        60
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "D7#5#9": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A#3",
+        "C4",
+        "F4"
+      ],
+      "midi": [
+        50,
+        54,
+        58,
+        60,
+        65
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "D7alt": {
+      "notes": [
+        "D3",
+        "F#3",
+        "G#3",
+        "C4",
+        "Db4",
+        "Eb4"
+      ],
+      "midi": [
+        50,
+        54,
+        56,
+        60,
+        61,
+        63
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "D7sus2": {
+      "notes": [
+        "D3",
+        "E3",
+        "A3",
+        "C4"
+      ],
+      "midi": [
+        50,
+        52,
+        57,
+        60
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "D7sus4": {
+      "notes": [
+        "D3",
+        "G3",
+        "A3",
+        "C4"
+      ],
+      "midi": [
+        50,
+        55,
+        57,
+        60
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "D9": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A3",
+        "C4",
+        "E4"
+      ],
+      "midi": [
+        50,
+        54,
+        57,
+        60,
+        64
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "D9#5": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A#3",
+        "C4",
+        "E4"
+      ],
+      "midi": [
+        50,
+        54,
+        58,
+        60,
+        64
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "D9b5": {
+      "notes": [
+        "D3",
+        "F#3",
+        "G#3",
+        "C4",
+        "E4"
+      ],
+      "midi": [
+        50,
+        54,
+        56,
+        60,
+        64
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Daug": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A#3"
+      ],
+      "midi": [
+        50,
+        54,
+        58
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Daug7": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A#3",
+        "C4"
+      ],
+      "midi": [
+        50,
+        54,
+        58,
+        60
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Db": {
+      "notes": [
+        "Db3",
+        "F3",
+        "Ab3"
+      ],
+      "midi": [
+        49,
+        53,
+        56
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Db/Ab": {
+      "notes": [
+        "Ab2",
+        "Db3",
+        "F3"
+      ],
+      "midi": [
+        44,
+        49,
+        53
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Db/F": {
+      "notes": [
+        "F3",
+        "Ab3",
+        "Db4"
+      ],
+      "midi": [
+        53,
+        56,
+        61
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Db11": {
+      "notes": [
+        "Db3",
+        "F3",
+        "Ab3",
+        "B3",
+        "Eb4",
+        "Gb4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        59,
+        63,
+        66
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Db13": {
+      "notes": [
+        "Db3",
+        "F3",
+        "Ab3",
+        "B3",
+        "Eb4",
+        "Gb4",
+        "Bb4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        59,
+        63,
+        66,
+        70
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Db13#11": {
+      "notes": [
+        "Db3",
+        "F3",
+        "Ab3",
+        "B3",
+        "Eb4",
+        "G4",
+        "Bb4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        59,
+        63,
+        67,
+        70
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Db13#9": {
+      "notes": [
+        "Db3",
+        "F3",
+        "Ab3",
+        "B3",
+        "F4",
+        "Gb4",
+        "Bb4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        59,
+        65,
+        66,
+        70
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Db13b9": {
+      "notes": [
+        "Db3",
+        "F3",
+        "Ab3",
+        "B3",
+        "Db4",
+        "Gb4",
+        "Bb4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        59,
+        61,
+        66,
+        70
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Db13sus4": {
+      "notes": [
+        "Db3",
+        "Gb3",
+        "Ab3",
+        "B3",
+        "Eb4",
+        "Gb4",
+        "Bb4"
+      ],
+      "midi": [
+        49,
+        54,
+        56,
+        59,
+        63,
+        66,
+        70
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Db6": {
+      "notes": [
+        "Db3",
+        "F3",
+        "Ab3",
+        "Bb3"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        58
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Db7": {
+      "notes": [
+        "Db3",
+        "F3",
+        "Ab3",
+        "B3"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        59
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Db7#5#9": {
+      "notes": [
+        "Db3",
+        "F3",
+        "A3",
+        "B3",
+        "F4"
+      ],
+      "midi": [
+        49,
+        53,
+        57,
+        59,
+        65
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Db7alt": {
+      "notes": [
+        "Db3",
+        "F3",
+        "Gb3",
+        "B3",
+        "Db4",
+        "E4"
+      ],
+      "midi": [
+        49,
+        53,
+        54,
+        59,
+        61,
+        64
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Db7sus2": {
+      "notes": [
+        "Db3",
+        "Eb3",
+        "Ab3",
+        "B3"
+      ],
+      "midi": [
+        49,
+        51,
+        56,
+        59
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Db7sus4": {
+      "notes": [
+        "Db3",
+        "Gb3",
+        "Ab3",
+        "B3"
+      ],
+      "midi": [
+        49,
+        54,
+        56,
+        59
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Db9": {
+      "notes": [
+        "Db3",
+        "F3",
+        "Ab3",
+        "B3",
+        "Eb4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        59,
+        63
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Db9#5": {
+      "notes": [
+        "Db3",
+        "F3",
+        "A3",
+        "B3",
+        "Eb4"
+      ],
+      "midi": [
+        49,
+        53,
+        57,
+        59,
+        63
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Db9b5": {
+      "notes": [
+        "Db3",
+        "F3",
+        "Gb3",
+        "B3",
+        "Eb4"
+      ],
+      "midi": [
+        49,
+        53,
+        54,
+        59,
+        63
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "DbMaj7": {
+      "notes": [
+        "Db3",
+        "F3",
+        "Ab3",
+        "C4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        60
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Dbaug": {
+      "notes": [
+        "Db3",
+        "F3",
+        "A3"
+      ],
+      "midi": [
+        49,
+        53,
+        57
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Dbaug7": {
+      "notes": [
+        "Db3",
+        "F3",
+        "A3",
+        "B3"
+      ],
+      "midi": [
+        49,
+        53,
+        57,
+        59
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Dbdim": {
+      "notes": [
+        "Db3",
+        "E3",
+        "Gb3"
+      ],
+      "midi": [
+        49,
+        52,
+        54
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Dbdim7": {
+      "notes": [
+        "Db3",
+        "E3",
+        "Gb3",
+        "A3"
+      ],
+      "midi": [
+        49,
+        52,
+        54,
+        57
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Dbm": {
+      "notes": [
+        "Db3",
+        "E3",
+        "Ab3"
+      ],
+      "midi": [
+        49,
+        52,
+        56
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Dbm11": {
+      "notes": [
+        "Db3",
+        "E3",
+        "Ab3",
+        "B3",
+        "Eb4",
+        "Gb4"
+      ],
+      "midi": [
+        49,
+        52,
+        56,
+        59,
+        63,
+        66
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Dbm13": {
+      "notes": [
+        "Db3",
+        "E3",
+        "Ab3",
+        "B3",
+        "Eb4",
+        "Gb4",
+        "Bb4"
+      ],
+      "midi": [
+        49,
+        52,
+        56,
+        59,
+        63,
+        66,
+        70
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Dbm6": {
+      "notes": [
+        "Db3",
+        "E3",
+        "Ab3",
+        "Bb3"
+      ],
+      "midi": [
+        49,
+        52,
+        56,
+        58
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Dbm7": {
+      "notes": [
+        "Db3",
+        "E3",
+        "Ab3",
+        "B3"
+      ],
+      "midi": [
+        49,
+        52,
+        56,
+        59
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Dbm7b5": {
+      "notes": [
+        "Db3",
+        "E3",
+        "Gb3",
+        "B3"
+      ],
+      "midi": [
+        49,
+        52,
+        54,
+        59
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Dbm9": {
+      "notes": [
+        "Db3",
+        "E3",
+        "Ab3",
+        "B3",
+        "Eb4"
+      ],
+      "midi": [
+        49,
+        52,
+        56,
+        59,
+        63
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "DbmMaj7": {
+      "notes": [
+        "Db3",
+        "E3",
+        "Ab3",
+        "C4"
+      ],
+      "midi": [
+        49,
+        52,
+        56,
+        60
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Dbmaj11": {
+      "notes": [
+        "Db3",
+        "F3",
+        "Ab3",
+        "C4",
+        "Eb4",
+        "Gb4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        60,
+        63,
+        66
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Dbmaj13": {
+      "notes": [
+        "Db3",
+        "F3",
+        "Ab3",
+        "C4",
+        "Eb4",
+        "Gb4",
+        "Bb4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        60,
+        63,
+        66,
+        70
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Dbmaj13#11": {
+      "notes": [
+        "Db3",
+        "F3",
+        "Ab3",
+        "C4",
+        "Eb4",
+        "G4",
+        "Bb4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        60,
+        63,
+        67,
+        70
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Dbmaj7#11": {
+      "notes": [
+        "Db3",
+        "F3",
+        "Ab3",
+        "C4",
+        "G4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        60,
+        67
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Dbmaj9": {
+      "notes": [
+        "Db3",
+        "F3",
+        "Ab3",
+        "C4",
+        "Eb4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        60,
+        63
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Dbmaj9#11": {
+      "notes": [
+        "Db3",
+        "F3",
+        "Ab3",
+        "C4",
+        "Eb4",
+        "G4"
+      ],
+      "midi": [
+        49,
+        53,
+        56,
+        60,
+        63,
+        67
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Dbsus2": {
+      "notes": [
+        "Db3",
+        "Eb3",
+        "Ab3"
+      ],
+      "midi": [
+        49,
+        51,
+        56
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Dbsus4": {
+      "notes": [
+        "Db3",
+        "Gb3",
+        "Ab3"
+      ],
+      "midi": [
+        49,
+        54,
+        56
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Ddim": {
+      "notes": [
+        "D3",
+        "F3",
+        "G#3"
+      ],
+      "midi": [
+        50,
+        53,
+        56
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Ddim7": {
+      "notes": [
+        "D3",
+        "F3",
+        "G#3",
+        "B3"
+      ],
+      "midi": [
+        50,
+        53,
+        56,
+        59
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Dm": {
+      "notes": [
+        "D3",
+        "F3",
+        "A3"
+      ],
+      "midi": [
+        50,
+        53,
+        57
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Dm11": {
+      "notes": [
+        "D3",
+        "F3",
+        "A3",
+        "C4",
+        "E4",
+        "G4"
+      ],
+      "midi": [
+        50,
+        53,
+        57,
+        60,
+        64,
+        67
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Dm13": {
+      "notes": [
+        "D3",
+        "F3",
+        "A3",
+        "C4",
+        "E4",
+        "G4",
+        "B4"
+      ],
+      "midi": [
+        50,
+        53,
+        57,
+        60,
+        64,
+        67,
+        71
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Dm6": {
+      "notes": [
+        "D3",
+        "F3",
+        "A3",
+        "B3"
+      ],
+      "midi": [
+        50,
+        53,
+        57,
+        59
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Dm7": {
+      "notes": [
+        "D3",
+        "F3",
+        "A3",
+        "C4"
+      ],
+      "midi": [
+        50,
+        53,
+        57,
+        60
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Dm7b5": {
+      "notes": [
+        "D3",
+        "F3",
+        "G#3",
+        "C4"
+      ],
+      "midi": [
+        50,
+        53,
+        56,
+        60
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Dm9": {
+      "notes": [
+        "D3",
+        "F3",
+        "A3",
+        "C4",
+        "E4"
+      ],
+      "midi": [
+        50,
+        53,
+        57,
+        60,
+        64
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "DmMaj7": {
+      "notes": [
+        "D3",
+        "F3",
+        "A3",
+        "C#4"
+      ],
+      "midi": [
+        50,
+        53,
+        57,
+        61
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Dmaj11": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A3",
+        "C#4",
+        "E4",
+        "G4"
+      ],
+      "midi": [
+        50,
+        54,
+        57,
+        61,
+        64,
+        67
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Dmaj13": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A3",
+        "C#4",
+        "E4",
+        "G4",
+        "B4"
+      ],
+      "midi": [
+        50,
+        54,
+        57,
+        61,
+        64,
+        67,
+        71
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Dmaj13#11": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A3",
+        "C#3",
+        "E4",
+        "G#4",
+        "B4"
+      ],
+      "midi": [
+        50,
+        54,
+        57,
+        49,
+        64,
+        68,
+        71
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Dmaj7": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A3",
+        "C#4"
+      ],
+      "midi": [
+        50,
+        54,
+        57,
+        61
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Dmaj7#11": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A3",
+        "C#3",
+        "G#4"
+      ],
+      "midi": [
+        50,
+        54,
+        57,
+        49,
+        68
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Dmaj9": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A3",
+        "C#4",
+        "E4"
+      ],
+      "midi": [
+        50,
+        54,
+        57,
+        61,
+        64
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Dmaj9#11": {
+      "notes": [
+        "D3",
+        "F#3",
+        "A3",
+        "C#3",
+        "E4",
+        "G#4"
+      ],
+      "midi": [
+        50,
+        54,
+        57,
+        49,
+        64,
+        68
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Dsus2": {
+      "notes": [
+        "D3",
+        "E3",
+        "A3"
+      ],
+      "midi": [
+        50,
+        52,
+        57
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Dsus4": {
+      "notes": [
+        "D3",
+        "G3",
+        "A3"
+      ],
+      "midi": [
+        50,
+        55,
+        57
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "E": {
+      "notes": [
+        "E3",
+        "G#3",
+        "B3"
+      ],
+      "midi": [
+        52,
+        56,
+        59
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "E/B": {
+      "notes": [
+        "B2",
+        "E3",
+        "G#3"
+      ],
+      "midi": [
+        47,
+        52,
+        56
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "E/G#": {
+      "notes": [
+        "G#3",
+        "B3",
+        "E4"
+      ],
+      "midi": [
+        56,
+        59,
+        64
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "E11": {
+      "notes": [
+        "E3",
+        "G#3",
+        "B3",
+        "D4",
+        "F#4",
+        "A4"
+      ],
+      "midi": [
+        52,
+        56,
+        59,
+        62,
+        66,
+        69
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "E13": {
+      "notes": [
+        "E3",
+        "G#3",
+        "B3",
+        "D4",
+        "F#4",
+        "A4",
+        "C#4"
+      ],
+      "midi": [
+        52,
+        56,
+        59,
+        62,
+        66,
+        69,
+        61
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "E13#11": {
+      "notes": [
+        "E3",
+        "G#3",
+        "B3",
+        "D4",
+        "F#4",
+        "C4",
+        "C#4"
+      ],
+      "midi": [
+        52,
+        56,
+        59,
+        62,
+        66,
+        60,
+        61
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "E13#9": {
+      "notes": [
+        "E3",
+        "G#3",
+        "B3",
+        "D4",
+        "G4",
+        "A4",
+        "C#4"
+      ],
+      "midi": [
+        52,
+        56,
+        59,
+        62,
+        67,
+        69,
+        61
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "E13b9": {
+      "notes": [
+        "E3",
+        "G#3",
+        "B3",
+        "D4",
+        "F4",
+        "A4",
+        "C#4"
+      ],
+      "midi": [
+        52,
+        56,
+        59,
+        62,
+        65,
+        69,
+        61
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "E13sus4": {
+      "notes": [
+        "E3",
+        "A3",
+        "B3",
+        "D4",
+        "F#4",
+        "A4",
+        "C#4"
+      ],
+      "midi": [
+        52,
+        57,
+        59,
+        62,
+        66,
+        69,
+        61
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "E6": {
+      "notes": [
+        "E3",
+        "G#3",
+        "B3",
+        "C#4"
+      ],
+      "midi": [
+        52,
+        56,
+        59,
+        61
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "E7": {
+      "notes": [
+        "E3",
+        "G#3",
+        "B3",
+        "D4"
+      ],
+      "midi": [
+        52,
+        56,
+        59,
+        62
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "E7#5#9": {
+      "notes": [
+        "E3",
+        "G#3",
+        "C4",
+        "D4",
+        "G4"
+      ],
+      "midi": [
+        52,
+        56,
+        60,
+        62,
+        67
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "E7alt": {
+      "notes": [
+        "E3",
+        "G#3",
+        "A#3",
+        "D4",
+        "F4",
+        "G4"
+      ],
+      "midi": [
+        52,
+        56,
+        58,
+        62,
+        65,
+        67
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "E7sus2": {
+      "notes": [
+        "E3",
+        "F#3",
+        "B3",
+        "D4"
+      ],
+      "midi": [
+        52,
+        54,
+        59,
+        62
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "E7sus4": {
+      "notes": [
+        "E3",
+        "A3",
+        "B3",
+        "D4"
+      ],
+      "midi": [
+        52,
+        57,
+        59,
+        62
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "E9": {
+      "notes": [
+        "E3",
+        "G#3",
+        "B3",
+        "D4",
+        "F#4"
+      ],
+      "midi": [
+        52,
+        56,
+        59,
+        62,
+        66
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "E9#5": {
+      "notes": [
+        "E3",
+        "G#3",
+        "C4",
+        "D4",
+        "F#4"
+      ],
+      "midi": [
+        52,
+        56,
+        60,
+        62,
+        66
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "E9b5": {
+      "notes": [
+        "E3",
+        "G#3",
+        "A#3",
+        "D4",
+        "F#4"
+      ],
+      "midi": [
+        52,
+        56,
+        58,
+        62,
+        66
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "EMaj7": {
+      "notes": [
+        "E3",
+        "G#3",
+        "B3",
+        "D#4"
+      ],
+      "midi": [
+        52,
+        56,
+        59,
+        63
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Eaug": {
+      "notes": [
+        "E3",
+        "G#3",
+        "C4"
+      ],
+      "midi": [
+        52,
+        56,
+        60
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Eaug7": {
+      "notes": [
+        "E3",
+        "G#3",
+        "C4",
+        "D4"
+      ],
+      "midi": [
+        52,
+        56,
+        60,
+        62
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Eb": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "Bb3"
+      ],
+      "midi": [
+        51,
+        55,
+        58
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Eb/Bb": {
+      "notes": [
+        "Bb2",
+        "Eb3",
+        "G3"
+      ],
+      "midi": [
+        46,
+        51,
+        55
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Eb/G": {
+      "notes": [
+        "G3",
+        "Bb3",
+        "Eb4"
+      ],
+      "midi": [
+        55,
+        58,
+        63
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Eb11": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "Bb3",
+        "Db4",
+        "F4",
+        "Ab4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        61,
+        65,
+        68
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Eb13": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "Bb3",
+        "Db4",
+        "F4",
+        "Ab4",
+        "C4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        61,
+        65,
+        68,
+        60
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Eb13#11": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "Bb3",
+        "Db4",
+        "F4",
+        "A4",
+        "C4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        61,
+        65,
+        69,
+        60
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Eb13#9": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "Bb3",
+        "Db4",
+        "G4",
+        "Ab4",
+        "C4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        61,
+        67,
+        68,
+        60
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Eb13b9": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "Bb3",
+        "Db4",
+        "E4",
+        "Ab4",
+        "C4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        61,
+        64,
+        68,
+        60
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Eb13sus4": {
+      "notes": [
+        "Eb3",
+        "Ab3",
+        "Bb3",
+        "Db4",
+        "F4",
+        "Ab4",
+        "C4"
+      ],
+      "midi": [
+        51,
+        56,
+        58,
+        61,
+        65,
+        68,
+        60
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Eb6": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "Bb3",
+        "C4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        60
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Eb7": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "Bb3",
+        "Db4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        61
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Eb7#5#9": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "B3",
+        "Db4",
+        "G4"
+      ],
+      "midi": [
+        51,
+        55,
+        59,
+        61,
+        67
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Eb7alt": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "A3",
+        "Db4",
+        "E4",
+        "F#4"
+      ],
+      "midi": [
+        51,
+        55,
+        57,
+        61,
+        64,
+        66
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Eb7sus2": {
+      "notes": [
+        "Eb3",
+        "F4",
+        "Bb3",
+        "Db4"
+      ],
+      "midi": [
+        51,
+        65,
+        58,
+        61
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Eb7sus4": {
+      "notes": [
+        "Eb3",
+        "Ab3",
+        "Bb3",
+        "Db4"
+      ],
+      "midi": [
+        51,
+        56,
+        58,
+        61
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Eb9": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "Bb3",
+        "Db4",
+        "F4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        61,
+        65
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Eb9#5": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "B3",
+        "Db4",
+        "F4"
+      ],
+      "midi": [
+        51,
+        55,
+        59,
+        61,
+        65
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Eb9b5": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "A3",
+        "Db4",
+        "F4"
+      ],
+      "midi": [
+        51,
+        55,
+        57,
+        61,
+        65
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "EbMaj7": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "Bb3",
+        "D4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        62
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Ebaug": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "B3"
+      ],
+      "midi": [
+        51,
+        55,
+        59
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Ebaug7": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "B3",
+        "Db4"
+      ],
+      "midi": [
+        51,
+        55,
+        59,
+        61
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Ebdim": {
+      "notes": [
+        "Eb3",
+        "Gb3",
+        "A3"
+      ],
+      "midi": [
+        51,
+        54,
+        57
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Ebdim7": {
+      "notes": [
+        "Eb3",
+        "Gb3",
+        "A3",
+        "C3"
+      ],
+      "midi": [
+        51,
+        54,
+        57,
+        48
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Ebm": {
+      "notes": [
+        "Eb3",
+        "Gb3",
+        "Bb3"
+      ],
+      "midi": [
+        51,
+        54,
+        58
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Ebm11": {
+      "notes": [
+        "Eb3",
+        "Gb3",
+        "Bb3",
+        "Db4",
+        "F4",
+        "Ab4"
+      ],
+      "midi": [
+        51,
+        54,
+        58,
+        61,
+        65,
+        68
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Ebm13": {
+      "notes": [
+        "Eb3",
+        "Gb3",
+        "Bb3",
+        "Db4",
+        "F4",
+        "Ab4",
+        "C4"
+      ],
+      "midi": [
+        51,
+        54,
+        58,
+        61,
+        65,
+        68,
+        60
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Ebm6": {
+      "notes": [
+        "Eb3",
+        "Gb3",
+        "Bb3",
+        "C4"
+      ],
+      "midi": [
+        51,
+        54,
+        58,
+        60
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Ebm7": {
+      "notes": [
+        "Eb3",
+        "Gb3",
+        "Bb3",
+        "Db4"
+      ],
+      "midi": [
+        51,
+        54,
+        58,
+        61
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Ebm7b5": {
+      "notes": [
+        "Eb3",
+        "Gb3",
+        "A3",
+        "Db4"
+      ],
+      "midi": [
+        51,
+        54,
+        57,
+        61
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Ebm9": {
+      "notes": [
+        "Eb3",
+        "Gb3",
+        "Bb3",
+        "Db4",
+        "F4"
+      ],
+      "midi": [
+        51,
+        54,
+        58,
+        61,
+        65
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "EbmMaj7": {
+      "notes": [
+        "Eb3",
+        "Gb3",
+        "Bb3",
+        "D4"
+      ],
+      "midi": [
+        51,
+        54,
+        58,
+        62
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Ebmaj11": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "Bb3",
+        "D4",
+        "F4",
+        "Ab4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        62,
+        65,
+        68
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Ebmaj13": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "Bb3",
+        "D4",
+        "F4",
+        "Ab4",
+        "C4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        62,
+        65,
+        68,
+        60
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Ebmaj13#11": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "Bb3",
+        "D4",
+        "F4",
+        "A4",
+        "C4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        62,
+        65,
+        69,
+        60
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Ebmaj7#11": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "Bb3",
+        "D4",
+        "A4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        62,
+        69
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Ebmaj9": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "Bb3",
+        "D4",
+        "F4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        62,
+        65
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Ebmaj9#11": {
+      "notes": [
+        "Eb3",
+        "G3",
+        "Bb3",
+        "D4",
+        "F4",
+        "A4"
+      ],
+      "midi": [
+        51,
+        55,
+        58,
+        62,
+        65,
+        69
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Ebsus2": {
+      "notes": [
+        "Eb3",
+        "F4",
+        "Bb3"
+      ],
+      "midi": [
+        51,
+        65,
+        58
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Ebsus4": {
+      "notes": [
+        "Eb3",
+        "Ab3",
+        "Bb3"
+      ],
+      "midi": [
+        51,
+        56,
+        58
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Edim": {
+      "notes": [
+        "E3",
+        "G3",
+        "A#3"
+      ],
+      "midi": [
+        52,
+        55,
+        58
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Edim7": {
+      "notes": [
+        "E3",
+        "G3",
+        "A#3",
+        "C#4"
+      ],
+      "midi": [
+        52,
+        55,
+        58,
+        61
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Em": {
+      "notes": [
+        "E3",
+        "G3",
+        "B3"
+      ],
+      "midi": [
+        52,
+        55,
+        59
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Em11": {
+      "notes": [
+        "E3",
+        "G3",
+        "B3",
+        "D4",
+        "F#4",
+        "A4"
+      ],
+      "midi": [
+        52,
+        55,
+        59,
+        62,
+        66,
+        69
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Em13": {
+      "notes": [
+        "E3",
+        "G3",
+        "B3",
+        "D4",
+        "F#4",
+        "A4",
+        "C#4"
+      ],
+      "midi": [
+        52,
+        55,
+        59,
+        62,
+        66,
+        69,
+        61
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Em6": {
+      "notes": [
+        "E3",
+        "G3",
+        "B3",
+        "C#4"
+      ],
+      "midi": [
+        52,
+        55,
+        59,
+        61
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Em7": {
+      "notes": [
+        "E3",
+        "G3",
+        "B3",
+        "D4"
+      ],
+      "midi": [
+        52,
+        55,
+        59,
+        62
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Em7b5": {
+      "notes": [
+        "E3",
+        "G3",
+        "A#3",
+        "D4"
+      ],
+      "midi": [
+        52,
+        55,
+        58,
+        62
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Em9": {
+      "notes": [
+        "E3",
+        "G3",
+        "B3",
+        "D4",
+        "F#4"
+      ],
+      "midi": [
+        52,
+        55,
+        59,
+        62,
+        66
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "EmMaj7": {
+      "notes": [
+        "E3",
+        "G3",
+        "B3",
+        "D#4"
+      ],
+      "midi": [
+        52,
+        55,
+        59,
+        63
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Emaj11": {
+      "notes": [
+        "E3",
+        "G#3",
+        "B3",
+        "D#4",
+        "F#4",
+        "A4"
+      ],
+      "midi": [
+        52,
+        56,
+        59,
+        63,
+        66,
+        69
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Emaj13": {
+      "notes": [
+        "E3",
+        "G#3",
+        "B3",
+        "D#4",
+        "F#4",
+        "A4",
+        "C#4"
+      ],
+      "midi": [
+        52,
+        56,
+        59,
+        63,
+        66,
+        69,
+        61
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Emaj13#11": {
+      "notes": [
+        "E3",
+        "G#3",
+        "B3",
+        "D#3",
+        "F#4",
+        "A#4",
+        "C#4"
+      ],
+      "midi": [
+        52,
+        56,
+        59,
+        51,
+        66,
+        70,
+        61
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Emaj7#11": {
+      "notes": [
+        "E3",
+        "G#3",
+        "B3",
+        "D#3",
+        "A#4"
+      ],
+      "midi": [
+        52,
+        56,
+        59,
+        51,
+        70
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Emaj9": {
+      "notes": [
+        "E3",
+        "G#3",
+        "B3",
+        "D#4",
+        "F#4"
+      ],
+      "midi": [
+        52,
+        56,
+        59,
+        63,
+        66
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Emaj9#11": {
+      "notes": [
+        "E3",
+        "G#3",
+        "B3",
+        "D#3",
+        "F#4",
+        "A#4"
+      ],
+      "midi": [
+        52,
+        56,
+        59,
+        51,
+        66,
+        70
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Esus2": {
+      "notes": [
+        "E3",
+        "F#3",
+        "B3"
+      ],
+      "midi": [
+        52,
+        54,
+        59
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Esus4": {
+      "notes": [
+        "E3",
+        "A3",
+        "B3"
+      ],
+      "midi": [
+        52,
+        57,
+        59
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "F": {
+      "notes": [
+        "F3",
+        "A3",
+        "C4"
+      ],
+      "midi": [
+        53,
+        57,
+        60
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "F#": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "C#4"
+      ],
+      "midi": [
+        54,
+        58,
+        61
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "F#/A#": {
+      "notes": [
+        "A#3",
+        "C#4",
+        "F#4"
+      ],
+      "midi": [
+        58,
+        61,
+        66
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "F#/C#": {
+      "notes": [
+        "C#3",
+        "F#3",
+        "A#3"
+      ],
+      "midi": [
+        49,
+        54,
+        58
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "F#11": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "C#4",
+        "E4",
+        "G#4",
+        "B4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        64,
+        68,
+        71
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "F#13": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "C#4",
+        "E4",
+        "G#4",
+        "B4",
+        "D#4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        64,
+        68,
+        71,
+        63
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "F#13#11": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "C#4",
+        "E4",
+        "G#4",
+        "C4",
+        "D#4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        64,
+        68,
+        60,
+        63
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "F#13#9": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "C#4",
+        "E4",
+        "A4",
+        "B4",
+        "D#4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        64,
+        69,
+        71,
+        63
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "F#13b9": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "C#4",
+        "E4",
+        "F4",
+        "B4",
+        "D#4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        64,
+        65,
+        71,
+        63
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "F#13sus4": {
+      "notes": [
+        "F#3",
+        "B3",
+        "C#4",
+        "E4",
+        "G#4",
+        "B4",
+        "D#4"
+      ],
+      "midi": [
+        54,
+        59,
+        61,
+        64,
+        68,
+        71,
+        63
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "F#6": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "C#4",
+        "D#4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        63
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "F#7": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "C#4",
+        "E4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        64
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "F#7#5#9": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "D4",
+        "E4",
+        "A4"
+      ],
+      "midi": [
+        54,
+        58,
+        62,
+        64,
+        69
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "F#7alt": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "C4",
+        "E4",
+        "F4",
+        "G4"
+      ],
+      "midi": [
+        54,
+        58,
+        60,
+        64,
+        65,
+        67
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "F#7sus2": {
+      "notes": [
+        "F#3",
+        "G#3",
+        "C#4",
+        "E4"
+      ],
+      "midi": [
+        54,
+        56,
+        61,
+        64
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "F#7sus4": {
+      "notes": [
+        "F#3",
+        "B3",
+        "C#4",
+        "E4"
+      ],
+      "midi": [
+        54,
+        59,
+        61,
+        64
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "F#9": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "C#4",
+        "E4",
+        "G#4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        64,
+        68
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "F#9#5": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "D4",
+        "E4",
+        "G#4"
+      ],
+      "midi": [
+        54,
+        58,
+        62,
+        64,
+        68
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "F#9b5": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "C4",
+        "E4",
+        "G#4"
+      ],
+      "midi": [
+        54,
+        58,
+        60,
+        64,
+        68
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "F#Maj7": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "C#4",
+        "F4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        65
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "F#aug": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "D4"
+      ],
+      "midi": [
+        54,
+        58,
+        62
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "F#aug7": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "D4",
+        "E4"
+      ],
+      "midi": [
+        54,
+        58,
+        62,
+        64
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "F#dim": {
+      "notes": [
+        "F#3",
+        "A3",
+        "C4"
+      ],
+      "midi": [
+        54,
+        57,
+        60
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "F#dim7": {
+      "notes": [
+        "F#3",
+        "A3",
+        "C4",
+        "E4"
+      ],
+      "midi": [
+        54,
+        57,
+        60,
+        64
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "F#m": {
+      "notes": [
+        "F#3",
+        "A3",
+        "C#4"
+      ],
+      "midi": [
+        54,
+        57,
+        61
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "F#m11": {
+      "notes": [
+        "F#3",
+        "A3",
+        "C#4",
+        "E4",
+        "G#4",
+        "B4"
+      ],
+      "midi": [
+        54,
+        57,
+        61,
+        64,
+        68,
+        71
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "F#m13": {
+      "notes": [
+        "F#3",
+        "A3",
+        "C#4",
+        "E4",
+        "G#4",
+        "B4",
+        "D#4"
+      ],
+      "midi": [
+        54,
+        57,
+        61,
+        64,
+        68,
+        71,
+        63
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "F#m6": {
+      "notes": [
+        "F#3",
+        "A3",
+        "C#4",
+        "D#4"
+      ],
+      "midi": [
+        54,
+        57,
+        61,
+        63
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "F#m7": {
+      "notes": [
+        "F#3",
+        "A3",
+        "C#4",
+        "E4"
+      ],
+      "midi": [
+        54,
+        57,
+        61,
+        64
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "F#m7b5": {
+      "notes": [
+        "F#3",
+        "A3",
+        "C4",
+        "E4"
+      ],
+      "midi": [
+        54,
+        57,
+        60,
+        64
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "F#m9": {
+      "notes": [
+        "F#3",
+        "A3",
+        "C#4",
+        "E4",
+        "G#4"
+      ],
+      "midi": [
+        54,
+        57,
+        61,
+        64,
+        68
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "F#mMaj7": {
+      "notes": [
+        "F#3",
+        "A3",
+        "C#4",
+        "F4"
+      ],
+      "midi": [
+        54,
+        57,
+        61,
+        65
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "F#maj11": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "C#4",
+        "F4",
+        "G#4",
+        "B4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        65,
+        68,
+        71
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "F#maj13": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "C#4",
+        "F4",
+        "G#4",
+        "B4",
+        "D#4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        65,
+        68,
+        71,
+        63
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "F#maj13#11": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "C#4",
+        "F4",
+        "G#4",
+        "B4",
+        "D#4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        65,
+        68,
+        71,
+        63
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "F#maj7#11": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "C#4",
+        "F4",
+        "C#5"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        65,
+        73
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "F#maj9": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "C#4",
+        "F4",
+        "G#4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        65,
+        68
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "F#maj9#11": {
+      "notes": [
+        "F#3",
+        "A#3",
+        "C#4",
+        "F4",
+        "G#4",
+        "C#5"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        65,
+        68,
+        73
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "F#sus2": {
+      "notes": [
+        "F#3",
+        "G#3",
+        "C#4"
+      ],
+      "midi": [
+        54,
+        56,
+        61
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "F#sus4": {
+      "notes": [
+        "F#3",
+        "B3",
+        "C#4"
+      ],
+      "midi": [
+        54,
+        59,
+        61
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "F/A": {
+      "notes": [
+        "A3",
+        "C4",
+        "F4"
+      ],
+      "midi": [
+        57,
+        60,
+        65
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "F/C": {
+      "notes": [
+        "C3",
+        "F3",
+        "A3"
+      ],
+      "midi": [
+        48,
+        53,
+        57
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "F11": {
+      "notes": [
+        "F3",
+        "A3",
+        "C4",
+        "Eb4",
+        "G4",
+        "Bb4"
+      ],
+      "midi": [
+        53,
+        57,
+        60,
+        63,
+        67,
+        70
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "F13": {
+      "notes": [
+        "F3",
+        "A3",
+        "C4",
+        "Eb4",
+        "G4",
+        "Bb4",
+        "D4"
+      ],
+      "midi": [
+        53,
+        57,
+        60,
+        63,
+        67,
+        70,
+        62
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "F13#11": {
+      "notes": [
+        "F3",
+        "A3",
+        "C4",
+        "Eb4",
+        "G4",
+        "C#4",
+        "D4"
+      ],
+      "midi": [
+        53,
+        57,
+        60,
+        63,
+        67,
+        61,
+        62
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "F13#9": {
+      "notes": [
+        "F3",
+        "A3",
+        "C4",
+        "Eb4",
+        "A4",
+        "Bb4",
+        "D4"
+      ],
+      "midi": [
+        53,
+        57,
+        60,
+        63,
+        69,
+        70,
+        62
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "F13b9": {
+      "notes": [
+        "F3",
+        "A3",
+        "C4",
+        "Eb4",
+        "Gb4",
+        "Bb4",
+        "D4"
+      ],
+      "midi": [
+        53,
+        57,
+        60,
+        63,
+        66,
+        70,
+        62
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "F13sus4": {
+      "notes": [
+        "F3",
+        "Bb3",
+        "C4",
+        "Eb4",
+        "G4",
+        "Bb4",
+        "D4"
+      ],
+      "midi": [
+        53,
+        58,
+        60,
+        63,
+        67,
+        70,
+        62
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "F6": {
+      "notes": [
+        "F3",
+        "A3",
+        "C4",
+        "D4"
+      ],
+      "midi": [
+        53,
+        57,
+        60,
+        62
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "F7": {
+      "notes": [
+        "F3",
+        "A3",
+        "C4",
+        "Eb4"
+      ],
+      "midi": [
+        53,
+        57,
+        60,
+        63
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "F7#5#9": {
+      "notes": [
+        "F3",
+        "A3",
+        "C#4",
+        "Eb4",
+        "A4"
+      ],
+      "midi": [
+        53,
+        57,
+        61,
+        63,
+        69
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "F7alt": {
+      "notes": [
+        "F3",
+        "A3",
+        "B3",
+        "Eb4",
+        "Gb4",
+        "G#4"
+      ],
+      "midi": [
+        53,
+        57,
+        59,
+        63,
+        66,
+        68
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "F7sus2": {
+      "notes": [
+        "F3",
+        "G3",
+        "C4",
+        "Eb4"
+      ],
+      "midi": [
+        53,
+        55,
+        60,
+        63
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "F7sus4": {
+      "notes": [
+        "F3",
+        "Bb3",
+        "C4",
+        "Eb4"
+      ],
+      "midi": [
+        53,
+        58,
+        60,
+        63
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "F9": {
+      "notes": [
+        "F3",
+        "A3",
+        "C4",
+        "Eb4",
+        "G4"
+      ],
+      "midi": [
+        53,
+        57,
+        60,
+        63,
+        67
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "F9#5": {
+      "notes": [
+        "F3",
+        "A3",
+        "C#4",
+        "Eb4",
+        "G4"
+      ],
+      "midi": [
+        53,
+        57,
+        61,
+        63,
+        67
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "F9b5": {
+      "notes": [
+        "F3",
+        "A3",
+        "B3",
+        "Eb4",
+        "G4"
+      ],
+      "midi": [
+        53,
+        57,
+        59,
+        63,
+        67
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Faug": {
+      "notes": [
+        "F3",
+        "A3",
+        "C#4"
+      ],
+      "midi": [
+        53,
+        57,
+        61
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Faug7": {
+      "notes": [
+        "F3",
+        "A3",
+        "C#4",
+        "Eb4"
+      ],
+      "midi": [
+        53,
+        57,
+        61,
+        63
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Fdim": {
+      "notes": [
+        "F3",
+        "Ab3",
+        "B3"
+      ],
+      "midi": [
+        53,
+        56,
+        59
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Fdim7": {
+      "notes": [
+        "F3",
+        "Ab3",
+        "B3",
+        "D#3"
+      ],
+      "midi": [
+        53,
+        56,
+        59,
+        51
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Fm": {
+      "notes": [
+        "F3",
+        "Ab3",
+        "C4"
+      ],
+      "midi": [
+        53,
+        56,
+        60
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Fm11": {
+      "notes": [
+        "F3",
+        "Ab3",
+        "C4",
+        "Eb4",
+        "G4",
+        "Bb4"
+      ],
+      "midi": [
+        53,
+        56,
+        60,
+        63,
+        67,
+        70
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Fm13": {
+      "notes": [
+        "F3",
+        "Ab3",
+        "C4",
+        "Eb4",
+        "G4",
+        "Bb4",
+        "D4"
+      ],
+      "midi": [
+        53,
+        56,
+        60,
+        63,
+        67,
+        70,
+        62
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Fm6": {
+      "notes": [
+        "F3",
+        "Ab3",
+        "C4",
+        "D4"
+      ],
+      "midi": [
+        53,
+        56,
+        60,
+        62
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Fm7": {
+      "notes": [
+        "F3",
+        "Ab3",
+        "C4",
+        "Eb4"
+      ],
+      "midi": [
+        53,
+        56,
+        60,
+        63
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Fm7b5": {
+      "notes": [
+        "F3",
+        "Ab3",
+        "B3",
+        "Eb4"
+      ],
+      "midi": [
+        53,
+        56,
+        59,
+        63
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Fm9": {
+      "notes": [
+        "F3",
+        "Ab3",
+        "C4",
+        "Eb4",
+        "G4"
+      ],
+      "midi": [
+        53,
+        56,
+        60,
+        63,
+        67
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "FmMaj7": {
+      "notes": [
+        "F3",
+        "Ab3",
+        "C4",
+        "E4"
+      ],
+      "midi": [
+        53,
+        56,
+        60,
+        64
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Fmaj11": {
+      "notes": [
+        "F3",
+        "A3",
+        "C4",
+        "E4",
+        "G4",
+        "Bb4"
+      ],
+      "midi": [
+        53,
+        57,
+        60,
+        64,
+        67,
+        70
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Fmaj13": {
+      "notes": [
+        "F3",
+        "A3",
+        "C4",
+        "E4",
+        "G4",
+        "Bb4",
+        "D4"
+      ],
+      "midi": [
+        53,
+        57,
+        60,
+        64,
+        67,
+        70,
+        62
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Fmaj13#11": {
+      "notes": [
+        "F3",
+        "A3",
+        "C4",
+        "E4",
+        "G4",
+        "B4",
+        "D4"
+      ],
+      "midi": [
+        53,
+        57,
+        60,
+        64,
+        67,
+        71,
+        62
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Fmaj7": {
+      "notes": [
+        "F3",
+        "A3",
+        "C4",
+        "E4"
+      ],
+      "midi": [
+        53,
+        57,
+        60,
+        64
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Fmaj7#11": {
+      "notes": [
+        "F3",
+        "A3",
+        "C4",
+        "E4",
+        "B4"
+      ],
+      "midi": [
+        53,
+        57,
+        60,
+        64,
+        71
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Fmaj9": {
+      "notes": [
+        "F3",
+        "A3",
+        "C4",
+        "E4",
+        "G4"
+      ],
+      "midi": [
+        53,
+        57,
+        60,
+        64,
+        67
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Fmaj9#11": {
+      "notes": [
+        "F3",
+        "A3",
+        "C4",
+        "E4",
+        "G4",
+        "B4"
+      ],
+      "midi": [
+        53,
+        57,
+        60,
+        64,
+        67,
+        71
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Fsus2": {
+      "notes": [
+        "F3",
+        "G3",
+        "C4"
+      ],
+      "midi": [
+        53,
+        55,
+        60
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Fsus4": {
+      "notes": [
+        "F3",
+        "Bb3",
+        "C4"
+      ],
+      "midi": [
+        53,
+        58,
+        60
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "G": {
+      "notes": [
+        "G3",
+        "B3",
+        "D4"
+      ],
+      "midi": [
+        55,
+        59,
+        62
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "G#": {
+      "notes": [
+        "G#3",
+        "C4",
+        "D#4"
+      ],
+      "midi": [
+        56,
+        60,
+        63
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "G#/C": {
+      "notes": [
+        "C3",
+        "D#3",
+        "G#3"
+      ],
+      "midi": [
+        48,
+        51,
+        56
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "G#/D#": {
+      "notes": [
+        "D#3",
+        "G#3",
+        "C4"
+      ],
+      "midi": [
+        51,
+        56,
+        60
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "G#11": {
+      "notes": [
+        "G#3",
+        "C4",
+        "D#4",
+        "F#4",
+        "A#4",
+        "C#5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        66,
+        70,
+        73
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "G#13": {
+      "notes": [
+        "G#3",
+        "C4",
+        "D#4",
+        "F#4",
+        "A#4",
+        "C#5",
+        "E5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        66,
+        70,
+        73,
+        76
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "G#13#11": {
+      "notes": [
+        "G#3",
+        "C4",
+        "D#4",
+        "F#4",
+        "A#4",
+        "D5",
+        "E5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        66,
+        70,
+        74,
+        76
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "G#13#9": {
+      "notes": [
+        "G#3",
+        "C4",
+        "D#4",
+        "F#4",
+        "B4",
+        "C#5",
+        "E5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        66,
+        71,
+        73,
+        76
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "G#13b9": {
+      "notes": [
+        "G#3",
+        "C4",
+        "D#4",
+        "F#4",
+        "Bb4",
+        "C#5",
+        "E5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        66,
+        70,
+        73,
+        76
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "G#13sus4": {
+      "notes": [
+        "G#3",
+        "D#4",
+        "D#4",
+        "F#4",
+        "A#4",
+        "D#5",
+        "E5"
+      ],
+      "midi": [
+        56,
+        63,
+        63,
+        66,
+        70,
+        75,
+        76
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "G#6": {
+      "notes": [
+        "G#3",
+        "C4",
+        "D#4",
+        "F4"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        65
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "G#7": {
+      "notes": [
+        "G#3",
+        "C4",
+        "D#4",
+        "F#4"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        66
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "G#7#5#9": {
+      "notes": [
+        "G#3",
+        "C4",
+        "E4",
+        "F#4",
+        "B4"
+      ],
+      "midi": [
+        56,
+        60,
+        64,
+        66,
+        71
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "G#7alt": {
+      "notes": [
+        "G#3",
+        "C4",
+        "D4",
+        "F#4",
+        "A4",
+        "B4"
+      ],
+      "midi": [
+        56,
+        60,
+        62,
+        66,
+        69,
+        71
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "G#7sus2": {
+      "notes": [
+        "G#3",
+        "A#3",
+        "D#4",
+        "F#4"
+      ],
+      "midi": [
+        56,
+        58,
+        63,
+        66
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "G#7sus4": {
+      "notes": [
+        "G#3",
+        "D#4",
+        "D#4",
+        "F#4"
+      ],
+      "midi": [
+        56,
+        63,
+        63,
+        66
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "G#9": {
+      "notes": [
+        "G#3",
+        "C4",
+        "D#4",
+        "F#4",
+        "A#4"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        66,
+        70
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "G#9#5": {
+      "notes": [
+        "G#3",
+        "C4",
+        "E4",
+        "F#4",
+        "A#4"
+      ],
+      "midi": [
+        56,
+        60,
+        64,
+        66,
+        70
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "G#9b5": {
+      "notes": [
+        "G#3",
+        "C4",
+        "D4",
+        "F#4",
+        "A#4"
+      ],
+      "midi": [
+        56,
+        60,
+        62,
+        66,
+        70
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "G#Maj7": {
+      "notes": [
+        "G#3",
+        "C4",
+        "D#4",
+        "G4"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        67
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "G#aug": {
+      "notes": [
+        "G#3",
+        "C4",
+        "E4"
+      ],
+      "midi": [
+        56,
+        60,
+        64
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "G#aug7": {
+      "notes": [
+        "G#3",
+        "C4",
+        "E4",
+        "F#4"
+      ],
+      "midi": [
+        56,
+        60,
+        64,
+        66
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "G#dim": {
+      "notes": [
+        "G#3",
+        "B3",
+        "D4"
+      ],
+      "midi": [
+        56,
+        59,
+        62
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "G#dim7": {
+      "notes": [
+        "G#3",
+        "B3",
+        "D4",
+        "F4"
+      ],
+      "midi": [
+        56,
+        59,
+        62,
+        65
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "G#m": {
+      "notes": [
+        "G#3",
+        "B3",
+        "D#4"
+      ],
+      "midi": [
+        56,
+        59,
+        63
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "G#m11": {
+      "notes": [
+        "G#3",
+        "B3",
+        "D#4",
+        "F#4",
+        "A#4",
+        "C#5"
+      ],
+      "midi": [
+        56,
+        59,
+        63,
+        66,
+        70,
+        73
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "G#m13": {
+      "notes": [
+        "G#3",
+        "B3",
+        "D#4",
+        "F#4",
+        "A#4",
+        "C#5",
+        "E5"
+      ],
+      "midi": [
+        56,
+        59,
+        63,
+        66,
+        70,
+        73,
+        76
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "G#m6": {
+      "notes": [
+        "G#3",
+        "B3",
+        "D#4",
+        "F4"
+      ],
+      "midi": [
+        56,
+        59,
+        63,
+        65
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "G#m7": {
+      "notes": [
+        "G#3",
+        "B3",
+        "D#4",
+        "F#4"
+      ],
+      "midi": [
+        56,
+        59,
+        63,
+        66
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "G#m7b5": {
+      "notes": [
+        "G#3",
+        "B3",
+        "D4",
+        "F#4"
+      ],
+      "midi": [
+        56,
+        59,
+        62,
+        66
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "G#m9": {
+      "notes": [
+        "G#3",
+        "B3",
+        "D#4",
+        "F#4",
+        "A#4"
+      ],
+      "midi": [
+        56,
+        59,
+        63,
+        66,
+        70
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "G#mMaj7": {
+      "notes": [
+        "G#3",
+        "B3",
+        "D#4",
+        "G4"
+      ],
+      "midi": [
+        56,
+        59,
+        63,
+        67
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "G#maj11": {
+      "notes": [
+        "G#3",
+        "C4",
+        "D#4",
+        "G4",
+        "A#4",
+        "C#5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        67,
+        70,
+        73
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "G#maj13": {
+      "notes": [
+        "G#3",
+        "C4",
+        "D#4",
+        "G4",
+        "A#4",
+        "C#5",
+        "E5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        67,
+        70,
+        73,
+        76
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "G#maj13#11": {
+      "notes": [
+        "G#3",
+        "C4",
+        "D#4",
+        "G4",
+        "A#4",
+        "C#5",
+        "E5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        67,
+        70,
+        73,
+        76
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "G#maj7#11": {
+      "notes": [
+        "G#3",
+        "C4",
+        "D#4",
+        "G4",
+        "D5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        67,
+        74
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "G#maj9": {
+      "notes": [
+        "G#3",
+        "C4",
+        "D#4",
+        "G4",
+        "A#4"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        67,
+        70
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "G#maj9#11": {
+      "notes": [
+        "G#3",
+        "C4",
+        "D#4",
+        "G4",
+        "A#4",
+        "D5"
+      ],
+      "midi": [
+        56,
+        60,
+        63,
+        67,
+        70,
+        74
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "G#sus2": {
+      "notes": [
+        "G#3",
+        "A#3",
+        "D#4"
+      ],
+      "midi": [
+        56,
+        58,
+        63
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "G#sus4": {
+      "notes": [
+        "G#3",
+        "D#4",
+        "D#4"
+      ],
+      "midi": [
+        56,
+        63,
+        63
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "G/B": {
+      "notes": [
+        "B3",
+        "D4",
+        "G4"
+      ],
+      "midi": [
+        59,
+        62,
+        67
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "G/D": {
+      "notes": [
+        "D3",
+        "G3",
+        "B3"
+      ],
+      "midi": [
+        50,
+        55,
+        59
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "G11": {
+      "notes": [
+        "G3",
+        "B3",
+        "D4",
+        "F4",
+        "A4",
+        "C4"
+      ],
+      "midi": [
+        55,
+        59,
+        62,
+        65,
+        69,
+        60
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "G13": {
+      "notes": [
+        "G3",
+        "B3",
+        "D4",
+        "F4",
+        "A4",
+        "C4",
+        "E4"
+      ],
+      "midi": [
+        55,
+        59,
+        62,
+        65,
+        69,
+        60,
+        64
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "G13#11": {
+      "notes": [
+        "G3",
+        "B3",
+        "D4",
+        "F4",
+        "A4",
+        "C#4",
+        "E4"
+      ],
+      "midi": [
+        55,
+        59,
+        62,
+        65,
+        69,
+        61,
+        64
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "G13#9": {
+      "notes": [
+        "G3",
+        "B3",
+        "D4",
+        "F4",
+        "A#4",
+        "C4",
+        "E4"
+      ],
+      "midi": [
+        55,
+        59,
+        62,
+        65,
+        70,
+        60,
+        64
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "G13b9": {
+      "notes": [
+        "G3",
+        "B3",
+        "D4",
+        "F4",
+        "Ab4",
+        "C4",
+        "E4"
+      ],
+      "midi": [
+        55,
+        59,
+        62,
+        65,
+        68,
+        60,
+        64
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "G13sus4": {
+      "notes": [
+        "G3",
+        "C4",
+        "D4",
+        "F4",
+        "A4",
+        "C4",
+        "E4"
+      ],
+      "midi": [
+        55,
+        60,
+        62,
+        65,
+        69,
+        60,
+        64
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "G6": {
+      "notes": [
+        "G3",
+        "B3",
+        "D4",
+        "E4"
+      ],
+      "midi": [
+        55,
+        59,
+        62,
+        64
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "G7": {
+      "notes": [
+        "G3",
+        "B3",
+        "D4",
+        "F4"
+      ],
+      "midi": [
+        55,
+        59,
+        62,
+        65
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "G7#5#9": {
+      "notes": [
+        "G3",
+        "B3",
+        "D#4",
+        "F4",
+        "A#4"
+      ],
+      "midi": [
+        55,
+        59,
+        63,
+        65,
+        70
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "G7alt": {
+      "notes": [
+        "G3",
+        "B3",
+        "Db4",
+        "F4",
+        "Ab4",
+        "Bb4"
+      ],
+      "midi": [
+        55,
+        59,
+        61,
+        65,
+        68,
+        70
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "G7sus2": {
+      "notes": [
+        "G3",
+        "A3",
+        "D4",
+        "F4"
+      ],
+      "midi": [
+        55,
+        57,
+        62,
+        65
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "G7sus4": {
+      "notes": [
+        "G3",
+        "C4",
+        "D4",
+        "F4"
+      ],
+      "midi": [
+        55,
+        60,
+        62,
+        65
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "G9": {
+      "notes": [
+        "G3",
+        "B3",
+        "D4",
+        "F4",
+        "A4"
+      ],
+      "midi": [
+        55,
+        59,
+        62,
+        65,
+        69
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "G9#5": {
+      "notes": [
+        "G3",
+        "B3",
+        "D#4",
+        "F4",
+        "A4"
+      ],
+      "midi": [
+        55,
+        59,
+        63,
+        65,
+        69
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "G9b5": {
+      "notes": [
+        "G3",
+        "B3",
+        "Db4",
+        "F4",
+        "A4"
+      ],
+      "midi": [
+        55,
+        59,
+        61,
+        65,
+        69
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "GMaj7": {
+      "notes": [
+        "G3",
+        "B3",
+        "D4",
+        "F#4"
+      ],
+      "midi": [
+        55,
+        59,
+        62,
+        66
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Gaug": {
+      "notes": [
+        "G3",
+        "B3",
+        "D#4"
+      ],
+      "midi": [
+        55,
+        59,
+        63
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Gaug7": {
+      "notes": [
+        "G3",
+        "B3",
+        "D#4",
+        "F4"
+      ],
+      "midi": [
+        55,
+        59,
+        63,
+        65
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Gb": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "Db4"
+      ],
+      "midi": [
+        54,
+        58,
+        61
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Gb/Bb": {
+      "notes": [
+        "Bb3",
+        "Db4",
+        "Gb4"
+      ],
+      "midi": [
+        58,
+        61,
+        66
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Gb/Db": {
+      "notes": [
+        "Db3",
+        "Gb3",
+        "Bb3"
+      ],
+      "midi": [
+        49,
+        54,
+        58
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Gb11": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "Db4",
+        "E4",
+        "Ab4",
+        "B4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        64,
+        68,
+        71
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Gb13": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "Db4",
+        "E4",
+        "Ab4",
+        "B4",
+        "Eb4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        64,
+        68,
+        71,
+        63
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Gb13#11": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "Db4",
+        "E4",
+        "Ab4",
+        "C4",
+        "Eb4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        64,
+        68,
+        60,
+        63
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Gb13#9": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "Db4",
+        "E4",
+        "A4",
+        "B4",
+        "Eb4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        64,
+        69,
+        71,
+        63
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Gb13b9": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "Db4",
+        "E4",
+        "Fb4",
+        "B4",
+        "Eb4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        64,
+        64,
+        71,
+        63
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Gb13sus4": {
+      "notes": [
+        "Gb3",
+        "Cb4",
+        "Db4",
+        "E4",
+        "Ab4",
+        "B4",
+        "Eb4"
+      ],
+      "midi": [
+        54,
+        59,
+        61,
+        64,
+        68,
+        71,
+        63
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Gb6": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "Db4",
+        "Eb4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        63
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Gb7": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "Db4",
+        "E4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        64
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Gb7#5#9": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "D4",
+        "E4",
+        "A4"
+      ],
+      "midi": [
+        54,
+        58,
+        62,
+        64,
+        69
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Gb7alt": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "C4",
+        "E4",
+        "F4",
+        "G4"
+      ],
+      "midi": [
+        54,
+        58,
+        60,
+        64,
+        65,
+        67
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Gb7sus2": {
+      "notes": [
+        "Gb3",
+        "Ab3",
+        "Db4",
+        "E4"
+      ],
+      "midi": [
+        54,
+        56,
+        61,
+        64
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Gb7sus4": {
+      "notes": [
+        "Gb3",
+        "B3",
+        "Db4",
+        "E4"
+      ],
+      "midi": [
+        54,
+        59,
+        61,
+        64
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Gb9": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "Db4",
+        "E4",
+        "Ab4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        64,
+        68
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Gb9#5": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "D4",
+        "E4",
+        "Ab4"
+      ],
+      "midi": [
+        54,
+        58,
+        62,
+        64,
+        68
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Gb9b5": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "C4",
+        "E4",
+        "Ab4"
+      ],
+      "midi": [
+        54,
+        58,
+        60,
+        64,
+        68
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "GbMaj7": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "Db4",
+        "F4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        65
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Gbaug": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "D4"
+      ],
+      "midi": [
+        54,
+        58,
+        62
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Gbaug7": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "D4",
+        "E4"
+      ],
+      "midi": [
+        54,
+        58,
+        62,
+        64
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Gbdim": {
+      "notes": [
+        "Gb3",
+        "A3",
+        "C4"
+      ],
+      "midi": [
+        54,
+        57,
+        60
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Gbdim7": {
+      "notes": [
+        "Gb3",
+        "A3",
+        "C4",
+        "Eb4"
+      ],
+      "midi": [
+        54,
+        57,
+        60,
+        63
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Gbm": {
+      "notes": [
+        "Gb3",
+        "A3",
+        "Db4"
+      ],
+      "midi": [
+        54,
+        57,
+        61
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Gbm11": {
+      "notes": [
+        "Gb3",
+        "A3",
+        "Db4",
+        "E4",
+        "Ab4",
+        "B4"
+      ],
+      "midi": [
+        54,
+        57,
+        61,
+        64,
+        68,
+        71
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Gbm13": {
+      "notes": [
+        "Gb3",
+        "A3",
+        "Db4",
+        "E4",
+        "Ab4",
+        "B4",
+        "Eb4"
+      ],
+      "midi": [
+        54,
+        57,
+        61,
+        64,
+        68,
+        71,
+        63
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Gbm6": {
+      "notes": [
+        "Gb3",
+        "A3",
+        "Db4",
+        "Eb4"
+      ],
+      "midi": [
+        54,
+        57,
+        61,
+        63
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Gbm7": {
+      "notes": [
+        "Gb3",
+        "A3",
+        "Db4",
+        "E4"
+      ],
+      "midi": [
+        54,
+        57,
+        61,
+        64
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Gbm7b5": {
+      "notes": [
+        "Gb3",
+        "A3",
+        "C4",
+        "E4"
+      ],
+      "midi": [
+        54,
+        57,
+        60,
+        64
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Gbm9": {
+      "notes": [
+        "Gb3",
+        "A3",
+        "Db4",
+        "E4",
+        "Ab4"
+      ],
+      "midi": [
+        54,
+        57,
+        61,
+        64,
+        68
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "GbmMaj7": {
+      "notes": [
+        "Gb3",
+        "A3",
+        "Db4",
+        "F4"
+      ],
+      "midi": [
+        54,
+        57,
+        61,
+        65
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Gbmaj11": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "Db4",
+        "F4",
+        "Ab4",
+        "B4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        65,
+        68,
+        71
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Gbmaj13": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "Db4",
+        "F4",
+        "Ab4",
+        "B4",
+        "Eb4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        65,
+        68,
+        71,
+        63
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Gbmaj13#11": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "Db4",
+        "F4",
+        "Ab4",
+        "B4",
+        "Eb4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        65,
+        68,
+        71,
+        63
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Gbmaj7#11": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "Db4",
+        "F4",
+        "C5"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        65,
+        72
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Gbmaj9": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "Db4",
+        "F4",
+        "Ab4"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        65,
+        68
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Gbmaj9#11": {
+      "notes": [
+        "Gb3",
+        "Bb3",
+        "Db4",
+        "F4",
+        "Ab4",
+        "C5"
+      ],
+      "midi": [
+        54,
+        58,
+        61,
+        65,
+        68,
+        72
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Gbsus2": {
+      "notes": [
+        "Gb3",
+        "Ab3",
+        "Db4"
+      ],
+      "midi": [
+        54,
+        56,
+        61
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Gbsus4": {
+      "notes": [
+        "Gb3",
+        "B3",
+        "Db4"
+      ],
+      "midi": [
+        54,
+        59,
+        61
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Gdim": {
+      "notes": [
+        "G3",
+        "Bb3",
+        "Db4"
+      ],
+      "midi": [
+        55,
+        58,
+        61
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Gdim7": {
+      "notes": [
+        "G3",
+        "Bb3",
+        "Db4",
+        "Fb4"
+      ],
+      "midi": [
+        55,
+        58,
+        61,
+        64
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Gm": {
+      "notes": [
+        "G3",
+        "Bb3",
+        "D4"
+      ],
+      "midi": [
+        55,
+        58,
+        62
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Gm11": {
+      "notes": [
+        "G3",
+        "Bb3",
+        "D4",
+        "F4",
+        "A4",
+        "C4"
+      ],
+      "midi": [
+        55,
+        58,
+        62,
+        65,
+        69,
+        60
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Gm13": {
+      "notes": [
+        "G3",
+        "Bb3",
+        "D4",
+        "F4",
+        "A4",
+        "C4",
+        "E4"
+      ],
+      "midi": [
+        55,
+        58,
+        62,
+        65,
+        69,
+        60,
+        64
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Gm6": {
+      "notes": [
+        "G3",
+        "Bb3",
+        "D4",
+        "E4"
+      ],
+      "midi": [
+        55,
+        58,
+        62,
+        64
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Gm7": {
+      "notes": [
+        "G3",
+        "Bb3",
+        "D4",
+        "F4"
+      ],
+      "midi": [
+        55,
+        58,
+        62,
+        65
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Gm7b5": {
+      "notes": [
+        "G3",
+        "Bb3",
+        "Db4",
+        "F4"
+      ],
+      "midi": [
+        55,
+        58,
+        61,
+        65
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Gm9": {
+      "notes": [
+        "G3",
+        "Bb3",
+        "D4",
+        "F4",
+        "A4"
+      ],
+      "midi": [
+        55,
+        58,
+        62,
+        65,
+        69
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "GmMaj7": {
+      "notes": [
+        "G3",
+        "Bb3",
+        "D4",
+        "F#4"
+      ],
+      "midi": [
+        55,
+        58,
+        62,
+        66
+      ],
+      "note_count": 4,
+      "resolved_midi_count": 4
+    },
+    "Gmaj11": {
+      "notes": [
+        "G3",
+        "B3",
+        "D4",
+        "F#4",
+        "A4",
+        "C4"
+      ],
+      "midi": [
+        55,
+        59,
+        62,
+        66,
+        69,
+        60
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Gmaj13": {
+      "notes": [
+        "G3",
+        "B3",
+        "D4",
+        "F#4",
+        "A4",
+        "C4",
+        "E4"
+      ],
+      "midi": [
+        55,
+        59,
+        62,
+        66,
+        69,
+        60,
+        64
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Gmaj13#11": {
+      "notes": [
+        "G3",
+        "B3",
+        "D4",
+        "F#4",
+        "A4",
+        "C#5",
+        "E4"
+      ],
+      "midi": [
+        55,
+        59,
+        62,
+        66,
+        69,
+        73,
+        64
+      ],
+      "note_count": 7,
+      "resolved_midi_count": 7
+    },
+    "Gmaj7#11": {
+      "notes": [
+        "G3",
+        "B3",
+        "D4",
+        "F#4",
+        "C#5"
+      ],
+      "midi": [
+        55,
+        59,
+        62,
+        66,
+        73
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Gmaj9": {
+      "notes": [
+        "G3",
+        "B3",
+        "D4",
+        "F#4",
+        "A4"
+      ],
+      "midi": [
+        55,
+        59,
+        62,
+        66,
+        69
+      ],
+      "note_count": 5,
+      "resolved_midi_count": 5
+    },
+    "Gmaj9#11": {
+      "notes": [
+        "G3",
+        "B3",
+        "D4",
+        "F#4",
+        "A4",
+        "C#5"
+      ],
+      "midi": [
+        55,
+        59,
+        62,
+        66,
+        69,
+        73
+      ],
+      "note_count": 6,
+      "resolved_midi_count": 6
+    },
+    "Gsus2": {
+      "notes": [
+        "G3",
+        "A3",
+        "D4"
+      ],
+      "midi": [
+        55,
+        57,
+        62
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    },
+    "Gsus4": {
+      "notes": [
+        "G3",
+        "C4",
+        "D4"
+      ],
+      "midi": [
+        55,
+        60,
+        62
+      ],
+      "note_count": 3,
+      "resolved_midi_count": 3
+    }
+  }
+}

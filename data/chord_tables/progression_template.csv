@@ -1,0 +1,5 @@
+bar,start_beat,duration_beats,chord_symbol
+1,0.0,4.0,Cmaj7
+2,4.0,4.0,Am7
+3,8.0,4.0,Dm7
+4,12.0,4.0,G7

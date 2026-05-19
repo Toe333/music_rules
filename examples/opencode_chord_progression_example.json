@@ -1,0 +1,16 @@
+{
+  "tool": "chord_progression_csv_to_midi",
+  "arguments": {
+    "progression_csv_path": "data/chord_tables/progression_template.csv",
+    "chord_lexicon_path": "data/chord_tables/chord_lexicon.json",
+    "steps_per_beat": 2,
+    "meter": "4/4",
+    "tempo": 500000,
+    "strict_missing": false
+  },
+  "notes": [
+    "Use with OpenCode/OpenAI function-calling against the music-rules MCP/OpenAI adapter.",
+    "The result includes midi_base64 and voices.",
+    "For direct JSON progressions (without CSV), call chord_progression_to_midi instead."
+  ]
+}
