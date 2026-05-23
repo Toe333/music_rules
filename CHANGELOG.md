@@ -7,6 +7,29 @@ and the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format.
 
 ## [Unreleased]
 
+### Added
+
+- **Deterministic, rule-driven style generator** under
+  `music_rules.core.generate`. Reads a `StyleProfile` (Pydantic-validated
+  JSON in `data/styles/`) and renders multi-track MIDI with a seeded
+  RNG: drums on GM channel 10, bass / lead / pad on melodic channels.
+  One module per role (`drums.py`, `bass.py`, `lead.py`, `chords.py`)
+  plus a thin orchestrator (`generator.py`).
+- First bundled style profile: `dre_1990s_gangsta.json` — 92 BPM
+  G-funk minor vamp (A natural minor i–VI), boom-bap kick/snare/hat,
+  chromatic walking bass, sparse Moog blue-note lead, sustained pad.
+- Runnable example `examples/dre_1990s_gangsta.py` — writes a
+  deterministic `.mid` for any `--seed`.
+- New event-based `core/generate/midi_write.py`: the existing
+  `rolls_to_midi` collapses consecutive identical pitches, which is
+  fatal for drum loops. The new writer emits discrete `note_on` /
+  `note_off` events per hit and supports per-track GM channel.
+- Tests (`tests/test_generate_dre.py`, 7 cases) covering: seeded
+  determinism, every bass downbeat is the chord root, every bar ends
+  one chromatic semitone from the next downbeat, drum pattern
+  reproduces the profile hit-count exactly, B-section velocity boost
+  applies, MIDI round-trips through `mido`.
+
 ### Changed
 
 - Repo-wide cleanup pass: `ruff check` + `ruff format` clean across
