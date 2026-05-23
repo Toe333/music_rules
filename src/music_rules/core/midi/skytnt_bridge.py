@@ -36,9 +36,12 @@ from __future__ import annotations
 import base64
 import io
 from collections.abc import Iterable
-from typing import Any, TypedDict
+from typing import TYPE_CHECKING, Any, Literal, TypedDict, cast
 
 import mido
+
+if TYPE_CHECKING:
+    from music_rules.core.evaluate import PassagePiece
 
 # ---------------------------------------------------------------------------
 # Types
@@ -436,7 +439,7 @@ def skytnt_constrained_generate(
     prompt_midi: str | None = None,
     *,
     conditioning: dict[str, Any] | None = None,
-    ruleset: str = "both",
+    ruleset: Literal["Fux", "EIS", "both"] = "both",
     strict: bool = False,
     max_hard_violations: int = 0,
     max_total_cost: float = 10.0,
@@ -495,10 +498,15 @@ def skytnt_constrained_generate(
             voices = bundle["voices"]
             if not voices:
                 continue
+            piece: dict[str, Any] = {
+                "voices": voices,
+                "meter": bundle["meter"],
+                "species": 1,
+                "cantus_firmus_voice": 0,
+            }
             try:
                 report = evaluate_passage(
-                    voices,
-                    meter=bundle["meter"],
+                    cast("PassagePiece", piece),
                     ruleset=ruleset,
                     strict=strict,
                 )

@@ -158,3 +158,46 @@ class TestSkytntGeneration:
                 bridge.skytnt_constrained_generate()
         else:
             pytest.skip("transformers installed; skip extras-missing path")
+
+    def test_constrained_generate_passes_passagepiece_to_evaluator(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        """Regression: skytnt_constrained_generate used to call
+        evaluate_passage(voices, meter=..., ...) which crashes because
+        evaluate_passage expects a PassagePiece dict. Mock SkyTNT
+        generation and verify the wrapper hands the evaluator the
+        correct shape."""
+        # Synthesise a tiny base64-encoded MIDI from a known roll so the
+        # round-trip through midi_to_rolls works without any model.
+        fake_midi = bridge.rolls_to_midi([[60, 62, 64, 65, 67, 69, 71, 72]])
+
+        def fake_generate(**_: object) -> dict[str, list[dict[str, object]]]:
+            return {"candidates": [{"midi_base64": fake_midi, "token_count": 8}]}
+
+        monkeypatch.setattr(bridge, "skytnt_generate", fake_generate)
+
+        seen_pieces: list[dict[str, object]] = []
+        from music_rules.core import evaluate as core_evaluate
+
+        real_eval = core_evaluate.evaluate_passage
+
+        def spy_evaluate(piece, **kwargs):  # type: ignore[no-untyped-def]
+            seen_pieces.append(dict(piece))
+            return real_eval(piece, **kwargs)
+
+        monkeypatch.setattr(core_evaluate, "evaluate_passage", spy_evaluate)
+
+        result = bridge.skytnt_constrained_generate(
+            max_tries=1,
+            num_candidates_per_try=1,
+        )
+
+        assert seen_pieces, "evaluator was never invoked"
+        piece = seen_pieces[0]
+        assert "voices" in piece
+        assert isinstance(piece["voices"], list)
+        assert piece["voices"][0] == [60, 62, 64, 65, 67, 69, 71, 72]
+        assert piece.get("meter") == "4/4"
+        assert result["tried"] == 1
+        assert result["best"] is not None
