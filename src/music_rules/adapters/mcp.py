@@ -62,10 +62,6 @@ This split means:
 
 from __future__ import annotations
 
-import contextlib
-import csv
-import json
-from pathlib import Path
 from typing import Any
 
 from music_rules.core import corpus, evaluate
@@ -76,6 +72,7 @@ from music_rules.core.eis import roots as eis_roots
 from music_rules.core.eis import scales as eis_scales
 from music_rules.core.eis import voice_leading as eis_voice_leading
 from music_rules.core.fux import dissonance, harmonic, melodic, motion
+from music_rules.core.midi import render as midi_render
 from music_rules.core.midi import skytnt_bridge
 
 # ---------------------------------------------------------------------------
@@ -617,119 +614,6 @@ def tool_eis_check_ood(
     return {"hits": [dict(h) for h in hits], "ok": not hits}
 
 
-def _coerce_lexicon(
-    chord_lexicon: dict[str, Any] | None,
-    chord_lexicon_path: str | None,
-) -> dict[str, list[int]]:
-    """Normalize several lexicon JSON shapes into ``symbol -> [midi...]``."""
-    payload: dict[str, Any]
-    if chord_lexicon is not None:
-        payload = chord_lexicon
-    elif chord_lexicon_path is not None:
-        payload = json.loads(Path(chord_lexicon_path).read_text(encoding="utf-8"))
-    else:
-        raise ValueError(
-            "Provide either chord_lexicon (object) or chord_lexicon_path (JSON file path)."
-        )
-
-    out: dict[str, list[int]] = {}
-    # Exporter shape: {"chords": {"Cmaj7": {"midi": [60,64,67,71], ...}, ...}}
-    if "chords" in payload and isinstance(payload["chords"], dict):
-        for symbol, entry in payload["chords"].items():
-            if not isinstance(symbol, str):
-                continue
-            if isinstance(entry, dict) and isinstance(entry.get("midi"), list):
-                out[symbol] = [int(n) for n in entry["midi"]]
-        return out
-
-    # Also accept a flat mapping: {"Cmaj7": [60,64,67,71], ...}
-    for symbol, entry in payload.items():
-        if not isinstance(symbol, str):
-            continue
-        if isinstance(entry, list):
-            out[symbol] = [int(n) for n in entry]
-    return out
-
-
-def _progression_to_roll_grid(
-    progression: list[dict[str, Any]],
-    symbol_to_midi: dict[str, list[int]],
-    *,
-    steps_per_beat: int,
-    rest_symbol: str,
-) -> tuple[list[list[int]], int, list[str]]:
-    """Render timed chord events onto a fixed-step roll grid."""
-    if steps_per_beat < 1:
-        raise ValueError("steps_per_beat must be >= 1")
-    if not progression:
-        raise ValueError("progression must include at least one event")
-
-    cursor_beats = 0.0
-    events: list[tuple[int, int, str]] = []  # (start_step, duration_steps, symbol)
-    unresolved: list[str] = []
-    max_voices = 1
-    total_steps = 0
-
-    for idx, row in enumerate(progression):
-        symbol = str(row.get("chord_symbol", "")).strip()
-        if not symbol:
-            raise ValueError(f"progression[{idx}] missing chord_symbol")
-
-        duration_beats = float(row.get("duration_beats", 1.0))
-        if duration_beats <= 0:
-            raise ValueError(f"progression[{idx}] has non-positive duration_beats")
-        duration_steps = max(1, round(duration_beats * steps_per_beat))
-
-        start_beat = float(row["start_beat"]) if "start_beat" in row else cursor_beats
-        start_step = max(0, round(start_beat * steps_per_beat))
-
-        cursor_beats = max(cursor_beats, start_beat + duration_beats)
-        total_steps = max(total_steps, start_step + duration_steps)
-        events.append((start_step, duration_steps, symbol))
-
-        if symbol != rest_symbol:
-            midi = symbol_to_midi.get(symbol)
-            if midi is None:
-                unresolved.append(symbol)
-            elif midi:
-                max_voices = max(max_voices, len(midi))
-
-    voices = [[-1] * total_steps for _ in range(max_voices)]
-    for start, dur, symbol in sorted(events, key=lambda e: e[0]):
-        if symbol == rest_symbol:
-            continue
-        midi = symbol_to_midi.get(symbol)
-        if not midi:
-            continue
-        end = min(total_steps, start + dur)
-        for v_idx, pitch in enumerate(midi):
-            for t in range(start, end):
-                voices[v_idx][t] = pitch
-
-    return voices, total_steps, sorted(set(unresolved))
-
-
-def _read_progression_csv(path: str) -> list[dict[str, Any]]:
-    """Read progression events from CSV (chord_symbol, duration_beats, start_beat?)."""
-    out: list[dict[str, Any]] = []
-    with Path(path).open("r", encoding="utf-8", newline="") as fh:
-        reader = csv.DictReader(fh)
-        for row in reader:
-            if not row:
-                continue
-            event: dict[str, Any] = {}
-            if row.get("bar"):
-                with contextlib.suppress(TypeError, ValueError):
-                    event["bar"] = int(row["bar"])
-            if row.get("start_beat") not in (None, ""):
-                event["start_beat"] = float(row["start_beat"])
-            if row.get("duration_beats") not in (None, ""):
-                event["duration_beats"] = float(row["duration_beats"])
-            event["chord_symbol"] = str(row.get("chord_symbol", "")).strip()
-            out.append(event)
-    return out
-
-
 def tool_chord_progression_to_rolls(
     progression: list[dict[str, Any]],
     chord_lexicon: dict[str, Any] | None = None,
@@ -752,8 +636,8 @@ def tool_chord_progression_to_rolls(
         ``{"voices": [[...], ...], "steps_per_beat": int, "total_steps": int,
            "unresolved_chords": [symbol...], "ok": bool}``
     """
-    symbol_to_midi = _coerce_lexicon(chord_lexicon, chord_lexicon_path)
-    voices, total_steps, unresolved = _progression_to_roll_grid(
+    symbol_to_midi = midi_render.load_chord_lexicon(chord_lexicon, chord_lexicon_path)
+    voices, total_steps, unresolved = midi_render.progression_to_rolls(
         progression, symbol_to_midi, steps_per_beat=steps_per_beat, rest_symbol=rest_symbol
     )
     return {
@@ -784,8 +668,8 @@ def tool_chord_progression_to_midi(
     This bridges lexicon/progression tables directly into the existing
     ``rolls_to_midi`` pipeline expected by the SkyTNT tools.
     """
-    symbol_to_midi = _coerce_lexicon(chord_lexicon, chord_lexicon_path)
-    voices, total_steps, unresolved = _progression_to_roll_grid(
+    symbol_to_midi = midi_render.load_chord_lexicon(chord_lexicon, chord_lexicon_path)
+    voices, total_steps, unresolved = midi_render.progression_to_rolls(
         progression, symbol_to_midi, steps_per_beat=steps_per_beat, rest_symbol=rest_symbol
     )
     if unresolved and strict_missing:
@@ -795,7 +679,7 @@ def tool_chord_progression_to_midi(
             f"{missing}{' ...' if len(unresolved) > 8 else ''}"
         )
 
-    midi_b64 = skytnt_bridge.rolls_to_midi(
+    midi_b64 = midi_render.progression_to_midi(
         voices,
         meter=meter,
         tempo=tempo,
@@ -833,7 +717,7 @@ def tool_chord_progression_csv_to_midi(
         - required: ``chord_symbol``
         - optional: ``duration_beats`` (default 1.0), ``start_beat``
     """
-    progression = _read_progression_csv(progression_csv_path)
+    progression = midi_render.read_progression_csv(progression_csv_path)
     return tool_chord_progression_to_midi(
         progression=progression,
         chord_lexicon_path=chord_lexicon_path,
