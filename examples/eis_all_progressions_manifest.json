@@ -1,0 +1,134 @@
+{
+  "description": "EIS progression examples with whole-note harmony and quarter-note melody.",
+  "chord_class": "triad-7",
+  "parts": 4,
+  "meter": "4/4",
+  "tempo_bpm": 120,
+  "items": [
+    {
+      "kind": "E1",
+      "cycle": "E1",
+      "bars": 12,
+      "cycle_length": 12,
+      "roots": [
+        "C",
+        "C#",
+        "D",
+        "D#",
+        "E",
+        "F",
+        "F#",
+        "G",
+        "G#",
+        "A",
+        "A#",
+        "B"
+      ],
+      "midi": "examples/eis_e1_harmonized.mid",
+      "csv": "examples/eis_e1_harmonized.csv",
+      "voice_leading_pairs": 11,
+      "voice_leading_violations": 0
+    },
+    {
+      "kind": "E2",
+      "cycle": "E2",
+      "bars": 6,
+      "cycle_length": 6,
+      "roots": [
+        "C",
+        "D",
+        "E",
+        "F#",
+        "G#",
+        "A#"
+      ],
+      "midi": "examples/eis_e2_harmonized.mid",
+      "csv": "examples/eis_e2_harmonized.csv",
+      "voice_leading_pairs": 5,
+      "voice_leading_violations": 0
+    },
+    {
+      "kind": "E3",
+      "cycle": "E3",
+      "bars": 4,
+      "cycle_length": 4,
+      "roots": [
+        "C",
+        "D#",
+        "F#",
+        "A"
+      ],
+      "midi": "examples/eis_e3_harmonized.mid",
+      "csv": "examples/eis_e3_harmonized.csv",
+      "voice_leading_pairs": 3,
+      "voice_leading_violations": 0
+    },
+    {
+      "kind": "E4",
+      "cycle": "E4",
+      "bars": 3,
+      "cycle_length": 3,
+      "roots": [
+        "C",
+        "E",
+        "G#"
+      ],
+      "midi": "examples/eis_e4_harmonized.mid",
+      "csv": "examples/eis_e4_harmonized.csv",
+      "voice_leading_pairs": 2,
+      "voice_leading_violations": 0
+    },
+    {
+      "kind": "E5",
+      "cycle": "E5",
+      "bars": 12,
+      "cycle_length": 12,
+      "roots": [
+        "C",
+        "F",
+        "Bb",
+        "Eb",
+        "Ab",
+        "Db",
+        "Gb",
+        "B",
+        "E",
+        "A",
+        "D",
+        "G"
+      ],
+      "midi": "examples/eis_e5_harmonized.mid",
+      "csv": "examples/eis_e5_harmonized.csv",
+      "voice_leading_pairs": 11,
+      "voice_leading_violations": 0
+    },
+    {
+      "kind": "E6",
+      "cycle": "E6",
+      "bars": 2,
+      "cycle_length": 2,
+      "roots": [
+        "C",
+        "F#"
+      ],
+      "midi": "examples/eis_e6_harmonized.mid",
+      "csv": "examples/eis_e6_harmonized.csv",
+      "voice_leading_pairs": 1,
+      "voice_leading_violations": 0
+    },
+    {
+      "kind": "TT",
+      "cycle": "E6",
+      "bars": 2,
+      "cycle_length": 2,
+      "roots": [
+        "C",
+        "F#"
+      ],
+      "midi": "examples/eis_tt_harmonized.mid",
+      "csv": "examples/eis_tt_harmonized.csv",
+      "voice_leading_pairs": 1,
+      "voice_leading_violations": 0
+    }
+  ]
+}

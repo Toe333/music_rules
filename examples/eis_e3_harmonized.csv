@@ -1,0 +1,5 @@
+kind,cycle,bar,root,chord_midis,chord_notes,melody_qn_midis,melody_qn_notes
+E3,E3,1,C,48|52|55|59,C3|E3|G3|B3,59|60|62|62,B3|C4|D4|D4
+E3,E3,2,D#,46|51|55|62,Bb2|Eb3|G3|D4,62|61|61|61,D4|C#4|C#4|C#4
+E3,E3,3,F#,46|53|54|61,Bb2|F3|F#3|C#4,61|62|61|61,C#4|D4|C#4|C#4
+E3,E3,4,A,45|52|56|61,A2|E3|Ab3|C#4,61|61|61|61,C#4|C#4|C#4|C#4
