@@ -97,6 +97,7 @@ packages = ["src/music_rules"]
 # the package, and are dev-reference only — see data/README.md).
 include = [
     "src/music_rules/data/*.json",
+    "src/music_rules/data/styles/*.json",
     "src/music_rules/py.typed",
 ]
 
