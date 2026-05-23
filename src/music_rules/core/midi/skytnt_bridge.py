@@ -145,14 +145,15 @@ def _load_midi(midi_input: str | bytes) -> mido.MidiFile:
             blob = base64.b64decode(midi_input, validate=True)
         except Exception as exc:
             raise ValueError(
-                "midi_input is neither an existing file path nor a "
-                "valid base64-encoded MIDI blob."
+                "midi_input is neither an existing file path nor a valid base64-encoded MIDI blob."
             ) from exc
         return mido.MidiFile(file=io.BytesIO(blob))
 
 
 def _track_to_roll(
-    track: Iterable[mido.Message], *, grid_step_ticks: int,
+    track: Iterable[mido.Message],
+    *,
+    grid_step_ticks: int,
 ) -> list[int]:
     """Reduce a MIDI track to a per-grid-step list of MIDI numbers.
 
@@ -175,9 +176,7 @@ def _track_to_roll(
 
         if msg.type == "note_on" and msg.velocity > 0:
             current_pitch = msg.note
-        elif msg.type in ("note_off",) or (
-            msg.type == "note_on" and msg.velocity == 0
-        ):
+        elif msg.type in ("note_off",) or (msg.type == "note_on" and msg.velocity == 0):
             current_pitch = -1
 
     return roll
@@ -233,9 +232,14 @@ def rolls_to_midi(
     midi.tracks.append(meta)
     meta.append(mido.MetaMessage("set_tempo", tempo=tempo, time=0))
     num, den = (int(p) for p in meter.split("/"))
-    meta.append(mido.MetaMessage(
-        "time_signature", numerator=num, denominator=den, time=0,
-    ))
+    meta.append(
+        mido.MetaMessage(
+            "time_signature",
+            numerator=num,
+            denominator=den,
+            time=0,
+        )
+    )
 
     for vidx, voice in enumerate(voices):
         track = mido.MidiTrack()
@@ -250,23 +254,38 @@ def rolls_to_midi(
                 rest_ticks += ticks_per_beat
                 continue
             if prev_pitch != -1:
-                track.append(mido.Message(
-                    "note_off", note=prev_pitch, velocity=0, time=rest_ticks,
-                ))
+                track.append(
+                    mido.Message(
+                        "note_off",
+                        note=prev_pitch,
+                        velocity=0,
+                        time=rest_ticks,
+                    )
+                )
                 rest_ticks = 0
             if pitch != -1:
-                track.append(mido.Message(
-                    "note_on", note=pitch, velocity=velocity, time=rest_ticks,
-                ))
+                track.append(
+                    mido.Message(
+                        "note_on",
+                        note=pitch,
+                        velocity=velocity,
+                        time=rest_ticks,
+                    )
+                )
                 rest_ticks = ticks_per_beat
             else:
                 rest_ticks += ticks_per_beat
             prev_pitch = pitch
 
         if prev_pitch != -1:
-            track.append(mido.Message(
-                "note_off", note=prev_pitch, velocity=0, time=rest_ticks,
-            ))
+            track.append(
+                mido.Message(
+                    "note_off",
+                    note=prev_pitch,
+                    velocity=0,
+                    time=rest_ticks,
+                )
+            )
 
     buf = io.BytesIO()
     midi.save(file=buf)
@@ -398,10 +417,12 @@ def skytnt_generate(
                 midi_bytes = tokenizer.decode(tokens)
             if isinstance(midi_bytes, str):
                 midi_bytes = midi_bytes.encode("latin-1")
-            candidates.append({
-                "midi_base64": base64.b64encode(midi_bytes).decode("ascii"),
-                "token_count": len(tokens),
-            })
+            candidates.append(
+                {
+                    "midi_base64": base64.b64encode(midi_bytes).decode("ascii"),
+                    "token_count": len(tokens),
+                }
+            )
 
     return {
         "candidates": candidates,

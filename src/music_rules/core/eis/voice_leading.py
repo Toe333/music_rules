@@ -48,7 +48,12 @@ VoiceLeadingStyle = Literal["normal", "parallel", "bracket"]
 
 
 VOICE_LEADING_RULES: Final[tuple[str, ...]] = (
-    "V-001", "V-002", "V-003", "V-004", "V-006", "V-014",
+    "V-001",
+    "V-002",
+    "V-003",
+    "V-004",
+    "V-006",
+    "V-014",
 )
 
 
@@ -132,7 +137,7 @@ def voice_lead(
 
     n_voices = len(prev_chord)
     if style == "bracket" and n_voices > 1:
-        n_voices -= 1   # V-013: bracket VL drops one voice
+        n_voices -= 1  # V-013: bracket VL drops one voice
 
     bass_target_pc = _pick_bass_pc(prev_chord[0], next_pcs, keep_bass_in_bass)
     new_bass = _nearest_octave(prev_chord[0], bass_target_pc, max_voice_jump)
@@ -149,8 +154,10 @@ def voice_lead(
         # V-012: keep intervals — every voice moves by the same amount
         # the bass did, modulo octave.
         bass_motion = new_bass - prev_chord[0]
-        assigned = [_nearest_octave(p + bass_motion, p_pc, max_voice_jump * 2)
-                    for p, p_pc in zip(treble_prev, upper_pcs, strict=True)]
+        assigned = [
+            _nearest_octave(p + bass_motion, p_pc, max_voice_jump * 2)
+            for p, p_pc in zip(treble_prev, upper_pcs, strict=True)
+        ]
         return sorted([new_bass, *assigned])
 
     # Normal style — explore every pc-to-voice assignment, pick the
@@ -204,19 +211,19 @@ def check_progression(prev_chord: list[int], next_chord: list[int]) -> VLReport:
     # V-002 — every voice should move <= a P5 (7 st).
     for i, m in enumerate(abs_motion):
         if m > 7:
-            violations.append({
-                "rule_id": "V-002",
-                "detail": f"voice {i} jumps {m} semitones (> P5).",
-                "voices": [i],
-            })
+            violations.append(
+                {
+                    "rule_id": "V-002",
+                    "detail": f"voice {i} jumps {m} semitones (> P5).",
+                    "voices": [i],
+                }
+            )
 
     # V-003 — contrary motion between bass and at least one treble?
     bass_motion = motions[0]
     contrary_pairs = 0
     for i in range(1, n):
-        if bass_motion != 0 and motions[i] != 0 and (
-            (bass_motion > 0) != (motions[i] > 0)
-        ):
+        if bass_motion != 0 and motions[i] != 0 and ((bass_motion > 0) != (motions[i] > 0)):
             contrary_pairs += 1
 
     # V-004 — no three notes of the same pitch class in either chord.
@@ -226,14 +233,16 @@ def check_progression(prev_chord: list[int], next_chord: list[int]) -> VLReport:
             pc_counts.setdefault(midi % 12, []).append(i)
         for pc, voices in pc_counts.items():
             if len(voices) >= 3:
-                violations.append({
-                    "rule_id": "V-004",
-                    "detail": (
-                        f"{label} chord triples pitch-class {pc} in "
-                        f"voices {voices} ('no three tones together')."
-                    ),
-                    "voices": voices,
-                })
+                violations.append(
+                    {
+                        "rule_id": "V-004",
+                        "detail": (
+                            f"{label} chord triples pitch-class {pc} in "
+                            f"voices {voices} ('no three tones together')."
+                        ),
+                        "voices": voices,
+                    }
+                )
 
     # V-014 — parallel octaves between bass and any treble voice?
     # Trigger: bass and voice move by the same nonzero amount AND the
@@ -248,14 +257,16 @@ def check_progression(prev_chord: list[int], next_chord: list[int]) -> VLReport:
             and prev_interval == 0
             and next_interval == 0
         ):
-            violations.append({
-                "rule_id": "V-014",
-                "detail": (
-                    f"Parallel octaves: bass and voice {i} move "
-                    f"{motions[i]} semitones in lockstep."
-                ),
-                "voices": [0, i],
-            })
+            violations.append(
+                {
+                    "rule_id": "V-014",
+                    "detail": (
+                        f"Parallel octaves: bass and voice {i} move "
+                        f"{motions[i]} semitones in lockstep."
+                    ),
+                    "voices": [0, i],
+                }
+            )
 
     smoothness = max(0.0, 1.0 - (total_motion / (n * 7)))
 
@@ -273,16 +284,19 @@ def check_progression(prev_chord: list[int], next_chord: list[int]) -> VLReport:
 # ---------------------------------------------------------------------------
 
 
-def _pick_bass_pc(prev_bass_midi: int, next_pcs: list[int],
-                  keep_in_bass: bool) -> int:
+def _pick_bass_pc(prev_bass_midi: int, next_pcs: list[int], keep_in_bass: bool) -> int:
     """Pick the bass pitch-class for the new chord."""
     if not keep_in_bass:
         return next_pcs[0]
     # Closest pc to the prior bass.
     prev_pc = prev_bass_midi % 12
-    return min(next_pcs, key=lambda pc: min(
-        (pc - prev_pc) % 12, (prev_pc - pc) % 12,
-    ))
+    return min(
+        next_pcs,
+        key=lambda pc: min(
+            (pc - prev_pc) % 12,
+            (prev_pc - pc) % 12,
+        ),
+    )
 
 
 def _nearest_octave(prev_midi: int, target_pc: int, max_jump: int) -> int:
@@ -309,19 +323,16 @@ def _pad_pcs(pcs: list[int], target_len: int) -> list[int]:
     return out[:target_len]
 
 
-def _vl_cost(prev_treble: list[int], next_treble: list[int],
-             bass_motion: int) -> int:
+def _vl_cost(prev_treble: list[int], next_treble: list[int], bass_motion: int) -> int:
     """Cost function: total motion - small bonuses for held / contrary tones."""
     cost = 0
     for prev, curr in zip(prev_treble, next_treble, strict=True):
         diff = abs(curr - prev)
         cost += diff
         if diff == 0:
-            cost -= 2     # V-001 bonus
+            cost -= 2  # V-001 bonus
         elif diff > 7:
-            cost += 5     # large-leap penalty (V-002)
-        if (curr - prev) != 0 and bass_motion != 0 and (
-            (curr - prev > 0) != (bass_motion > 0)
-        ):
-            cost -= 1     # V-003 bonus
+            cost += 5  # large-leap penalty (V-002)
+        if (curr - prev) != 0 and bass_motion != 0 and ((curr - prev > 0) != (bass_motion > 0)):
+            cost -= 1  # V-003 bonus
     return cost

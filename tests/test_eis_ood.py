@@ -51,8 +51,8 @@ class TestSingleVoicing:
 
 class TestPassageSweep:
     def test_passage_aggregates_per_chord(self) -> None:
-        chord1 = [48, 52, 55, 60]                # clean
-        chord2 = [36, 49]                        # ♭9 OOD
+        chord1 = [48, 52, 55, 60]  # clean
+        chord2 = [36, 49]  # ♭9 OOD
         hits = ood.check_passage([chord1, chord2])
         assert len(hits) == 1
         assert hits[0]["rule_id"] == "O-002"
@@ -61,6 +61,7 @@ class TestPassageSweep:
         chord1 = [36, 49]
         chord2 = [36, 49]
         hits = ood.check_passage(
-            [chord1, chord2], has_b7=[True, False],
+            [chord1, chord2],
+            has_b7=[True, False],
         )
-        assert len(hits) == 1                    # only chord 2 violates
+        assert len(hits) == 1  # only chord 2 violates

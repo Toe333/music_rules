@@ -87,7 +87,9 @@ def version() -> None:
 def rules_list(
     system: str | None = typer.Option(None, "--system", "-s", help="EIS | Fux"),
     category: str | None = typer.Option(None, "--category", "-c"),
-    kind: str | None = typer.Option(None, "--kind", "-k", help="hard | soft | hybrid | informational"),
+    kind: str | None = typer.Option(
+        None, "--kind", "-k", help="hard | soft | hybrid | informational"
+    ),
     input_shape: str | None = typer.Option(None, "--input-shape", "-i"),
     species: str | None = typer.Option(None, "--species"),
     voices: str | None = typer.Option(None, "--voices"),
@@ -96,9 +98,9 @@ def rules_list(
 ) -> None:
     """List rules matching the supplied filters (AND-combined)."""
     rules = corpus.get_rules(
-        system=system,                  # type: ignore[arg-type]
+        system=system,  # type: ignore[arg-type]
         category=category,
-        kind=kind,                      # type: ignore[arg-type]
+        kind=kind,  # type: ignore[arg-type]
         input_shape=input_shape,
         species=species,
         voices=voices,
@@ -145,7 +147,8 @@ def rules_search(
     """Substring search across rule statements (case-insensitive)."""
     needle = text.lower()
     matches = [
-        r for r in corpus.get_rules(limit=10_000)
+        r
+        for r in corpus.get_rules(limit=10_000)
         if needle in r.rule.lower() or needle in (r.scope or "").lower()
     ][:limit]
 
@@ -176,12 +179,8 @@ def evaluate(
         dir_okay=False,
         help="Path to a piece JSON file (see PROJECT.md for the schema).",
     ),
-    species: int | None = typer.Option(
-        None, "--species", help="Override the species in the file."
-    ),
-    strict: bool = typer.Option(
-        False, "--strict", help="Promote hybrid rules to hard violations."
-    ),
+    species: int | None = typer.Option(None, "--species", help="Override the species in the file."),
+    strict: bool = typer.Option(False, "--strict", help="Promote hybrid rules to hard violations."),
     ruleset: str = typer.Option("Fux", "--ruleset", help="Fux | EIS | both"),
     include: list[str] = typer.Option(
         [], "--include", help="Only report these rule IDs (repeatable)."
@@ -203,8 +202,8 @@ def evaluate(
 
     try:
         report = core_evaluate.evaluate_passage(
-            piece,                       # type: ignore[arg-type]
-            ruleset=ruleset,             # type: ignore[arg-type]
+            piece,  # type: ignore[arg-type]
+            ruleset=ruleset,  # type: ignore[arg-type]
             strict=strict,
             include=include or None,
             exclude=exclude or None,
@@ -291,8 +290,10 @@ def _print_rules_table(rules: list[Any]) -> None:
         for r in rules
     ]
     headers = ("ID", "SYS", "KIND", "INPUT_SHAPE", "RULE")
-    widths = [max(len(h), max((len(c) for c in col), default=0))
-              for h, col in zip(headers, zip(*rows, strict=False), strict=False)]
+    widths = [
+        max(len(h), max((len(c) for c in col), default=0))
+        for h, col in zip(headers, zip(*rows, strict=False), strict=False)
+    ]
     fmt = "  ".join(f"{{:<{w}}}" for w in widths)
     typer.echo(fmt.format(*headers))
     typer.echo(fmt.format(*("-" * w for w in widths)))
@@ -320,9 +321,7 @@ def _print_rule_block(rule: dict[str, Any]) -> None:
 
 def _print_passage_report(report: dict[str, Any], *, piece_path: Path) -> None:
     """Render the evaluator report in a human-friendly form."""
-    grade_emoji = {"A": "★", "B": "✓", "C": "·", "D": "?", "F": "✗"}.get(
-        report["grade"], "?"
-    )
+    grade_emoji = {"A": "★", "B": "✓", "C": "·", "D": "?", "F": "✗"}.get(report["grade"], "?")
     typer.echo(f"== {piece_path.name} ==")
     typer.echo(
         f"grade: {report['grade']} {grade_emoji}   "
@@ -343,8 +342,7 @@ def _print_passage_report(report: dict[str, Any], *, piece_path: Path) -> None:
         typer.echo("\nSOFT costs:")
         for c in report["soft_violations"]:
             typer.echo(
-                f"  [{c['rule_id']:<12}] pos={c['position']:>3} "
-                f"cost={c['cost']:>4}  {c['msg']}"
+                f"  [{c['rule_id']:<12}] pos={c['position']:>3} cost={c['cost']:>4}  {c['msg']}"
             )
 
     if report["per_rule_summary"]:

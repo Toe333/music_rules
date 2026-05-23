@@ -62,6 +62,7 @@ This split means:
 
 from __future__ import annotations
 
+import contextlib
 import csv
 import json
 from pathlib import Path
@@ -132,11 +133,11 @@ def tool_get_rules(
         limit:       cap on returned rules (default 200).
     """
     rules = corpus.get_rules(
-        system=system,                 # type: ignore[arg-type]
+        system=system,  # type: ignore[arg-type]
         category=category,
         species=species,
         voices=voices,
-        kind=kind,                     # type: ignore[arg-type]
+        kind=kind,  # type: ignore[arg-type]
         tier=tier,
         input_shape=input_shape,
         limit=limit,
@@ -286,11 +287,7 @@ def tool_check_first_interval(
     strict: bool = False,
 ) -> dict[str, Any]:
     """Check the opening sonority (H2_1: must be a perfect consonance)."""
-    return dict(
-        harmonic.check_first_interval(
-            chord, species=species, voices=voices, strict=strict
-        )
-    )
+    return dict(harmonic.check_first_interval(chord, species=species, voices=voices, strict=strict))
 
 
 def tool_check_final_interval(
@@ -300,11 +297,7 @@ def tool_check_final_interval(
     strict: bool = False,
 ) -> dict[str, Any]:
     """Check the closing sonority (H3_1: must be a perfect consonance)."""
-    return dict(
-        harmonic.check_final_interval(
-            chord, species=species, voices=voices, strict=strict
-        )
-    )
+    return dict(harmonic.check_final_interval(chord, species=species, voices=voices, strict=strict))
 
 
 def tool_check_per_measure_downbeat(
@@ -315,9 +308,7 @@ def tool_check_per_measure_downbeat(
 ) -> dict[str, Any]:
     """Check that every interval in a downbeat sonority is consonant (H1_1)."""
     return dict(
-        harmonic.check_per_measure_downbeat(
-            chord, species=species, voices=voices, strict=strict
-        )
+        harmonic.check_per_measure_downbeat(chord, species=species, voices=voices, strict=strict)
     )
 
 
@@ -329,9 +320,7 @@ def tool_check_weak_beat_interval(
 ) -> dict[str, Any]:
     """Check 2nd-species arsis intervals (H2_2: weak beats can't be dissonant)."""
     return dict(
-        harmonic.check_weak_beat_interval(
-            chord, species=species, voices=voices, strict=strict
-        )
+        harmonic.check_weak_beat_interval(chord, species=species, voices=voices, strict=strict)
     )
 
 
@@ -347,8 +336,13 @@ def tool_check_dissonance_context(
     """Check 3rd-species dissonance treatment (H2_3: passing/neighbor)."""
     return dict(
         dissonance.check_dissonance_context(
-            prev, diss, next_,
-            cf_pitch=cf_pitch, species=species, voices=voices, strict=strict,
+            prev,
+            diss,
+            next_,
+            cf_pitch=cf_pitch,
+            species=species,
+            voices=voices,
+            strict=strict,
         )
     )
 
@@ -372,8 +366,8 @@ def tool_evaluate_passage(
     """
     return dict(
         evaluate.evaluate_passage(
-            piece,                           # type: ignore[arg-type]
-            ruleset=ruleset,                 # type: ignore[arg-type]
+            piece,  # type: ignore[arg-type]
+            ruleset=ruleset,  # type: ignore[arg-type]
             strict=strict,
             include=include,
             exclude=exclude,
@@ -429,7 +423,7 @@ def tool_eis_pick_root_line(
     """
     line = eis_roots.pick_root_line(
         length=length,
-        cycles=cycles,                # type: ignore[arg-type]
+        cycles=cycles,  # type: ignore[arg-type]
         start_root=start_root,
         allow_elision=allow_elision,
         seed=seed,
@@ -481,15 +475,20 @@ def tool_eis_build_chord(
         ``{"midi": [...], "pitch_classes": [...], "chord_class": {...}}``
     """
     midi = eis_chords.build_chord(
-        root, chord_class,
-        scale_id=scale_id, parts=parts,
-        voicing=voicing,                  # type: ignore[arg-type]
-        inversion=inversion, base_octave=base_octave,
+        root,
+        chord_class,
+        scale_id=scale_id,
+        parts=parts,
+        voicing=voicing,  # type: ignore[arg-type]
+        inversion=inversion,
+        base_octave=base_octave,
     )
     return {
         "midi": midi,
         "pitch_classes": eis_chords.pitch_classes(
-            root, chord_class, scale_id=scale_id,
+            root,
+            chord_class,
+            scale_id=scale_id,
         ),
         "chord_class": dict(eis_chords.CHORD_CLASSES[chord_class]),
     }
@@ -524,8 +523,9 @@ def tool_eis_voice_lead(
         ``{"voiced": [...], "report": <VLReport>}``
     """
     voiced = eis_voice_leading.voice_lead(
-        prev_chord, next_pcs,
-        style=style,                      # type: ignore[arg-type]
+        prev_chord,
+        next_pcs,
+        style=style,  # type: ignore[arg-type]
         keep_bass_in_bass=keep_bass_in_bass,
         max_voice_jump=max_voice_jump,
     )
@@ -552,9 +552,7 @@ def tool_eis_check_voice_leading(
     Returns the :class:`VLReport` (``smoothness``, ``total_motion``,
     ``common_tones``, ``contrary_motion_pairs``, ``violations``).
     """
-    return dict(
-        eis_voice_leading.check_progression(prev_chord, next_chord)
-    )
+    return dict(eis_voice_leading.check_progression(prev_chord, next_chord))
 
 
 def tool_eis_insert_nct(
@@ -584,12 +582,13 @@ def tool_eis_insert_nct(
         ``{"event": {voice, midi, beat, type, rule_ref}}``
     """
     event = eis_nct.insert_nct(
-        chord_a, chord_b,
+        chord_a,
+        chord_b,
         voice=voice,
-        nct_type=nct_type,                # type: ignore[arg-type]
+        nct_type=nct_type,  # type: ignore[arg-type]
         scale_id=scale_id,
         scale_root=scale_root,
-        direction=direction,              # type: ignore[arg-type]
+        direction=direction,  # type: ignore[arg-type]
     )
     return {"event": dict(event)}
 
@@ -679,13 +678,10 @@ def _progression_to_roll_grid(
         duration_beats = float(row.get("duration_beats", 1.0))
         if duration_beats <= 0:
             raise ValueError(f"progression[{idx}] has non-positive duration_beats")
-        duration_steps = max(1, int(round(duration_beats * steps_per_beat)))
+        duration_steps = max(1, round(duration_beats * steps_per_beat))
 
-        if "start_beat" in row:
-            start_beat = float(row["start_beat"])
-        else:
-            start_beat = cursor_beats
-        start_step = max(0, int(round(start_beat * steps_per_beat)))
+        start_beat = float(row["start_beat"]) if "start_beat" in row else cursor_beats
+        start_step = max(0, round(start_beat * steps_per_beat))
 
         cursor_beats = max(cursor_beats, start_beat + duration_beats)
         total_steps = max(total_steps, start_step + duration_steps)
@@ -723,10 +719,8 @@ def _read_progression_csv(path: str) -> list[dict[str, Any]]:
                 continue
             event: dict[str, Any] = {}
             if row.get("bar"):
-                try:
+                with contextlib.suppress(TypeError, ValueError):
                     event["bar"] = int(row["bar"])
-                except (TypeError, ValueError):
-                    pass
             if row.get("start_beat") not in (None, ""):
                 event["start_beat"] = float(row["start_beat"])
             if row.get("duration_beats") not in (None, ""):
@@ -948,7 +942,8 @@ def tool_midi_to_rolls(
             "key_guess": str|None, "ticks_per_beat": int}``
     """
     bundle = skytnt_bridge.midi_to_rolls(
-        midi_base64, beats_per_quarter=beats_per_quarter,
+        midi_base64,
+        beats_per_quarter=beats_per_quarter,
     )
     return dict(bundle)
 
@@ -1058,8 +1053,7 @@ def call_tool(name: str, arguments: dict[str, Any] | None = None) -> Any:
         fn = _TOOLS[name]
     except KeyError as exc:
         raise KeyError(
-            f"Unknown MCP tool: {name!r}. "
-            f"Available: {', '.join(sorted(_TOOLS))}"
+            f"Unknown MCP tool: {name!r}. Available: {', '.join(sorted(_TOOLS))}"
         ) from exc
     return fn(**(arguments or {}))
 

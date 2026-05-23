@@ -85,9 +85,7 @@ def get_tools_schema() -> list[dict[str, Any]]:
     The list mirrors :func:`music_rules.adapters.mcp.list_tool_names`
     one-to-one and in the same order.
     """
-    return [
-        _function_schema(name, fn) for name, fn in _mcp_adapter._TOOLS.items()
-    ]
+    return [_function_schema(name, fn) for name, fn in _mcp_adapter._TOOLS.items()]
 
 
 def get_tool_schema(name: str) -> dict[str, Any]:
@@ -100,8 +98,7 @@ def get_tool_schema(name: str) -> dict[str, Any]:
         fn = _mcp_adapter._TOOLS[name]
     except KeyError as exc:
         raise KeyError(
-            f"Unknown tool: {name!r}. "
-            f"Available: {', '.join(sorted(_mcp_adapter._TOOLS))}"
+            f"Unknown tool: {name!r}. Available: {', '.join(sorted(_mcp_adapter._TOOLS))}"
         ) from exc
     return _function_schema(name, fn)
 

@@ -40,10 +40,10 @@ from music_rules.core.report import CheckReport
 # Standard SATB ranges (MIDI numbers). Used as the default when the
 # caller asks for ``"satb"`` voice ranges without specifying numbers.
 _SATB_RANGES: dict[str, tuple[int, int]] = {
-    "soprano":  (60, 79),   # C4 .. G5
-    "alto":     (53, 74),   # F3 .. D5
-    "tenor":    (48, 67),   # C3 .. G4
-    "bass":     (40, 60),   # E2 .. C4
+    "soprano": (60, 79),  # C4 .. G5
+    "alto": (53, 74),  # F3 .. D5
+    "tenor": (48, 67),  # C3 .. G4
+    "bass": (40, 60),  # E2 .. C4
 }
 _SATB_ORDER = ("bass", "tenor", "alto", "soprano")
 
@@ -215,15 +215,22 @@ def _run_fux_passes(
     for v_idx, voice in enumerate(voices):
         for pos in range(1, length):
             r = melodic.check_melodic_interval(
-                voice[pos - 1], voice[pos],
-                species=species, voices=voice_count, strict=strict,
+                voice[pos - 1],
+                voice[pos],
+                species=species,
+                voices=voice_count,
+                strict=strict,
             )
             _absorb(r, position=pos, voices_involved=[v_idx], hard=hard, soft=soft)
 
         for pos in range(2, length):
             r = melodic.check_melodic_triple(
-                voice[pos - 2], voice[pos - 1], voice[pos],
-                species=species, voices=voice_count, strict=strict,
+                voice[pos - 2],
+                voice[pos - 1],
+                voice[pos],
+                species=species,
+                voices=voice_count,
+                strict=strict,
             )
             _absorb(r, position=pos, voices_involved=[v_idx], hard=hard, soft=soft)
 
@@ -233,11 +240,16 @@ def _run_fux_passes(
             r = motion.check_motion_pair(
                 {"cf": cf[pos - 1], "cp": cp[pos - 1]},
                 {"cf": cf[pos], "cp": cp[pos]},
-                species=species, voices=voice_count, strict=strict,
+                species=species,
+                voices=voice_count,
+                strict=strict,
             )
             _absorb(
-                r, position=pos, voices_involved=[cf_idx, cp_idx],
-                hard=hard, soft=soft,
+                r,
+                position=pos,
+                voices_involved=[cf_idx, cp_idx],
+                hard=hard,
+                soft=soft,
             )
 
     # ---- Per-beat vertical passes -----------------------------------------
@@ -246,12 +258,18 @@ def _run_fux_passes(
         all_voices = list(range(voice_count))
 
         r = harmonic.check_per_measure_downbeat(
-            chord, species=species, voices=voice_count, strict=strict,
+            chord,
+            species=species,
+            voices=voice_count,
+            strict=strict,
         )
         _absorb(r, position=pos, voices_involved=all_voices, hard=hard, soft=soft)
 
         r = harmonic.check_vertical_chord(
-            chord, species=species, voices=voice_count, strict=strict,
+            chord,
+            species=species,
+            voices=voice_count,
+            strict=strict,
         )
         _absorb(r, position=pos, voices_involved=all_voices, hard=hard, soft=soft)
 
@@ -259,30 +277,43 @@ def _run_fux_passes(
     if voice_count >= 2 and length >= 1:
         opening = [voices[i][0] for i in range(voice_count)]
         r = harmonic.check_first_interval(
-            opening, species=species, voices=voice_count, strict=strict,
+            opening,
+            species=species,
+            voices=voice_count,
+            strict=strict,
         )
-        _absorb(r, position=0, voices_involved=list(range(voice_count)),
-                hard=hard, soft=soft)
+        _absorb(r, position=0, voices_involved=list(range(voice_count)), hard=hard, soft=soft)
 
         closing = [voices[i][-1] for i in range(voice_count)]
         r = harmonic.check_final_interval(
-            closing, species=species, voices=voice_count, strict=strict,
+            closing,
+            species=species,
+            voices=voice_count,
+            strict=strict,
         )
-        _absorb(r, position=length - 1, voices_involved=list(range(voice_count)),
-                hard=hard, soft=soft)
+        _absorb(
+            r, position=length - 1, voices_involved=list(range(voice_count)), hard=hard, soft=soft
+        )
 
     # ---- 3rd-species dissonance windows -----------------------------------
     # Only meaningful when species in {3, "all"}; cheap to skip otherwise.
     if str(species) in {"3", "all"} and voice_count >= 2 and cf_idx != cp_idx:
         for pos in range(1, length - 1):
             r = dissonance.check_dissonance_context(
-                cp[pos - 1], cp[pos], cp[pos + 1],
+                cp[pos - 1],
+                cp[pos],
+                cp[pos + 1],
                 cf_pitch=cf[pos],
-                species=species, voices=voice_count, strict=strict,
+                species=species,
+                voices=voice_count,
+                strict=strict,
             )
             _absorb(
-                r, position=pos, voices_involved=[cp_idx],
-                hard=hard, soft=soft,
+                r,
+                position=pos,
+                voices_involved=[cp_idx],
+                hard=hard,
+                soft=soft,
             )
 
 
@@ -309,16 +340,19 @@ def _run_eis_passes(
         chord = sorted(voices[i][pos] for i in range(voice_count))
         hits = eis_ood.check_voicing(chord)
         for hit in hits:
-            soft.append({
-                "rule_id": hit["rule_id"],
-                "position": pos,
-                "cost": 0.5,    # Conservative — OOD is informational/soft.
-                "msg": hit["detail"],
-            })
+            soft.append(
+                {
+                    "rule_id": hit["rule_id"],
+                    "position": pos,
+                    "cost": 0.5,  # Conservative — OOD is informational/soft.
+                    "msg": hit["detail"],
+                }
+            )
 
 
 def _resolve_voice_ranges(
-    piece: PassagePiece, voice_count: int,
+    piece: PassagePiece,
+    voice_count: int,
 ) -> list[tuple[int, int]] | None:
     """Resolve the ``voice_ranges`` field into per-voice ``(low, high)`` pairs.
 
@@ -335,9 +369,7 @@ def _resolve_voice_ranges(
         return None
     if isinstance(spec, str):
         if spec.lower() != "satb":
-            raise ValueError(
-                f"Unknown voice_ranges preset {spec!r} (only 'satb' is built-in)."
-            )
+            raise ValueError(f"Unknown voice_ranges preset {spec!r} (only 'satb' is built-in).")
         # Map bottom voice to bass, top voice to soprano.
         out: list[tuple[int, int]] = []
         for i in range(voice_count):
@@ -352,14 +384,10 @@ def _resolve_voice_ranges(
     parsed: list[tuple[int, int]] = []
     for i, pair in enumerate(spec):
         if not isinstance(pair, list) or len(pair) != 2:
-            raise ValueError(
-                f"voice_ranges[{i}] must be a [low, high] pair; got {pair!r}."
-            )
+            raise ValueError(f"voice_ranges[{i}] must be a [low, high] pair; got {pair!r}.")
         low, high = int(pair[0]), int(pair[1])
         if low > high:
-            raise ValueError(
-                f"voice_ranges[{i}] low ({low}) > high ({high})."
-            )
+            raise ValueError(f"voice_ranges[{i}] low ({low}) > high ({high}).")
         parsed.append((low, high))
     return parsed
 
@@ -376,15 +404,14 @@ def _check_voice_ranges(
             if pitch < 0:
                 continue
             if pitch < low or pitch > high:
-                hard.append({
-                    "rule_id": "RG-001",
-                    "position": pos,
-                    "voices_involved": [v_idx],
-                    "msg": (
-                        f"Voice {v_idx} pitch {pitch} outside range "
-                        f"[{low}..{high}]."
-                    ),
-                })
+                hard.append(
+                    {
+                        "rule_id": "RG-001",
+                        "position": pos,
+                        "voices_involved": [v_idx],
+                        "msg": (f"Voice {v_idx} pitch {pitch} outside range [{low}..{high}]."),
+                    }
+                )
 
 
 # ---------------------------------------------------------------------------
@@ -420,9 +447,7 @@ def _absorb(
         )
 
 
-def _filter(
-    items: list[Any], include: set[str] | None, exclude: set[str]
-) -> list[Any]:
+def _filter(items: list[Any], include: set[str] | None, exclude: set[str]) -> list[Any]:
     out = items
     if include is not None:
         out = [i for i in out if i["rule_id"] in include]
@@ -491,11 +516,7 @@ def _validate_piece(piece: PassagePiece) -> None:
         raise ValueError("each voice must be a non-empty list of MIDI numbers")
     L = len(voices[0])
     if any(len(v) != L for v in voices):
-        raise ValueError(
-            f"all voices must have the same length; got {[len(v) for v in voices]}"
-        )
+        raise ValueError(f"all voices must have the same length; got {[len(v) for v in voices]}")
     cf_idx = piece.get("cantus_firmus_voice", 0)
     if not (0 <= int(cf_idx) < len(voices)):
-        raise ValueError(
-            f"cantus_firmus_voice {cf_idx} out of range for {len(voices)} voices"
-        )
+        raise ValueError(f"cantus_firmus_voice {cf_idx} out of range for {len(voices)} voices")

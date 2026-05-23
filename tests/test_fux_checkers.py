@@ -78,9 +78,7 @@ class TestMelodicInterval:
         # because voices=3 doesn't match its 2v predicate.
         report = melodic.check_melodic_interval(60, 72, species=1, voices=3)
         _assert_report_shape(report)
-        assert report["ok"], (
-            f"P8 leap should be allowed in 3v 1st species; got {report}"
-        )
+        assert report["ok"], f"P8 leap should be allowed in 3v 1st species; got {report}"
 
     def test_tritone_leap_carries_extra_soft_cost(self) -> None:
         # G7 explicitly says "tritones last resort" — the cost should be
@@ -186,27 +184,21 @@ class TestMotionPair:
 class TestVerticalChord:
     def test_passing_complete_triad_3v(self) -> None:
         # C major triad in close position: C E G — third + fifth present.
-        report = harmonic.check_vertical_chord(
-            [60, 64, 67], species="all", voices=3
-        )
+        report = harmonic.check_vertical_chord([60, 64, 67], species="all", voices=3)
         _assert_report_shape(report)
         assert report["ok"]
         assert report["soft_costs"] == []
 
     def test_failing_bare_fifth_3v_incurs_soft_cost(self) -> None:
         # C-G dyad doubled — no 3rd present. H8_3v should fire a soft cost.
-        report = harmonic.check_vertical_chord(
-            [60, 67, 72], species="all", voices=3
-        )
+        report = harmonic.check_vertical_chord([60, 67, 72], species="all", voices=3)
         _assert_report_shape(report)
         assert report["ok"]  # soft costs don't make ok=False
         assert any(c["rule_id"] == "H8_3v" for c in report["soft_costs"])
 
     def test_2v_no_vertical_chord_rules_fire(self) -> None:
         # H8_* applies to 3v/4v only; in 2v the checker is a no-op.
-        report = harmonic.check_vertical_chord(
-            [60, 67], species="all", voices=2
-        )
+        report = harmonic.check_vertical_chord([60, 67], species="all", voices=2)
         _assert_report_shape(report)
         assert report["ok"]
         assert report["soft_costs"] == []
@@ -284,33 +276,25 @@ class TestDissonanceContext:
     def test_passing_passing_tone(self) -> None:
         # C -> D -> E against sustained C: D is a passing tone (M2 dissonance,
         # approached and left by step in the same direction).
-        report = dissonance.check_dissonance_context(
-            60, 62, 64, cf_pitch=60, species=3
-        )
+        report = dissonance.check_dissonance_context(60, 62, 64, cf_pitch=60, species=3)
         assert report["ok"]
 
     def test_passing_neighbor_tone(self) -> None:
         # C -> D -> C against C: D is a (lower) neighbor.
-        report = dissonance.check_dissonance_context(
-            60, 62, 60, cf_pitch=60, species=3
-        )
+        report = dissonance.check_dissonance_context(60, 62, 60, cf_pitch=60, species=3)
         assert report["ok"]
 
     def test_failing_leaped_dissonance(self) -> None:
         # C -> D -> G against C: D is dissonant, approached by step but
         # left by leap — neither passing nor neighbor.
-        report = dissonance.check_dissonance_context(
-            60, 62, 67, cf_pitch=60, species=3
-        )
+        report = dissonance.check_dissonance_context(60, 62, 67, cf_pitch=60, species=3)
         assert not report["ok"]
         assert any(v["rule_id"] == "H2_3" for v in report["violations"])
 
     def test_consonance_not_flagged(self) -> None:
         # If the alleged dissonance is actually consonant against the CF,
         # the rule is vacuously satisfied (callers may pass any triple).
-        report = dissonance.check_dissonance_context(
-            60, 64, 67, cf_pitch=60, species=3
-        )
+        report = dissonance.check_dissonance_context(60, 64, 67, cf_pitch=60, species=3)
         assert report["ok"]
 
 
@@ -327,12 +311,9 @@ class TestCleanFixturePassesAllCheckers:
         for voice_name in ("cf", "cp"):
             voice = CLEAN_2V_1S_C_MAJOR[voice_name]  # type: ignore[literal-required]
             for prev, curr in zip(voice, voice[1:], strict=False):
-                report = melodic.check_melodic_interval(
-                    prev, curr, species=1, voices=2
-                )
+                report = melodic.check_melodic_interval(prev, curr, species=1, voices=2)
                 assert report["ok"], (
-                    f"Unexpected melodic violation in {voice_name}: "
-                    f"{prev}->{curr}: {report}"
+                    f"Unexpected melodic violation in {voice_name}: {prev}->{curr}: {report}"
                 )
 
     def test_no_motion_violations(self) -> None:
@@ -342,20 +323,17 @@ class TestCleanFixturePassesAllCheckers:
             report = motion.check_motion_pair(
                 {"cf": cf[i], "cp": cp[i]},
                 {"cf": cf[i + 1], "cp": cp[i + 1]},
-                species=1, voices=2,
+                species=1,
+                voices=2,
             )
-            assert report["ok"], (
-                f"Unexpected motion violation at beat {i}->{i+1}: {report}"
-            )
+            assert report["ok"], f"Unexpected motion violation at beat {i}->{i + 1}: {report}"
 
     def test_no_downbeat_violations(self) -> None:
         cf = CLEAN_2V_1S_C_MAJOR["cf"]
         cp = CLEAN_2V_1S_C_MAJOR["cp"]
         for i in range(len(cf)):
             report = harmonic.check_per_measure_downbeat([cf[i], cp[i]], voices=2)
-            assert report["ok"], (
-                f"Unexpected downbeat violation at beat {i}: {report}"
-            )
+            assert report["ok"], f"Unexpected downbeat violation at beat {i}: {report}"
 
     def test_opening_and_closing_intervals_pass(self) -> None:
         cf = CLEAN_2V_1S_C_MAJOR["cf"]
@@ -378,7 +356,8 @@ class TestFailingFixturesHitTheRightRules:
             report = motion.check_motion_pair(
                 {"cf": cf[i], "cp": cp[i]},
                 {"cf": cf[i + 1], "cp": cp[i + 1]},
-                species=1, voices=2,
+                species=1,
+                voices=2,
             )
             if any(v["rule_id"] == "P1_1_2v" for v in report["violations"]):
                 any_violation = True
@@ -396,9 +375,7 @@ class TestFailingFixturesHitTheRightRules:
     def test_wrong_closing_fixture_violates_H3_1(self) -> None:
         cf = WRONG_CLOSING_INTERVAL_FAIL["cf"]
         cp = WRONG_CLOSING_INTERVAL_FAIL["cp"]
-        report = harmonic.check_final_interval(
-            [cf[-1], cp[-1]], species=1, voices=2
-        )
+        report = harmonic.check_final_interval([cf[-1], cp[-1]], species=1, voices=2)
         assert any(v["rule_id"] == "H3_1" for v in report["violations"])
 
 

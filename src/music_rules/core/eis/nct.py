@@ -68,24 +68,42 @@ class NCTEvent(TypedDict):
 
 
 _TYPES: Final[tuple[NCTSpec, ...]] = (
-    {"id": "PT",  "label": "Passing Tone",
-     "rule_ref": "N-002",
-     "description": "Stepwise tone between two chord tones a 3rd apart."},
-    {"id": "CA",  "label": "Chromatic Alteration",
-     "rule_ref": "N-003",
-     "description": "Inflect a chord tone by 1 semitone, then resolve back."},
-    {"id": "RT",  "label": "Returning Tone",
-     "rule_ref": "N-004",
-     "description": "Upper or lower neighbour returning to the chord tone."},
-    {"id": "CT",  "label": "Chord Tone (passing)",
-     "rule_ref": "N-005",
-     "description": "Pass through a chord tone of a different chord."},
-    {"id": "Sus", "label": "Suspension",
-     "rule_ref": "N-006",
-     "description": "Hold a chord A tone into chord B; resolve down by step."},
-    {"id": "Ant", "label": "Anticipation",
-     "rule_ref": "N-007",
-     "description": "Sound chord B's tone before the bass moves."},
+    {
+        "id": "PT",
+        "label": "Passing Tone",
+        "rule_ref": "N-002",
+        "description": "Stepwise tone between two chord tones a 3rd apart.",
+    },
+    {
+        "id": "CA",
+        "label": "Chromatic Alteration",
+        "rule_ref": "N-003",
+        "description": "Inflect a chord tone by 1 semitone, then resolve back.",
+    },
+    {
+        "id": "RT",
+        "label": "Returning Tone",
+        "rule_ref": "N-004",
+        "description": "Upper or lower neighbour returning to the chord tone.",
+    },
+    {
+        "id": "CT",
+        "label": "Chord Tone (passing)",
+        "rule_ref": "N-005",
+        "description": "Pass through a chord tone of a different chord.",
+    },
+    {
+        "id": "Sus",
+        "label": "Suspension",
+        "rule_ref": "N-006",
+        "description": "Hold a chord A tone into chord B; resolve down by step.",
+    },
+    {
+        "id": "Ant",
+        "label": "Anticipation",
+        "rule_ref": "N-007",
+        "description": "Sound chord B's tone before the bass moves.",
+    },
 )
 
 NCT_TYPES: Final[dict[NCTType, NCTSpec]] = {t["id"]: t for t in _TYPES}
@@ -127,17 +145,11 @@ def insert_nct(
         KeyError:   bad ``nct_type`` or ``scale_id``.
     """
     if nct_type not in NCT_TYPES:
-        raise KeyError(
-            f"Unknown nct_type {nct_type!r}. Valid: {sorted(NCT_TYPES)}."
-        )
+        raise KeyError(f"Unknown nct_type {nct_type!r}. Valid: {sorted(NCT_TYPES)}.")
     if len(chord_a) != len(chord_b):
-        raise ValueError(
-            f"chord_a/chord_b length mismatch: {len(chord_a)} vs {len(chord_b)}"
-        )
+        raise ValueError(f"chord_a/chord_b length mismatch: {len(chord_a)} vs {len(chord_b)}")
     if not 0 <= voice < len(chord_a):
-        raise ValueError(
-            f"voice {voice} out of range 0..{len(chord_a) - 1}"
-        )
+        raise ValueError(f"voice {voice} out of range 0..{len(chord_a) - 1}")
 
     a = chord_a[voice]
     b = chord_b[voice]
@@ -169,11 +181,11 @@ def insert_nct(
     elif nct_type == "Sus":
         # Hold A's tone, then resolve down by step on the next beat.
         midi = a
-        beat = 0.0    # The "suspension" itself sounds on the downbeat of B.
+        beat = 0.0  # The "suspension" itself sounds on the downbeat of B.
     else:  # Ant
         # Anticipate B's tone early.
         midi = b
-        beat = 0.75   # Final fraction before chord B sounds.
+        beat = 0.75  # Final fraction before chord B sounds.
 
     return {
         "voice": voice,
@@ -194,8 +206,7 @@ def list_nct_types() -> list[NCTSpec]:
 # ---------------------------------------------------------------------------
 
 
-def _scale_step_between(a: int, b: int, scale_id: str,
-                        scale_root: str | int) -> int:
+def _scale_step_between(a: int, b: int, scale_id: str, scale_root: str | int) -> int:
     """Return the scale tone strictly between ``a`` and ``b``."""
     pcs = scale_pcs(scale_id, scale_root)
     low, high = sorted([a, b])
@@ -206,12 +217,13 @@ def _scale_step_between(a: int, b: int, scale_id: str,
     return (a + b) // 2
 
 
-def _next_scale_step(a: int, scale_id: str, scale_root: str | int,
-                     direction: Literal["up", "down"]) -> int:
+def _next_scale_step(
+    a: int, scale_id: str, scale_root: str | int, direction: Literal["up", "down"]
+) -> int:
     """Return the semitone offset to the next scale tone above / below ``a``."""
     pcs = scale_pcs(scale_id, scale_root)
     rng = range(1, 13) if direction == "up" else range(-1, -13, -1)
     for offset in rng:
         if (a + offset) % 12 in pcs:
             return offset
-    return 1 if direction == "up" else -1   # chromatic fallback
+    return 1 if direction == "up" else -1  # chromatic fallback

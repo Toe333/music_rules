@@ -65,8 +65,8 @@ PARALLEL_FIFTHS_FAIL: Final[FuxPassage] = {
     "source": "music-rules tests/fixtures/fux_passages.py (textbook violation example)",
     "species": 1,
     "voices": 2,
-    "cf": [60, 62, 64, 60, 62, 60],   # C D E C D C
-    "cp": [67, 69, 71, 67, 69, 67],   # G A B G A G — every interval is P5
+    "cf": [60, 62, 64, 60, 62, 60],  # C D E C D C
+    "cp": [67, 69, 71, 67, 69, 67],  # G A B G A G — every interval is P5
 }
 
 

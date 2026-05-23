@@ -37,8 +37,11 @@ def applicable_rules(
     species_q = _normalize_species_query(species)
     voices_q = _normalize_voice_query(voices)
 
-    return [r for r in all_rules if _species_matches(r.species, species_q)
-            and _voices_matches(r.voices, voices_q)]
+    return [
+        r
+        for r in all_rules
+        if _species_matches(r.species, species_q) and _voices_matches(r.voices, voices_q)
+    ]
 
 
 def _normalize_species_query(species: int | str | None) -> str | None:

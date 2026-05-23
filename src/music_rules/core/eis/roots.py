@@ -53,19 +53,21 @@ CycleId = Literal["E1", "E2", "E3", "E4", "E5", "E6"]
 # *same* cycle, so we store the canonical (smaller) step here and treat
 # its inversion as a synonym in :func:`is_valid_progression`.
 E_CYCLES: Final[dict[CycleId, int]] = {
-    "E1": 1,   # minor 2nd
-    "E2": 2,   # major 2nd
-    "E3": 3,   # minor 3rd
-    "E4": 4,   # major 3rd
-    "E5": 5,   # perfect 4th  (P5 = 7 = -5 mod 12 is the same cycle)
-    "E6": 6,   # tritone
+    "E1": 1,  # minor 2nd
+    "E2": 2,  # major 2nd
+    "E3": 3,  # minor 3rd
+    "E4": 4,  # major 3rd
+    "E5": 5,  # perfect 4th  (P5 = 7 = -5 mod 12 is the same cycle)
+    "E6": 6,  # tritone
 }
+
 
 # Cycle length = 12 / gcd(12, step). The corpus calls these out
 # explicitly in §4 of the master doc; we re-derive them programmatically
 # so the constants stay in sync if a hypothetical cycle is added later.
 def _cycle_length(step: int) -> int:
     from math import gcd
+
     return 12 // gcd(12, step)
 
 
@@ -75,15 +77,51 @@ CYCLE_LENGTHS: Final[dict[CycleId, int]] = {
 
 
 _NOTE_NAMES_SHARP: Final[tuple[str, ...]] = (
-    "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B",
+    "C",
+    "C#",
+    "D",
+    "D#",
+    "E",
+    "F",
+    "F#",
+    "G",
+    "G#",
+    "A",
+    "A#",
+    "B",
 )
 _NOTE_NAMES_FLAT: Final[tuple[str, ...]] = (
-    "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B",
+    "C",
+    "Db",
+    "D",
+    "Eb",
+    "E",
+    "F",
+    "Gb",
+    "G",
+    "Ab",
+    "A",
+    "Bb",
+    "B",
 )
 _PC_OF_NAME: Final[dict[str, int]] = {
-    "C": 0, "C#": 1, "Db": 1, "D": 2, "D#": 3, "Eb": 3, "E": 4,
-    "F": 5, "F#": 6, "Gb": 6, "G": 7, "G#": 8, "Ab": 8, "A": 9,
-    "A#": 10, "Bb": 10, "B": 11,
+    "C": 0,
+    "C#": 1,
+    "Db": 1,
+    "D": 2,
+    "D#": 3,
+    "Eb": 3,
+    "E": 4,
+    "F": 5,
+    "F#": 6,
+    "Gb": 6,
+    "G": 7,
+    "G#": 8,
+    "Ab": 8,
+    "A": 9,
+    "A#": 10,
+    "Bb": 10,
+    "B": 11,
 }
 
 
@@ -238,10 +276,7 @@ def is_valid_progression(
     for prev, curr in pairwise(pcs):
         diff = (curr - prev) % 12
         # Match against either the canonical step or its inversion.
-        if not any(
-            diff == E_CYCLES[c] or diff == (-E_CYCLES[c]) % 12
-            for c in allowed
-        ):
+        if not any(diff == E_CYCLES[c] or diff == (-E_CYCLES[c]) % 12 for c in allowed):
             return False
     return True
 
@@ -256,8 +291,5 @@ def _to_pc(value: str | int) -> int:
     if isinstance(value, int):
         return value % 12
     if value not in _PC_OF_NAME:
-        raise ValueError(
-            f"unknown note name: {value!r}. "
-            f"Use one of {sorted(_PC_OF_NAME)}."
-        )
+        raise ValueError(f"unknown note name: {value!r}. Use one of {sorted(_PC_OF_NAME)}.")
     return _PC_OF_NAME[value]

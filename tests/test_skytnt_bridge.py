@@ -102,13 +102,15 @@ class TestPerVoicePrograms:
         # 4 voices, distinct GM programs (square / square / triangle / noise).
         programs = [80, 80, 87, 122]
         out = bridge.rolls_to_midi(
-            [[60, 62, 64, 65]] * 4, programs=programs,
+            [[60, 62, 64, 65]] * 4,
+            programs=programs,
         )
         assert isinstance(out, str)
         # Re-parse and verify the program_change events landed.
         import io
 
         import mido
+
         midi = mido.MidiFile(file=io.BytesIO(base64.b64decode(out)))
         # Track 0 is meta; tracks 1..4 should each have a program_change.
         seen = []
@@ -122,7 +124,8 @@ class TestPerVoicePrograms:
     def test_program_length_mismatch_raises(self) -> None:
         with pytest.raises(ValueError, match="programs has length"):
             bridge.rolls_to_midi(
-                [[60, 62], [60, 62]], programs=[1, 2, 3],
+                [[60, 62], [60, 62]],
+                programs=[1, 2, 3],
             )
 
 
@@ -143,8 +146,7 @@ class TestSkytntGeneration:
             with pytest.raises(bridge.SkyTNTUnavailableError):
                 bridge.skytnt_generate()
         else:
-            pytest.skip("transformers installed; this test only verifies "
-                        "the no-extras path")
+            pytest.skip("transformers installed; this test only verifies the no-extras path")
 
     def test_constrained_generate_returns_dict_when_no_extras(self) -> None:
         # When the extras are missing, _ensure_skytnt() raises and

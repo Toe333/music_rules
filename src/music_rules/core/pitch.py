@@ -162,9 +162,7 @@ def is_p4(semitones: int) -> bool:
 # ---------------------------------------------------------------------------
 
 
-def classify_motion(
-    cf_prev: int, cf_curr: int, cp_prev: int, cp_curr: int
-) -> MotionType:
+def classify_motion(cf_prev: int, cf_curr: int, cp_prev: int, cp_curr: int) -> MotionType:
     """Classify two-voice motion between two adjacent verticalities.
 
     Args:
@@ -206,10 +204,32 @@ _MAJOR_DIATONIC: Final[frozenset[int]] = frozenset({0, 2, 4, 5, 7, 9, 11})
 _NATURAL_MINOR_DIATONIC: Final[frozenset[int]] = frozenset({0, 2, 3, 5, 7, 8, 10})
 
 NOTE_NAMES_SHARP: Final[tuple[str, ...]] = (
-    "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B",
+    "C",
+    "C#",
+    "D",
+    "D#",
+    "E",
+    "F",
+    "F#",
+    "G",
+    "G#",
+    "A",
+    "A#",
+    "B",
 )
 NOTE_NAMES_FLAT: Final[tuple[str, ...]] = (
-    "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B",
+    "C",
+    "Db",
+    "D",
+    "Eb",
+    "E",
+    "F",
+    "Gb",
+    "G",
+    "Ab",
+    "A",
+    "Bb",
+    "B",
 )
 
 

@@ -56,8 +56,12 @@ class TestScalePcs:
         # Phase 8 has no pending scales, but the registry still
         # supports them — verify by injecting a synthetic stub.
         synthetic = scales.Scale(
-            id="EIS-TEST", number=99, name="stub",
-            degrees=None, notes="test fixture", status="pending",
+            id="EIS-TEST",
+            number=99,
+            name="stub",
+            degrees=None,
+            notes="test fixture",
+            status="pending",
         )
         scales.SCALES["EIS-TEST"] = synthetic
         try:

@@ -147,9 +147,7 @@ class Corpus(BaseModel):
     @classmethod
     def load_default(cls) -> Corpus:
         """Load the corpus shipped inside the package (``music_rules.data``)."""
-        text = files("music_rules.data").joinpath(_RULES_JSON_RESOURCE).read_text(
-            encoding="utf-8"
-        )
+        text = files("music_rules.data").joinpath(_RULES_JSON_RESOURCE).read_text(encoding="utf-8")
         return cls.from_json_text(text)
 
     # ----- queries ----------------------------------------------------------
@@ -216,9 +214,7 @@ class Corpus(BaseModel):
         return sorted({r.system for r in self.rules})
 
     def categories(self, *, system: System | None = None) -> list[str]:
-        return sorted(
-            {r.category for r in self.rules if system is None or r.system == system}
-        )
+        return sorted({r.category for r in self.rules if system is None or r.system == system})
 
     def kinds_present(self) -> list[str]:
         return sorted({r.kind for r in self.rules})
@@ -232,7 +228,7 @@ class Corpus(BaseModel):
         if cached is None:
             cached = {r.id: r for r in self.rules}
             object.__setattr__(self, "__id_index_cache", cached)
-        return cached  # type: ignore[no-any-return]
+        return cached
 
 
 # ---------------------------------------------------------------------------
@@ -311,8 +307,7 @@ def get_input_shape_signature(input_shape: str) -> str:
         return shapes[input_shape]
     except KeyError as exc:
         raise KeyError(
-            f"Unknown input_shape: {input_shape!r}. "
-            f"Known shapes: {', '.join(sorted(shapes))}"
+            f"Unknown input_shape: {input_shape!r}. Known shapes: {', '.join(sorted(shapes))}"
         ) from exc
 
 

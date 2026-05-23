@@ -23,7 +23,10 @@ class TestPassingTone:
     def test_pt_between_third(self) -> None:
         # Voice 0: C(60) → E(64). PT in C major scale = D(62).
         ev = nct.insert_nct(
-            [60], [64], voice=0, nct_type="PT",
+            [60],
+            [64],
+            voice=0,
+            nct_type="PT",
             scale_id="EIS-18-01",
         )
         assert ev["midi"] == 62
@@ -50,14 +53,12 @@ class TestChromaticAlteration:
 
 class TestReturningTone:
     def test_rt_upper_neighbour_in_c_major(self) -> None:
-        ev = nct.insert_nct([60], [60], voice=0, nct_type="RT",
-                             direction="up")
+        ev = nct.insert_nct([60], [60], voice=0, nct_type="RT", direction="up")
         # D is the next scale tone above C in C major.
         assert ev["midi"] == 62
 
     def test_rt_lower_neighbour_in_c_major(self) -> None:
-        ev = nct.insert_nct([60], [60], voice=0, nct_type="RT",
-                             direction="down")
+        ev = nct.insert_nct([60], [60], voice=0, nct_type="RT", direction="down")
         # B is the next scale tone below C.
         assert ev["midi"] == 59
 
@@ -72,7 +73,7 @@ class TestChordToneNCT:
 class TestSuspension:
     def test_sus_holds_a_into_b(self) -> None:
         ev = nct.insert_nct([60], [62], voice=0, nct_type="Sus")
-        assert ev["midi"] == 60   # A's tone held over the bar
+        assert ev["midi"] == 60  # A's tone held over the bar
         assert ev["beat"] == 0.0
 
 

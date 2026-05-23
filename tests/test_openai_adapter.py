@@ -65,9 +65,7 @@ class TestSchemaCatalogue:
             try:
                 validator_cls.check_schema(params)
             except jsonschema.exceptions.SchemaError as exc:
-                pytest.fail(
-                    f"invalid schema for tool {s['function']['name']!r}: {exc.message}"
-                )
+                pytest.fail(f"invalid schema for tool {s['function']['name']!r}: {exc.message}")
 
 
 # ---------------------------------------------------------------------------
@@ -105,9 +103,15 @@ class TestRepresentativeSchemas:
         species_schema = props["species"]
         assert species_schema.get("default") == 1
         # The type is either a list ["integer", "string"] or anyOf.
-        assert species_schema.get("type") in (
-            ["integer", "string"], "integer", "string",
-        ) or "anyOf" in species_schema
+        assert (
+            species_schema.get("type")
+            in (
+                ["integer", "string"],
+                "integer",
+                "string",
+            )
+            or "anyOf" in species_schema
+        )
         # `strict` is an optional bool default False.
         assert props["strict"]["type"] == "boolean"
         assert props["strict"]["default"] is False
@@ -142,9 +146,8 @@ class TestRepresentativeSchemas:
         # include/exclude default to None and accept list[str] | None.
         assert props["include"].get("default") is None
         # Should describe a list type somewhere in its schema.
-        assert (
-            props["include"].get("type") == "array"
-            or any("array" in str(t) for t in props["include"].get("anyOf", []))
+        assert props["include"].get("type") == "array" or any(
+            "array" in str(t) for t in props["include"].get("anyOf", [])
         )
 
     def test_list_rule_systems_takes_no_args(self) -> None:
@@ -210,7 +213,8 @@ class TestDispatch:
             {
                 "prev_pair": {"cf": 60, "cp": 67},
                 "curr_pair": {"cf": 62, "cp": 69},
-                "species": 1, "voices": 2,
+                "species": 1,
+                "voices": 2,
             },
         )
         assert out["ok"] is False  # parallel 5ths
@@ -235,8 +239,11 @@ class TestDispatch:
             },
         )
         assert {
-            "total_cost", "hard_violations", "soft_violations",
-            "per_rule_summary", "grade",
+            "total_cost",
+            "hard_violations",
+            "soft_violations",
+            "per_rule_summary",
+            "grade",
         } == set(out.keys())
 
 
