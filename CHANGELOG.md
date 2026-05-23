@@ -7,6 +7,31 @@ and the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format.
 
 ## [Unreleased]
 
+### Changed
+
+- Repo-wide cleanup pass: `ruff check` + `ruff format` clean across
+  `src/` and `tests/`; `mypy src/music_rules/core` reports zero
+  errors. No behavior change to any public API.
+- Moved `fastapi` and `uvicorn` from runtime dependencies into a new
+  optional `[api]` extra. The planned `adapters/api.py` route surface
+  is the only consumer; default installs are now smaller.
+- `.gitignore` now ignores `*.wav` audio renders (regenerable from the
+  committed `.mid` files) and the personal-reference `jazzprompt/`
+  folder. `uv.lock` is committed so CI and local installs pin against
+  the same dependency tree.
+
+### Fixed
+
+- `skytnt_constrained_generate` was calling `evaluate_passage(voices,
+  meter=..., ruleset=...)` — but the evaluator takes a `PassagePiece`
+  dict. The bridge now wraps voices into a `PassagePiece` before
+  scoring each candidate. Added a regression test that mocks
+  `skytnt_generate`, runs the constrained loop end-to-end against a
+  round-tripped MIDI, and asserts `evaluate_passage` receives the
+  correct piece shape.
+
+## [0.2.0] — 2026-05-23
+
 ### Added
 
 - **Phase 8 — full EIS composer, SkyTNT generation, voice-range

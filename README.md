@@ -17,60 +17,64 @@ If you want an AI assistant (Claude, ChatGPT, a local Ollama model, anything)
 to generate MIDI that *actually* respects two centuries of contrapuntal
 tradition or Spud Murphy's Equal Interval System, you need:
 
-1. The rules in machine-readable form. ✅ 158 rules in
+1. **The rules in machine-readable form.** 158 rules in
    [`rules_combined.json`](src/music_rules/data/rules_combined.json).
-2. Pure-Python checkers that verify a passage against those rules,
-   returning hard violations and soft costs. ✅ Phase 3.
-3. A *thin* adapter for each AI frontend so adding the next vendor is a
-   weekend, not a rewrite. ✅ Phases 5 & 6.
-4. A bridge to an actual MIDI generator (SkyTNT's `midi-model`) that
-   does rejection sampling against those checkers. ✅ Phase 7.
+2. **Pure-Python checkers** that verify a passage against those rules,
+   returning hard violations and soft costs.
+3. **Thin adapters** for each AI frontend so adding the next vendor is a
+   weekend, not a rewrite (MCP, OpenAI function-calling, CLI today; FastAPI
+   gated behind the `[api]` extra).
+4. **A bridge to an actual MIDI generator** — SkyTNT's `midi-model` — that
+   does rejection sampling against those checkers.
 
 Each layer is independently useful — you can use the corpus and checkers
 from any Python script with zero AI dependencies pulled in.
 
 ## Status
 
-**v0.1.0 — Phase 1 of 7 complete.** Repo, corpus, and docs are in place;
-package scaffold and checkers are next. See
-[`CHANGELOG.md`](CHANGELOG.md) for what's done and
-[`PROJECT.md`](PROJECT.md) for the build plan.
+**Active, 320 tests passing.** The portable core (corpus, Fux + EIS checkers,
+passage evaluator, MIDI round-trip), all three adapters (MCP / OpenAI / CLI),
+and the SkyTNT generation bridge are live. See [`CHANGELOG.md`](CHANGELOG.md)
+for the per-release breakdown and [`PROJECT.md`](PROJECT.md) for the design.
 
 ## Install
 
-> Phase 2 will publish the package to PyPI. For now, install from source.
-
 ```bash
-git clone https://github.com/<your-account>/music-rules.git
-cd music-rules
+git clone https://github.com/toe333/music_rules.git
+cd music_rules
 
-# uv (recommended — fast, no surprises)
+# uv (recommended — fast, reproducible against the committed uv.lock)
 uv venv && source .venv/bin/activate
-uv sync --all-extras
+uv sync --extra dev
 
-# or, plain pip
+# or plain pip
 python3.11 -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
 ```
 
-## Quickstart (preview — live in Phase 2)
+Optional extras:
+
+| Extra      | Pulls in                              | Use when…                                              |
+|------------|---------------------------------------|--------------------------------------------------------|
+| `[api]`    | `fastapi`, `uvicorn`                  | you want the (planned) HTTP route surface              |
+| `[skytnt]` | `torch`, `transformers`, `huggingface_hub` | you want `skytnt_generate` / `skytnt_constrained_generate` |
+| `[dev]`    | `pytest`, `ruff`, `mypy`, `jsonschema`| contributing or running CI locally                     |
+
+## Quickstart
 
 ```python
 from music_rules import corpus
 
-# Discover what's there
-print(corpus.list_systems())              # ['EIS', 'Fux']
-print(len(corpus.get_rules()))            # 158
+print(corpus.list_systems())               # ['EIS', 'Fux']
+print(len(corpus.get_rules()))             # 158
 print(len(corpus.get_rules(system="Fux"))) # 39
 
-# Find a specific rule
 h11 = corpus.get_rule("H1_1")
 print(h11.rule)
 # 'The harmonic intervals on the first note of each measure ...'
 ```
 
 ```python
-# Evaluating a passage (live in Phase 4)
 from music_rules.core.evaluate import evaluate_passage
 
 piece = {
@@ -87,14 +91,13 @@ print(report["hard_violations"])
 ```
 
 ```bash
-# CLI (live in Phase 6)
 music-rules rules list --system Fux
 music-rules rules show H1_1
-music-rules evaluate examples/2v_1st_species.json --species 1 --strict
+music-rules evaluate path/to/piece.json --species 1 --strict
 ```
 
 ```jsonc
-// MCP (live in Phase 5) — drop into ~/.cursor/mcp.json or Claude Desktop
+// MCP — drop into ~/.cursor/mcp.json or Claude Desktop's config
 {
   "mcpServers": {
     "music-rules": {
@@ -105,15 +108,11 @@ music-rules evaluate examples/2v_1st_species.json --species 1 --strict
 }
 ```
 
-For OpenCode/OpenAI function-calling workflows, the adapter now also exposes
-chord-table bridge tools:
-
-- `chord_progression_to_rolls`
-- `chord_progression_to_midi`
-- `chord_progression_csv_to_midi`
-
-See `examples/opencode_chord_progression_example.json` and the generated
-tables under `data/chord_tables/`.
+For OpenAI function-calling workflows, the adapter exposes chord-table
+bridge tools (`chord_progression_to_rolls`, `chord_progression_to_midi`,
+`chord_progression_csv_to_midi`). See
+`examples/opencode_chord_progression_example.json` and the generated tables
+under `data/chord_tables/`.
 
 ## How it's organized
 
