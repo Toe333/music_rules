@@ -63,15 +63,12 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v3
 
-      - name: Install minimal deps
-        run: uv pip install --system jsonschema pydantic
-
       - name: Validate
         run: |
-          python - <<'EOF'
+          uv run --with jsonschema --python 3.12 python - <<'EOF'
           import json
-          import sys
           from pathlib import Path
+
           import jsonschema
 
           corpus = json.loads(Path("src/music_rules/data/rules_combined.json").read_text())

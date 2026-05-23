@@ -102,13 +102,15 @@ class TestPerVoicePrograms:
         # 4 voices, distinct GM programs (square / square / triangle / noise).
         programs = [80, 80, 87, 122]
         out = bridge.rolls_to_midi(
-            [[60, 62, 64, 65]] * 4, programs=programs,
+            [[60, 62, 64, 65]] * 4,
+            programs=programs,
         )
         assert isinstance(out, str)
         # Re-parse and verify the program_change events landed.
         import io
 
         import mido
+
         midi = mido.MidiFile(file=io.BytesIO(base64.b64decode(out)))
         # Track 0 is meta; tracks 1..4 should each have a program_change.
         seen = []
@@ -122,7 +124,8 @@ class TestPerVoicePrograms:
     def test_program_length_mismatch_raises(self) -> None:
         with pytest.raises(ValueError, match="programs has length"):
             bridge.rolls_to_midi(
-                [[60, 62], [60, 62]], programs=[1, 2, 3],
+                [[60, 62], [60, 62]],
+                programs=[1, 2, 3],
             )
 
 
@@ -143,8 +146,7 @@ class TestSkytntGeneration:
             with pytest.raises(bridge.SkyTNTUnavailableError):
                 bridge.skytnt_generate()
         else:
-            pytest.skip("transformers installed; this test only verifies "
-                        "the no-extras path")
+            pytest.skip("transformers installed; this test only verifies the no-extras path")
 
     def test_constrained_generate_returns_dict_when_no_extras(self) -> None:
         # When the extras are missing, _ensure_skytnt() raises and
@@ -156,3 +158,46 @@ class TestSkytntGeneration:
                 bridge.skytnt_constrained_generate()
         else:
             pytest.skip("transformers installed; skip extras-missing path")
+
+    def test_constrained_generate_passes_passagepiece_to_evaluator(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        """Regression: skytnt_constrained_generate used to call
+        evaluate_passage(voices, meter=..., ...) which crashes because
+        evaluate_passage expects a PassagePiece dict. Mock SkyTNT
+        generation and verify the wrapper hands the evaluator the
+        correct shape."""
+        # Synthesise a tiny base64-encoded MIDI from a known roll so the
+        # round-trip through midi_to_rolls works without any model.
+        fake_midi = bridge.rolls_to_midi([[60, 62, 64, 65, 67, 69, 71, 72]])
+
+        def fake_generate(**_: object) -> dict[str, list[dict[str, object]]]:
+            return {"candidates": [{"midi_base64": fake_midi, "token_count": 8}]}
+
+        monkeypatch.setattr(bridge, "skytnt_generate", fake_generate)
+
+        seen_pieces: list[dict[str, object]] = []
+        from music_rules.core import evaluate as core_evaluate
+
+        real_eval = core_evaluate.evaluate_passage
+
+        def spy_evaluate(piece, **kwargs):  # type: ignore[no-untyped-def]
+            seen_pieces.append(dict(piece))
+            return real_eval(piece, **kwargs)
+
+        monkeypatch.setattr(core_evaluate, "evaluate_passage", spy_evaluate)
+
+        result = bridge.skytnt_constrained_generate(
+            max_tries=1,
+            num_candidates_per_try=1,
+        )
+
+        assert seen_pieces, "evaluator was never invoked"
+        piece = seen_pieces[0]
+        assert "voices" in piece
+        assert isinstance(piece["voices"], list)
+        assert piece["voices"][0] == [60, 62, 64, 65, 67, 69, 71, 72]
+        assert piece.get("meter") == "4/4"
+        assert result["tried"] == 1
+        assert result["best"] is not None

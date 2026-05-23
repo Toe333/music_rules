@@ -178,8 +178,16 @@ class TestGroupAIntrospection:
 
     def test_explain_rule_includes_checker_hint(self) -> None:
         out = mcp_adapter.call_tool("explain_rule", {"rule_id": "P1_1_2v"})
-        assert {"rule_id", "system", "kind", "rule", "applies_to",
-                "input_shape", "checker_hint", "source"} <= out.keys()
+        assert {
+            "rule_id",
+            "system",
+            "kind",
+            "rule",
+            "applies_to",
+            "input_shape",
+            "checker_hint",
+            "source",
+        } <= out.keys()
         assert "check_motion_pair" in out["checker_hint"]
         assert out["applies_to"] == {"species": "1", "voices": "2v"}
 
@@ -222,7 +230,8 @@ class TestGroupCCheckers:
             {
                 "prev_pair": {"cf": 60, "cp": 67},
                 "curr_pair": {"cf": 62, "cp": 69},
-                "species": 1, "voices": 2,
+                "species": 1,
+                "voices": 2,
             },
         )
         assert out["ok"] is False
@@ -325,7 +334,8 @@ class TestGroupBLive:
 
     def test_eis_pick_root_line_default_walks_e5(self) -> None:
         out = mcp_adapter.call_tool(
-            "eis_pick_root_line", {"length": 4, "start_root": "C"},
+            "eis_pick_root_line",
+            {"length": 4, "start_root": "C"},
         )
         assert out["roots"] == ["C", "F", "Bb", "Eb"]
         assert out["cycles"] == ["E5"]
@@ -352,9 +362,7 @@ class TestGroupBLive:
     def test_eis_list_scales_filtered_to_verified(self) -> None:
         out = mcp_adapter.call_tool("eis_list_scales", {"status": "verified"})
         assert all(s["status"] == "verified" for s in out["scales"])
-        assert {"EIS-18-01", "EIS-18-04", "EIS-18-10"} <= {
-            s["id"] for s in out["scales"]
-        }
+        assert {"EIS-18-01", "EIS-18-04", "EIS-18-10"} <= {s["id"] for s in out["scales"]}
 
 
 class TestGroupELive:
@@ -362,11 +370,13 @@ class TestGroupELive:
 
     def test_midi_round_trip_through_adapter(self) -> None:
         encoded = mcp_adapter.call_tool(
-            "rolls_to_midi", {"voices": [[60, 62, 64, 65]]},
+            "rolls_to_midi",
+            {"voices": [[60, 62, 64, 65]]},
         )
         assert "midi_base64" in encoded
         decoded = mcp_adapter.call_tool(
-            "midi_to_rolls", {"midi_base64": encoded["midi_base64"]},
+            "midi_to_rolls",
+            {"midi_base64": encoded["midi_base64"]},
         )
         assert decoded["voices"][0] == [60, 62, 64, 65]
         assert decoded["meter"] == "4/4"
@@ -411,8 +421,10 @@ class TestPhase8GroupBLive:
         out = mcp_adapter.call_tool(
             "eis_insert_nct",
             {
-                "chord_a": [60], "chord_b": [64],
-                "voice": 0, "nct_type": "PT",
+                "chord_a": [60],
+                "chord_b": [64],
+                "voice": 0,
+                "nct_type": "PT",
                 "scale_id": "EIS-18-01",
             },
         )
@@ -426,14 +438,16 @@ class TestPhase8GroupBLive:
 
     def test_eis_check_ood_clean_voicing(self) -> None:
         out = mcp_adapter.call_tool(
-            "eis_check_ood", {"chord": [48, 52, 55, 60]},
+            "eis_check_ood",
+            {"chord": [48, 52, 55, 60]},
         )
         assert out["ok"] is True
         assert out["hits"] == []
 
     def test_eis_check_ood_b9_without_b7_flagged(self) -> None:
         out = mcp_adapter.call_tool(
-            "eis_check_ood", {"chord": [36, 49], "has_b7": False},
+            "eis_check_ood",
+            {"chord": [36, 49], "has_b7": False},
         )
         assert out["ok"] is False
         assert any(h["rule_id"] == "O-002" for h in out["hits"])
@@ -505,16 +519,11 @@ class TestPhase8GroupELive:
         lex_path = tmp_path / "lexicon.json"
         csv_path = tmp_path / "prog.csv"
         lex_path.write_text(
-            (
-                '{"chords":{"Cmaj7":{"midi":[60,64,67,71]},'
-                '"G7":{"midi":[55,59,62,65]}}}'
-            ),
+            ('{"chords":{"Cmaj7":{"midi":[60,64,67,71]},"G7":{"midi":[55,59,62,65]}}}'),
             encoding="utf-8",
         )
         csv_path.write_text(
-            "bar,start_beat,duration_beats,chord_symbol\n"
-            "1,0,1,Cmaj7\n"
-            "1,1,1,G7\n",
+            "bar,start_beat,duration_beats,chord_symbol\n1,0,1,Cmaj7\n1,1,1,G7\n",
             encoding="utf-8",
         )
         out = mcp_adapter.call_tool(

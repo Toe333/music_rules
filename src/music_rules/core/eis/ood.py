@@ -28,7 +28,12 @@ from __future__ import annotations
 from typing import Final, TypedDict
 
 OOD_RULES: Final[tuple[str, ...]] = (
-    "O-001", "O-002", "O-003", "O-004", "O-005", "O-006",
+    "O-001",
+    "O-002",
+    "O-003",
+    "O-004",
+    "O-005",
+    "O-006",
 )
 
 
@@ -44,8 +49,7 @@ class OODHit(TypedDict):
 _DISSONANT_PCS: Final[set[int]] = {1, 2, 6, 10, 11}
 
 
-def check_voicing(midi: list[int], *, has_b7: bool = False,
-                  pedal: bool = False) -> list[OODHit]:
+def check_voicing(midi: list[int], *, has_b7: bool = False, pedal: bool = False) -> list[OODHit]:
     """Return every OOD hit between the bass and any upper voice.
 
     Args:
@@ -68,25 +72,27 @@ def check_voicing(midi: list[int], *, has_b7: bool = False,
         v = midi[i]
         interval = v - bass
         if interval <= 12:
-            continue   # Within one octave — not "outside" per master §9.
+            continue  # Within one octave — not "outside" per master §9.
         pc_above_bass = interval % 12
 
         # 4 + 10 (perfect-4th + 10th == 4th + major-3rd) is fine — O-005.
-        if pc_above_bass in {5, 9}:    # perfect 4 above bass, or 6th
+        if pc_above_bass in {5, 9}:  # perfect 4 above bass, or 6th
             continue
 
         # 3 + 11 (major 3rd + 11) — O-004 not good.
         if pc_above_bass == 4 and interval >= 16:
-            hits.append({
-                "rule_id": "O-004",
-                "detail": (
-                    f"3 & 11 outside-octave (bass {bass}, voice {i} "
-                    f"at {v}, interval {interval})."
-                ),
-                "bass_voice": 0,
-                "upper_voice": i,
-                "interval_semitones": interval,
-            })
+            hits.append(
+                {
+                    "rule_id": "O-004",
+                    "detail": (
+                        f"3 & 11 outside-octave (bass {bass}, voice {i} "
+                        f"at {v}, interval {interval})."
+                    ),
+                    "bass_voice": 0,
+                    "upper_voice": i,
+                    "interval_semitones": interval,
+                }
+            )
             continue
 
         # ♭9 over a chord WITH ♭7 is OK — O-002.
@@ -99,16 +105,15 @@ def check_voicing(midi: list[int], *, has_b7: bool = False,
         if pc_above_bass in _DISSONANT_PCS:
             # Map specific cases to specific rule ids; otherwise generic O-001.
             if pc_above_bass == 1:
-                rid = "O-002"   # ♭9 without ♭7 in chord → O-002 violated
+                rid = "O-002"  # ♭9 without ♭7 in chord → O-002 violated
                 detail = (
                     f"♭9 outside-octave without ♭7 in the chord (bass "
                     f"{bass}, voice {i} at {v}, interval {interval})."
                 )
             elif pc_above_bass == 4 and interval >= 28:
-                rid = "O-006"   # 11 & 17 follow the same pattern as 3 & 11
+                rid = "O-006"  # 11 & 17 follow the same pattern as 3 & 11
                 detail = (
-                    f"11 & 17 outside-octave (bass {bass}, voice {i} "
-                    f"at {v}, interval {interval})."
+                    f"11 & 17 outside-octave (bass {bass}, voice {i} at {v}, interval {interval})."
                 )
             else:
                 rid = "O-001"
@@ -116,20 +121,22 @@ def check_voicing(midi: list[int], *, has_b7: bool = False,
                     f"Outside-octave dissonance (bass {bass}, voice {i} "
                     f"at {v}, interval {interval} st = pc {pc_above_bass})."
                 )
-            hits.append({
-                "rule_id": rid,
-                "detail": detail,
-                "bass_voice": 0,
-                "upper_voice": i,
-                "interval_semitones": interval,
-            })
+            hits.append(
+                {
+                    "rule_id": rid,
+                    "detail": detail,
+                    "bass_voice": 0,
+                    "upper_voice": i,
+                    "interval_semitones": interval,
+                }
+            )
 
     return hits
 
 
-def check_passage(chords: list[list[int]], *,
-                  has_b7: list[bool] | None = None,
-                  pedal: list[bool] | None = None) -> list[OODHit]:
+def check_passage(
+    chords: list[list[int]], *, has_b7: list[bool] | None = None, pedal: list[bool] | None = None
+) -> list[OODHit]:
     """Sweep every chord in a passage for OOD hits.
 
     ``has_b7`` and ``pedal`` (when supplied) must be one-per-chord; if

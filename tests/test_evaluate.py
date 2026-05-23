@@ -77,8 +77,8 @@ class TestReportShape:
         # Build a piece whose CP has a P5 leap to guarantee at least one.
         piece = {
             "voices": [
-                [60, 60, 60, 60],   # CF: held C
-                [67, 60, 67, 60],   # CP: G C G C — P5 leap each step
+                [60, 60, 60, 60],  # CF: held C
+                [67, 60, 67, 60],  # CP: G C G C — P5 leap each step
             ],
             "species": 1,
             "cantus_firmus_voice": 0,
@@ -127,9 +127,7 @@ class TestCleanFixturePasses:
 class TestParallelFifthsFixtureFails:
     def test_multiple_P1_1_2v_violations(self) -> None:
         report = evaluate_passage(_piece(PARALLEL_FIFTHS_FAIL))
-        p1_violations = [
-            v for v in report["hard_violations"] if v["rule_id"] == "P1_1_2v"
-        ]
+        p1_violations = [v for v in report["hard_violations"] if v["rule_id"] == "P1_1_2v"]
         assert len(p1_violations) >= 2, (
             f"Expected multiple parallel-5ths violations; got {p1_violations}"
         )
@@ -176,16 +174,40 @@ class TestFourBarPassage:
         # CF: a slow whole-note ascent and descent (repeated within bar).
         # CP: contrary-motion smooth steps.
         cf = [
-            60, 60, 60, 60,   # bar 1: C
-            62, 62, 62, 62,   # bar 2: D
-            64, 64, 64, 64,   # bar 3: E
-            60, 60, 60, 60,   # bar 4: C
+            60,
+            60,
+            60,
+            60,  # bar 1: C
+            62,
+            62,
+            62,
+            62,  # bar 2: D
+            64,
+            64,
+            64,
+            64,  # bar 3: E
+            60,
+            60,
+            60,
+            60,  # bar 4: C
         ]
         cp = [
-            67, 67, 67, 67,   # bar 1: G  (P5 above C)
-            65, 65, 65, 65,   # bar 2: F  (m3 above D)
-            64, 64, 64, 64,   # bar 3: E  (P1 unison E)
-            67, 67, 67, 67,   # bar 4: G  (P5 above C)
+            67,
+            67,
+            67,
+            67,  # bar 1: G  (P5 above C)
+            65,
+            65,
+            65,
+            65,  # bar 2: F  (m3 above D)
+            64,
+            64,
+            64,
+            64,  # bar 3: E  (P1 unison E)
+            67,
+            67,
+            67,
+            67,  # bar 4: G  (P5 above C)
         ]
         return {
             "voices": [cf, cp],
@@ -202,8 +224,7 @@ class TestFourBarPassage:
         # Motion check should be all oblique → no P1_ violations.
         # Opening/closing both P5 → H2_1 / H3_1 satisfied.
         assert report["hard_violations"] == [], (
-            f"Expected zero hard violations on the 4-bar fixture; "
-            f"got: {report['hard_violations']}"
+            f"Expected zero hard violations on the 4-bar fixture; got: {report['hard_violations']}"
         )
 
     def test_grade_high(self, piece: dict[str, Any]) -> None:
@@ -224,15 +245,11 @@ class TestRuleFilters:
         assert "P1_1_2v" not in _rule_ids_in(filtered, "hard_violations")
 
     def test_include_keeps_only_listed_rule(self) -> None:
-        report = evaluate_passage(
-            _piece(PARALLEL_FIFTHS_FAIL), include=["P1_1_2v"]
-        )
+        report = evaluate_passage(_piece(PARALLEL_FIFTHS_FAIL), include=["P1_1_2v"])
         assert _rule_ids_in(report, "hard_violations") == {"P1_1_2v"}
 
     def test_include_with_no_matches_yields_empty(self) -> None:
-        report = evaluate_passage(
-            _piece(PARALLEL_FIFTHS_FAIL), include=["NOPE_999"]
-        )
+        report = evaluate_passage(_piece(PARALLEL_FIFTHS_FAIL), include=["NOPE_999"])
         assert report["hard_violations"] == []
         assert report["soft_violations"] == []
 
@@ -273,8 +290,7 @@ class TestVoiceRanges:
             "voice_ranges": "satb",
         }
         report = evaluate_passage(piece, ruleset="Fux")
-        rg_hits = [h for h in report["hard_violations"]
-                   if h["rule_id"] == "RG-001"]
+        rg_hits = [h for h in report["hard_violations"] if h["rule_id"] == "RG-001"]
         assert rg_hits == []
 
     def test_satb_preset_flags_out_of_range_pitch(self) -> None:
@@ -284,8 +300,7 @@ class TestVoiceRanges:
             "voice_ranges": "satb",
         }
         report = evaluate_passage(piece, ruleset="Fux")
-        rg_hits = [h for h in report["hard_violations"]
-                   if h["rule_id"] == "RG-001"]
+        rg_hits = [h for h in report["hard_violations"] if h["rule_id"] == "RG-001"]
         assert len(rg_hits) == 1
         assert rg_hits[0]["position"] == 1
         assert rg_hits[0]["voices_involved"] == [0]
@@ -296,23 +311,26 @@ class TestVoiceRanges:
             "voice_ranges": [[55, 65], [70, 79]],
         }
         report = evaluate_passage(piece, ruleset="Fux")
-        rg_hits = [h for h in report["hard_violations"]
-                   if h["rule_id"] == "RG-001"]
+        rg_hits = [h for h in report["hard_violations"] if h["rule_id"] == "RG-001"]
         assert rg_hits == []
 
     def test_unknown_preset_raises(self) -> None:
         with pytest.raises(ValueError, match="voice_ranges preset"):
-            evaluate_passage({
-                "voices": [[60, 62], [67, 69]],
-                "voice_ranges": "wat",
-            })
+            evaluate_passage(
+                {
+                    "voices": [[60, 62], [67, 69]],
+                    "voice_ranges": "wat",
+                }
+            )
 
     def test_wrong_length_raises(self) -> None:
         with pytest.raises(ValueError, match="voice_ranges must be"):
-            evaluate_passage({
-                "voices": [[60, 62], [67, 69]],
-                "voice_ranges": [[40, 60]],   # only 1 entry for 2 voices
-            })
+            evaluate_passage(
+                {
+                    "voices": [[60, 62], [67, 69]],
+                    "voice_ranges": [[40, 60]],  # only 1 entry for 2 voices
+                }
+            )
 
 
 # ---------------------------------------------------------------------------
@@ -327,8 +345,7 @@ class TestEISPass:
         piece = _piece(CLEAN_2V_1S_C_MAJOR)
         piece["check_ood"] = False
         report = evaluate_passage(piece, ruleset="both")
-        ood_hits = [s for s in report["soft_violations"]
-                    if s["rule_id"].startswith("O-")]
+        ood_hits = [s for s in report["soft_violations"] if s["rule_id"].startswith("O-")]
         assert ood_hits == []
 
 
@@ -348,6 +365,4 @@ class TestPieceValidation:
 
     def test_out_of_range_cf_index_raises(self) -> None:
         with pytest.raises(ValueError, match="out of range"):
-            evaluate_passage(
-                {"voices": [[60, 62], [67, 69]], "cantus_firmus_voice": 5}
-            )
+            evaluate_passage({"voices": [[60, 62], [67, 69]], "cantus_firmus_voice": 5})

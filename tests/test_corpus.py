@@ -164,9 +164,7 @@ def test_filter_by_species_int_matches_string() -> None:
 def test_filter_combines_with_AND() -> None:
     # System=Fux AND kind=soft AND input_shape=melodic-interval should only
     # return G7 (the soft "prefer small intervals / tritone last-resort" rule).
-    hits = corpus.get_rules(
-        system="Fux", kind="soft", input_shape="melodic-interval"
-    )
+    hits = corpus.get_rules(system="Fux", kind="soft", input_shape="melodic-interval")
     assert len(hits) >= 1
     assert any(r.id == "G7" for r in hits)
 
@@ -189,8 +187,7 @@ def test_input_shape_signatures_documented() -> None:
     for shape in corpus.list_input_shapes():
         sig = corpus.get_input_shape_signature(shape)
         assert sig.startswith("signature:"), (
-            f"Input shape {shape!r} signature should start with 'signature:'; "
-            f"got {sig!r}"
+            f"Input shape {shape!r} signature should start with 'signature:'; got {sig!r}"
         )
 
 

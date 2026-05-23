@@ -36,7 +36,7 @@ from __future__ import annotations
 
 from typing import Final, Literal, TypedDict
 
-from music_rules.core.eis.roots import _to_pc  # type: ignore[attr-defined]
+from music_rules.core.eis.roots import _to_pc
 from music_rules.core.eis.scales import get_scale
 
 # ---------------------------------------------------------------------------
@@ -140,7 +140,7 @@ _CLASSES: Final[tuple[ChordClass, ...]] = (
         "id": "dom7",
         "parts": [3, 4],
         "intervals": [0, 4, 7, 10],
-        "implied_scale": "EIS-18-04",   # Lydian Dominant pairs naturally
+        "implied_scale": "EIS-18-04",  # Lydian Dominant pairs naturally
         "quality": "dominant",
         "rule_ref": "C-004",
         "description": "Dominant 7 (1, 3, 5, ♭7). 3P drops the 5.",
@@ -209,9 +209,7 @@ _CLASSES: Final[tuple[ChordClass, ...]] = (
         "implied_scale": "EIS-18-09",
         "quality": "dominant",
         "rule_ref": "C-011",
-        "description": (
-            "Dominant 11. The 11+ variant uses Lydian Dominant (Scale #4)."
-        ),
+        "description": ("Dominant 11. The 11+ variant uses Lydian Dominant (Scale #4)."),
     },
     {
         "id": "4th-3p",
@@ -220,9 +218,7 @@ _CLASSES: Final[tuple[ChordClass, ...]] = (
         "implied_scale": "EIS-18-01",
         "quality": "quartal",
         "rule_ref": "GEN-quartal-3p",
-        "description": (
-            "3-part 4th-chord (quartal stack). Scales 1, 3, 4, 7 work best."
-        ),
+        "description": ("3-part 4th-chord (quartal stack). Scales 1, 3, 4, 7 work best."),
     },
     {
         "id": "4th-4p",
@@ -231,9 +227,7 @@ _CLASSES: Final[tuple[ChordClass, ...]] = (
         "implied_scale": "EIS-18-01",
         "quality": "quartal",
         "rule_ref": "GEN-quartal-4p",
-        "description": (
-            "4-part 4th-chord. Scales 11, 12 (or extension of #1, #3, #7)."
-        ),
+        "description": ("4-part 4th-chord. Scales 11, 12 (or extension of #1, #3, #7)."),
     },
     {
         "id": "polytonal",
@@ -279,10 +273,7 @@ def pitch_classes(
         (we deduplicate while preserving first-seen order).
     """
     if chord_class not in CHORD_CLASSES:
-        raise KeyError(
-            f"Unknown chord_class {chord_class!r}. "
-            f"Valid: {sorted(CHORD_CLASSES)}."
-        )
+        raise KeyError(f"Unknown chord_class {chord_class!r}. Valid: {sorted(CHORD_CLASSES)}.")
     if scale_id is not None:
         # Validate the scale id even though we don't consume its degrees.
         # A pending scale is fine here — the chord intervals stand alone.
@@ -339,10 +330,7 @@ def build_chord(
     if parts is None:
         parts = cls["parts"][0]
     if parts not in cls["parts"]:
-        raise ValueError(
-            f"Chord class {chord_class!r} supports parts={cls['parts']}; "
-            f"got {parts}."
-        )
+        raise ValueError(f"Chord class {chord_class!r} supports parts={cls['parts']}; got {parts}.")
 
     intervals = list(cls["intervals"])
 
@@ -358,9 +346,7 @@ def build_chord(
         intervals.append(intervals[0])
 
     if not 0 <= inversion < parts:
-        raise ValueError(
-            f"inversion must be in 0..{parts - 1}; got {inversion}."
-        )
+        raise ValueError(f"inversion must be in 0..{parts - 1}; got {inversion}.")
 
     base_pc = _to_pc(root)
     midi = _stack_intervals(intervals, base_pc, base_octave)
@@ -393,7 +379,7 @@ def _drop_fifth(intervals: list[int], target: int) -> list[int]:
     if not fifth_indices:
         return intervals
     drop = fifth_indices[0]
-    return intervals[:drop] + intervals[drop + 1:]
+    return intervals[:drop] + intervals[drop + 1 :]
 
 
 def _stack_intervals(intervals: list[int], base_pc: int, base_octave: int) -> list[int]:

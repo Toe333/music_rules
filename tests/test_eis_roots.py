@@ -110,10 +110,16 @@ class TestPickRootLine:
 
     def test_seed_makes_elision_deterministic(self) -> None:
         a = roots.pick_root_line(
-            length=20, cycles=["E4", "E5"], seed=42, allow_elision=True,
+            length=20,
+            cycles=["E4", "E5"],
+            seed=42,
+            allow_elision=True,
         )
         b = roots.pick_root_line(
-            length=20, cycles=["E4", "E5"], seed=42, allow_elision=True,
+            length=20,
+            cycles=["E4", "E5"],
+            seed=42,
+            allow_elision=True,
         )
         assert a == b
 
@@ -127,7 +133,10 @@ class TestPickRootLine:
     def test_multi_cycle_switches_when_first_completes(self) -> None:
         # Start in E4 (length 3), then E5 picks up.
         line = roots.pick_root_line(
-            length=10, cycles=["E4", "E5"], seed=0, allow_elision=False,
+            length=10,
+            cycles=["E4", "E5"],
+            seed=0,
+            allow_elision=False,
         )
         assert len(line) == 10
         # First three should be the E4 walk from C.
@@ -148,14 +157,10 @@ class TestIsValidProgression:
         assert roots.is_valid_progression(["C", "G", "D"], allowed_cycles=["E5"])
 
     def test_chromatic_not_in_e5(self) -> None:
-        assert not roots.is_valid_progression(
-            ["C", "C#", "D"], allowed_cycles=["E5"]
-        )
+        assert not roots.is_valid_progression(["C", "C#", "D"], allowed_cycles=["E5"])
 
     def test_chromatic_is_e1(self) -> None:
-        assert roots.is_valid_progression(
-            ["C", "C#", "D"], allowed_cycles=["E1"]
-        )
+        assert roots.is_valid_progression(["C", "C#", "D"], allowed_cycles=["E1"])
 
     def test_single_root_always_valid(self) -> None:
         assert roots.is_valid_progression(["C"])

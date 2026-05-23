@@ -49,87 +49,94 @@ Every AI frontend that emerges in the next few years should be a one-day
 ## Folder layout
 
 ```
-music-rules/
-├── PROJECT.md           ← you are here
-├── README.md            ← user-facing install + quickstart
+music_rules/
+├── PROJECT.md                  ← you are here
+├── README.md                   ← user-facing install + quickstart
 ├── CHANGELOG.md
-├── LICENSE              ← MIT for code (data terms in data/README.md)
-├── pyproject.toml       ← Phase 2
+├── LICENSE                     ← MIT for code (data terms in data/README.md)
+├── pyproject.toml
+├── uv.lock                     ← committed for reproducible installs
 ├── .gitignore
 │
-├── data/                ← reference materials, NOT installed in wheel
-│   ├── README.md        ← provenance, licensing, what's where
+├── data/                       ← reference materials, NOT installed in wheel
+│   ├── README.md               ← provenance, licensing, what's where
+│   ├── chord_tables/           ← exported chord lexicon + MIDI mappings
 │   ├── eis/
-│   │   ├── EIS_MASTER_RULES.md       ← human-readable rulebook
-│   │   └── extracted/                ← raw PDF text (dev only, not shipped)
+│   │   ├── EIS_MASTER_RULES.md ← human-readable rulebook
+│   │   └── extracted/          ← raw PDF text (dev only, not shipped)
 │   ├── fux/
 │   │   ├── Counterpoint_rules_table.csv
-│   │   └── FuxCP5_attribution.md     ← prior-art acknowledgment
-│   ├── tables/                       ← xlsx exports for spreadsheet users
-│   └── schema/                       ← rules.schema.json (Phase 2)
+│   │   └── FuxCP5_attribution.md
+│   └── tables/                 ← xlsx exports for spreadsheet users
 │
 ├── src/music_rules/
-│   ├── __init__.py                   ← __version__
+│   ├── __init__.py             ← __version__
 │   ├── data/
-│   │   ├── rules_combined.json       ← canonical corpus, shipped in wheel
-│   │   └── (rules.schema.json)       ← generated in Phase 2
+│   │   ├── rules_combined.json ← canonical corpus, shipped in wheel
+│   │   └── rules.schema.json   ← JSON-Schema validator
 │   │
-│   ├── core/                         ← PURE PYTHON, no AI imports
-│   │   ├── corpus.py                 ← load JSON, Pydantic Rule, filtering
-│   │   ├── pitch.py                  ← MIDI<->name, intervals, key membership
+│   ├── core/                   ← PURE PYTHON, no AI imports
+│   │   ├── corpus.py           ← load JSON, Pydantic Rule, filtering
+│   │   ├── pitch.py            ← MIDI<->name, intervals, key membership
+│   │   ├── evaluate.py         ← evaluate_passage() orchestrator
+│   │   ├── report.py           ← CheckReport TypedDict + helpers
 │   │   ├── eis/
-│   │   │   ├── roots.py              ← E1..E6 cycles, pick_root_line()
-│   │   │   ├── scales.py             ← the 18 EIS scales
-│   │   │   ├── chords.py             ← triad/7/9/11/13/quartal/quintal/secondal
-│   │   │   ├── voice_leading.py      ← V-001..V-015
-│   │   │   └── nct.py                ← PT/CA/RT/CT/Sus/Ant
+│   │   │   ├── roots.py        ← E1..E6 cycles, pick_root_line()
+│   │   │   ├── scales.py       ← the 18 EIS scales
+│   │   │   ├── chords.py       ← triads/7/9/11/13/quartal/upper-structure
+│   │   │   ├── voice_leading.py ← V-001..V-015
+│   │   │   ├── nct.py          ← PT/CA/RT/CT/Sus/Ant
+│   │   │   └── ood.py          ← outside-octave-dissonance checker
 │   │   ├── fux/
-│   │   │   ├── melodic.py            ← G6, G7, M1, M2, M3
-│   │   │   ├── harmonic.py           ← H1..H8
-│   │   │   ├── motion.py             ← P1..P7
-│   │   │   ├── rhythm.py             ← R1..R9
-│   │   │   └── species.py            ← species-level orchestration
-│   │   ├── evaluate.py               ← evaluate_passage() orchestrator
+│   │   │   ├── melodic.py      ← G6, G7, M1, M2, M3
+│   │   │   ├── harmonic.py     ← H1..H8
+│   │   │   ├── motion.py       ← P1..P7 (delegates to music21)
+│   │   │   ├── dissonance.py   ← passing-tone / suspension etc.
+│   │   │   ├── _common.py      ← shared rule-applicability helpers
+│   │   │   └── _m21.py         ← music21 thin-wrapper (typed)
 │   │   └── midi/
-│   │       ├── io.py                 ← mido helpers, rolls <-> midi
-│   │       └── skytnt_bridge.py      ← HuggingFace midi-model wrapper
-│   │                                   (only file in core allowed to
-│   │                                    import `transformers`)
+│   │       └── skytnt_bridge.py ← mido + HuggingFace midi-model wrapper
+│   │                              (the ONLY file in core allowed to
+│   │                              import `transformers`/`torch`,
+│   │                              lazy + behind the [skytnt] extra)
 │   │
-│   └── adapters/                     ← thin shims, ~50-100 lines each
-│       ├── mcp.py                    ← FastMCP server     (Phase 5)
-│       ├── openai.py                 ← OpenAI fn-call schemas (Phase 6)
-│       ├── api.py                    ← FastAPI            (post v0.1)
-│       └── cli.py                    ← typer              (Phase 6)
+│   └── adapters/               ← thin shims over core
+│       ├── mcp.py              ← FastMCP server (34 tools)
+│       ├── openai.py           ← OpenAI fn-call schema generator
+│       └── cli.py              ← typer-based `music-rules` console script
 │
-├── tests/
-│   ├── fixtures/                     ← canonical Fux + EIS examples
+├── tests/                      ← 320 tests, all passing
+│   ├── fixtures/
 │   └── test_*.py
-├── scripts/                          ← re-runnable build scripts
 ├── docs/
-│   └── MCP_TOOL_SURFACE_SPEC.md      ← THE spec; read before adding tools
-└── examples/                         ← worked examples (jupyter / md)
+│   └── MCP_TOOL_SURFACE_SPEC.md ← THE spec; read before adding tools
+├── examples/                   ← worked examples (MIDI + CSV + scripts)
+└── music-rules.plugin/         ← Cowork/Cursor plugin bundle (mcp.json + skills)
 ```
 
 ## How to run things
 
-> Phase 1 sets up files only. The commands below become live in Phase 2.
-
 ```bash
 # install (uv recommended; pip works too)
 uv venv && source .venv/bin/activate
-uv sync --all-extras
+uv sync --extra dev
 
 # run the test suite
-pytest
+uv run pytest
 
 # quick sanity check on the corpus
-python -c "from music_rules import corpus; print(len(corpus.get_rules()))"
+uv run python -c "from music_rules import corpus; print(len(corpus.get_rules()))"
 
-# CLI (Phase 6)
-music-rules rules list --system Fux
-music-rules rules show H1_1
-music-rules evaluate examples/2v_1st_species.json --species 1 --strict
+# CLI
+uv run music-rules rules list --system Fux
+uv run music-rules rules show H1_1
+uv run music-rules evaluate path/to/piece.json --species 1 --strict
+
+# CI gauntlet (matches .github/workflows/ci.yml)
+uv run ruff check src tests
+uv run ruff format --check src tests
+uv run mypy src/music_rules/core
+uv run pytest
 ```
 
 ## How to add a new rule
@@ -163,8 +170,9 @@ holding the line.
    up by ID. If you find yourself typing `"H1_1"` inside a checker
    function, you've already drifted.
 3. **Type-hint every public function** with Pydantic models or `typing`
-   primitives. The OpenAI schema generator (Phase 6) auto-derives JSON
-   Schemas from these — untyped functions silently break that adapter.
+   primitives. The OpenAI schema generator (`adapters/openai.py`)
+   auto-derives JSON Schemas from these — untyped functions silently
+   break that adapter.
 4. **Tests are the safety net.** Every checker has at least one passing
    fixture and one failing fixture, drawn from a documented source
    (typically Fux's *Gradus ad Parnassum* for counterpoint and Ted
@@ -198,13 +206,21 @@ assumptions later.
 
 - [x] **Phase 0** — Read spec + JSON, confirm understanding.
 - [x] **Phase 1** — Repo setup, file moves, docs, initial commit.
-- [ ] **Phase 2** — Package scaffold (pyproject, corpus loader, JSON
+- [x] **Phase 2** — Package scaffold (pyproject, corpus loader, JSON
       schema, baseline tests).
-- [ ] **Phase 3** — First five Fux checkers + fixtures.
-- [ ] **Phase 4** — `evaluate_passage` orchestrator.
-- [ ] **Phase 5** — MCP adapter (`fastmcp`).
-- [ ] **Phase 6** — OpenAI-compatible adapter + typer CLI.
-- [ ] **Phase 7** — EIS roots/scales, SkyTNT scaffolding, Cowork plugin.
+- [x] **Phase 3** — Fux checkers + fixtures (melodic, harmonic, motion,
+      dissonance; delegates to `music21` where the heavy lifting is).
+- [x] **Phase 4** — `evaluate_passage` orchestrator with per-rule
+      dispatch and `CheckReport` aggregation.
+- [x] **Phase 5** — MCP adapter (`adapters/mcp.py` via `fastmcp`).
+- [x] **Phase 6** — OpenAI-compatible adapter + typer CLI
+      (`adapters/openai.py`, `adapters/cli.py`).
+- [x] **Phase 7** — EIS roots/scales/chords/voice-leading/NCT, SkyTNT
+      bridge with rejection-sampling against `evaluate_passage`,
+      Cursor/Cowork plugin bundle.
+- [ ] **Phase 8** — Logit-mask-based hard constraints in the SkyTNT
+      bridge (current loop is rejection-sampling only); FastAPI route
+      surface (`adapters/api.py`, gated behind the `[api]` extra).
 
 See `docs/MCP_TOOL_SURFACE_SPEC.md` for the complete tool surface this
 project is building toward.

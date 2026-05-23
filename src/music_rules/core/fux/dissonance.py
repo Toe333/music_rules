@@ -57,9 +57,8 @@ def check_dissonance_context(
     if not rules:
         return report
 
-    if cf_pitch is not None:
-        if not _m21.is_dissonant(diss, cf_pitch):
-            return report  # caller mis-flagged; nothing to enforce
+    if cf_pitch is not None and not _m21.is_dissonant(diss, cf_pitch):
+        return report  # caller mis-flagged; nothing to enforce
 
     approach_step = _m21.is_stepwise(prev, diss)
     leave_step = _m21.is_stepwise(diss, next_)

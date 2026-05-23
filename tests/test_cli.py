@@ -110,9 +110,7 @@ class TestRulesList:
         assert all(r["system"] == "Fux" for r in rules)
 
     def test_json_mode_produces_valid_json(self) -> None:
-        result = runner.invoke(
-            cli_module.app, ["rules", "list", "--limit", "3", "--json"]
-        )
+        result = runner.invoke(cli_module.app, ["rules", "list", "--limit", "3", "--json"])
         assert result.exit_code == 0
         rules = json.loads(result.stdout)
         assert isinstance(rules, list)
@@ -121,9 +119,7 @@ class TestRulesList:
 
     def test_no_matches_message(self) -> None:
         # No rules use this exotic combination today.
-        result = runner.invoke(
-            cli_module.app, ["rules", "list", "--input-shape", "no-such-shape"]
-        )
+        result = runner.invoke(cli_module.app, ["rules", "list", "--input-shape", "no-such-shape"])
         assert result.exit_code == 0
         assert "No rules matched" in result.stdout
 
@@ -150,17 +146,13 @@ class TestRulesShow:
 
 class TestRulesSearch:
     def test_finds_matches(self) -> None:
-        result = runner.invoke(
-            cli_module.app, ["rules", "search", "parallel"]
-        )
+        result = runner.invoke(cli_module.app, ["rules", "search", "parallel"])
         assert result.exit_code == 0
         # P1_* rules contain "parallel" in their statements.
         assert "matched" in result.stdout
 
     def test_no_matches(self) -> None:
-        result = runner.invoke(
-            cli_module.app, ["rules", "search", "zzzzz_no_such_text"]
-        )
+        result = runner.invoke(cli_module.app, ["rules", "search", "zzzzz_no_such_text"])
         assert result.exit_code == 0
         assert "No rules contain" in result.stdout
 
@@ -178,21 +170,15 @@ class TestEvaluate:
         # No HARD section header since hard_violations is empty.
         assert "HARD violations" not in result.stdout
 
-    def test_failing_piece_exit_one_and_lists_violations(
-        self, parallel_fifths_piece: Path
-    ) -> None:
-        result = runner.invoke(
-            cli_module.app, ["evaluate", str(parallel_fifths_piece)]
-        )
+    def test_failing_piece_exit_one_and_lists_violations(self, parallel_fifths_piece: Path) -> None:
+        result = runner.invoke(cli_module.app, ["evaluate", str(parallel_fifths_piece)])
         assert result.exit_code == 1
         assert "HARD violations" in result.stdout
         assert "P1_1_2v" in result.stdout
         assert "F" in result.stdout
 
     def test_json_mode_returns_full_report(self, parallel_fifths_piece: Path) -> None:
-        result = runner.invoke(
-            cli_module.app, ["evaluate", str(parallel_fifths_piece), "--json"]
-        )
+        result = runner.invoke(cli_module.app, ["evaluate", str(parallel_fifths_piece), "--json"])
         # Even with hard violations, --json should still emit JSON to stdout.
         # We may exit 1 (because of violations) but stdout must parse.
         assert result.exit_code in (0, 1)
@@ -203,17 +189,18 @@ class TestEvaluate:
         result = runner.invoke(
             cli_module.app,
             [
-                "evaluate", str(parallel_fifths_piece),
-                "--exclude", "P1_1_2v", "--json",
+                "evaluate",
+                str(parallel_fifths_piece),
+                "--exclude",
+                "P1_1_2v",
+                "--json",
             ],
         )
         report = json.loads(result.stdout)
         assert all(v["rule_id"] != "P1_1_2v" for v in report["hard_violations"])
 
     def test_missing_file_exits_2(self, tmp_path: Path) -> None:
-        result = runner.invoke(
-            cli_module.app, ["evaluate", str(tmp_path / "nope.json")]
-        )
+        result = runner.invoke(cli_module.app, ["evaluate", str(tmp_path / "nope.json")])
         assert result.exit_code == 2
 
     def test_invalid_json_exits_2(self, tmp_path: Path) -> None:
@@ -254,17 +241,13 @@ class TestToolsCommands:
         assert all(s["type"] == "function" for s in schemas)
 
     def test_tools_schema_single(self) -> None:
-        result = runner.invoke(
-            cli_module.app, ["tools", "schema", "--name", "evaluate_passage"]
-        )
+        result = runner.invoke(cli_module.app, ["tools", "schema", "--name", "evaluate_passage"])
         assert result.exit_code == 0
         s = json.loads(result.stdout)
         assert s["function"]["name"] == "evaluate_passage"
 
     def test_tools_schema_unknown(self) -> None:
-        result = runner.invoke(
-            cli_module.app, ["tools", "schema", "--name", "nope"]
-        )
+        result = runner.invoke(cli_module.app, ["tools", "schema", "--name", "nope"])
         assert result.exit_code == 2
 
 

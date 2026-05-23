@@ -35,8 +35,19 @@ OCTAVE: int = 12
 # music21). Kept as a tiny table because music21's ``simpleName`` collapses
 # the octave to "P1", which would mislabel P8 in user-facing strings.
 _NAME: dict[int, str] = {
-    0: "P1", 1: "m2", 2: "M2", 3: "m3", 4: "M3", 5: "P4",
-    6: "TT", 7: "P5", 8: "m6", 9: "M6", 10: "m7", 11: "M7", 12: "P8",
+    0: "P1",
+    1: "m2",
+    2: "M2",
+    3: "m3",
+    4: "M3",
+    5: "P4",
+    6: "TT",
+    7: "P5",
+    8: "m6",
+    9: "M6",
+    10: "m7",
+    11: "M7",
+    12: "P8",
 }
 
 
@@ -57,12 +68,12 @@ def _iv(a: int, b: int) -> m21interval.Interval:
 
 def semitones(a: int, b: int) -> int:
     """Absolute semitone distance (music21-derived)."""
-    return abs(_iv(a, b).semitones)
+    return int(abs(_iv(a, b).semitones))
 
 
 def signed_semitones(prev: int, curr: int) -> int:
     """Signed semitone delta; positive = ascending."""
-    return _iv(prev, curr).semitones
+    return int(_iv(prev, curr).semitones)
 
 
 def _reduce(s: int) -> int:
@@ -120,7 +131,7 @@ def is_dissonant(a: int, b: int, *, voice_count: int = 2) -> bool:
 def is_perfect_consonance(a: int, b: int) -> bool:
     """P1 / P5 / P8 (and their compounds) — the 'approach-by-direct-
     motion is forbidden' set, and the required opening/closing sonority."""
-    return _reduce(_iv(a, b).semitones) in (0, 7, OCTAVE)
+    return _reduce(int(_iv(a, b).semitones)) in (0, 7, OCTAVE)
 
 
 # ---------------------------------------------------------------------------
@@ -133,12 +144,10 @@ def motion_type(cf_prev: int, cf_curr: int, cp_prev: int, cp_curr: int) -> str:
     q = voiceLeading.VoiceLeadingQuartet(
         _note(cf_prev), _note(cf_curr), _note(cp_prev), _note(cp_curr)
     )
-    return q.motionType().name
+    return str(q.motionType().name)  # type: ignore[no-untyped-call]
 
 
-def direct_into_perfect(
-    cf_prev: int, cf_curr: int, cp_prev: int, cp_curr: int
-) -> bool:
+def direct_into_perfect(cf_prev: int, cf_curr: int, cp_prev: int, cp_curr: int) -> bool:
     """True iff the pair moves by direct (parallel *or* similar) motion
     into a perfect consonance — the P1_* prohibition, as detected by
     music21's parallel/hidden fifth/octave/unison predicates."""
@@ -164,4 +173,4 @@ def is_complete_triad(midis: Iterable[int]) -> bool:
     notes = sorted(set(midis))
     if len(notes) < 3:
         return False
-    return m21chord.Chord(notes).isTriad()
+    return bool(m21chord.Chord(notes).isTriad())

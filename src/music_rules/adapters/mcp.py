@@ -62,9 +62,6 @@ This split means:
 
 from __future__ import annotations
 
-import csv
-import json
-from pathlib import Path
 from typing import Any
 
 from music_rules.core import corpus, evaluate
@@ -75,6 +72,7 @@ from music_rules.core.eis import roots as eis_roots
 from music_rules.core.eis import scales as eis_scales
 from music_rules.core.eis import voice_leading as eis_voice_leading
 from music_rules.core.fux import dissonance, harmonic, melodic, motion
+from music_rules.core.midi import render as midi_render
 from music_rules.core.midi import skytnt_bridge
 
 # ---------------------------------------------------------------------------
@@ -132,11 +130,11 @@ def tool_get_rules(
         limit:       cap on returned rules (default 200).
     """
     rules = corpus.get_rules(
-        system=system,                 # type: ignore[arg-type]
+        system=system,  # type: ignore[arg-type]
         category=category,
         species=species,
         voices=voices,
-        kind=kind,                     # type: ignore[arg-type]
+        kind=kind,  # type: ignore[arg-type]
         tier=tier,
         input_shape=input_shape,
         limit=limit,
@@ -286,11 +284,7 @@ def tool_check_first_interval(
     strict: bool = False,
 ) -> dict[str, Any]:
     """Check the opening sonority (H2_1: must be a perfect consonance)."""
-    return dict(
-        harmonic.check_first_interval(
-            chord, species=species, voices=voices, strict=strict
-        )
-    )
+    return dict(harmonic.check_first_interval(chord, species=species, voices=voices, strict=strict))
 
 
 def tool_check_final_interval(
@@ -300,11 +294,7 @@ def tool_check_final_interval(
     strict: bool = False,
 ) -> dict[str, Any]:
     """Check the closing sonority (H3_1: must be a perfect consonance)."""
-    return dict(
-        harmonic.check_final_interval(
-            chord, species=species, voices=voices, strict=strict
-        )
-    )
+    return dict(harmonic.check_final_interval(chord, species=species, voices=voices, strict=strict))
 
 
 def tool_check_per_measure_downbeat(
@@ -315,9 +305,7 @@ def tool_check_per_measure_downbeat(
 ) -> dict[str, Any]:
     """Check that every interval in a downbeat sonority is consonant (H1_1)."""
     return dict(
-        harmonic.check_per_measure_downbeat(
-            chord, species=species, voices=voices, strict=strict
-        )
+        harmonic.check_per_measure_downbeat(chord, species=species, voices=voices, strict=strict)
     )
 
 
@@ -329,9 +317,7 @@ def tool_check_weak_beat_interval(
 ) -> dict[str, Any]:
     """Check 2nd-species arsis intervals (H2_2: weak beats can't be dissonant)."""
     return dict(
-        harmonic.check_weak_beat_interval(
-            chord, species=species, voices=voices, strict=strict
-        )
+        harmonic.check_weak_beat_interval(chord, species=species, voices=voices, strict=strict)
     )
 
 
@@ -347,8 +333,13 @@ def tool_check_dissonance_context(
     """Check 3rd-species dissonance treatment (H2_3: passing/neighbor)."""
     return dict(
         dissonance.check_dissonance_context(
-            prev, diss, next_,
-            cf_pitch=cf_pitch, species=species, voices=voices, strict=strict,
+            prev,
+            diss,
+            next_,
+            cf_pitch=cf_pitch,
+            species=species,
+            voices=voices,
+            strict=strict,
         )
     )
 
@@ -372,8 +363,8 @@ def tool_evaluate_passage(
     """
     return dict(
         evaluate.evaluate_passage(
-            piece,                           # type: ignore[arg-type]
-            ruleset=ruleset,                 # type: ignore[arg-type]
+            piece,  # type: ignore[arg-type]
+            ruleset=ruleset,  # type: ignore[arg-type]
             strict=strict,
             include=include,
             exclude=exclude,
@@ -429,7 +420,7 @@ def tool_eis_pick_root_line(
     """
     line = eis_roots.pick_root_line(
         length=length,
-        cycles=cycles,                # type: ignore[arg-type]
+        cycles=cycles,  # type: ignore[arg-type]
         start_root=start_root,
         allow_elision=allow_elision,
         seed=seed,
@@ -481,15 +472,20 @@ def tool_eis_build_chord(
         ``{"midi": [...], "pitch_classes": [...], "chord_class": {...}}``
     """
     midi = eis_chords.build_chord(
-        root, chord_class,
-        scale_id=scale_id, parts=parts,
-        voicing=voicing,                  # type: ignore[arg-type]
-        inversion=inversion, base_octave=base_octave,
+        root,
+        chord_class,
+        scale_id=scale_id,
+        parts=parts,
+        voicing=voicing,  # type: ignore[arg-type]
+        inversion=inversion,
+        base_octave=base_octave,
     )
     return {
         "midi": midi,
         "pitch_classes": eis_chords.pitch_classes(
-            root, chord_class, scale_id=scale_id,
+            root,
+            chord_class,
+            scale_id=scale_id,
         ),
         "chord_class": dict(eis_chords.CHORD_CLASSES[chord_class]),
     }
@@ -524,8 +520,9 @@ def tool_eis_voice_lead(
         ``{"voiced": [...], "report": <VLReport>}``
     """
     voiced = eis_voice_leading.voice_lead(
-        prev_chord, next_pcs,
-        style=style,                      # type: ignore[arg-type]
+        prev_chord,
+        next_pcs,
+        style=style,  # type: ignore[arg-type]
         keep_bass_in_bass=keep_bass_in_bass,
         max_voice_jump=max_voice_jump,
     )
@@ -552,9 +549,7 @@ def tool_eis_check_voice_leading(
     Returns the :class:`VLReport` (``smoothness``, ``total_motion``,
     ``common_tones``, ``contrary_motion_pairs``, ``violations``).
     """
-    return dict(
-        eis_voice_leading.check_progression(prev_chord, next_chord)
-    )
+    return dict(eis_voice_leading.check_progression(prev_chord, next_chord))
 
 
 def tool_eis_insert_nct(
@@ -584,12 +579,13 @@ def tool_eis_insert_nct(
         ``{"event": {voice, midi, beat, type, rule_ref}}``
     """
     event = eis_nct.insert_nct(
-        chord_a, chord_b,
+        chord_a,
+        chord_b,
         voice=voice,
-        nct_type=nct_type,                # type: ignore[arg-type]
+        nct_type=nct_type,  # type: ignore[arg-type]
         scale_id=scale_id,
         scale_root=scale_root,
-        direction=direction,              # type: ignore[arg-type]
+        direction=direction,  # type: ignore[arg-type]
     )
     return {"event": dict(event)}
 
@@ -618,124 +614,6 @@ def tool_eis_check_ood(
     return {"hits": [dict(h) for h in hits], "ok": not hits}
 
 
-def _coerce_lexicon(
-    chord_lexicon: dict[str, Any] | None,
-    chord_lexicon_path: str | None,
-) -> dict[str, list[int]]:
-    """Normalize several lexicon JSON shapes into ``symbol -> [midi...]``."""
-    payload: dict[str, Any]
-    if chord_lexicon is not None:
-        payload = chord_lexicon
-    elif chord_lexicon_path is not None:
-        payload = json.loads(Path(chord_lexicon_path).read_text(encoding="utf-8"))
-    else:
-        raise ValueError(
-            "Provide either chord_lexicon (object) or chord_lexicon_path (JSON file path)."
-        )
-
-    out: dict[str, list[int]] = {}
-    # Exporter shape: {"chords": {"Cmaj7": {"midi": [60,64,67,71], ...}, ...}}
-    if "chords" in payload and isinstance(payload["chords"], dict):
-        for symbol, entry in payload["chords"].items():
-            if not isinstance(symbol, str):
-                continue
-            if isinstance(entry, dict) and isinstance(entry.get("midi"), list):
-                out[symbol] = [int(n) for n in entry["midi"]]
-        return out
-
-    # Also accept a flat mapping: {"Cmaj7": [60,64,67,71], ...}
-    for symbol, entry in payload.items():
-        if not isinstance(symbol, str):
-            continue
-        if isinstance(entry, list):
-            out[symbol] = [int(n) for n in entry]
-    return out
-
-
-def _progression_to_roll_grid(
-    progression: list[dict[str, Any]],
-    symbol_to_midi: dict[str, list[int]],
-    *,
-    steps_per_beat: int,
-    rest_symbol: str,
-) -> tuple[list[list[int]], int, list[str]]:
-    """Render timed chord events onto a fixed-step roll grid."""
-    if steps_per_beat < 1:
-        raise ValueError("steps_per_beat must be >= 1")
-    if not progression:
-        raise ValueError("progression must include at least one event")
-
-    cursor_beats = 0.0
-    events: list[tuple[int, int, str]] = []  # (start_step, duration_steps, symbol)
-    unresolved: list[str] = []
-    max_voices = 1
-    total_steps = 0
-
-    for idx, row in enumerate(progression):
-        symbol = str(row.get("chord_symbol", "")).strip()
-        if not symbol:
-            raise ValueError(f"progression[{idx}] missing chord_symbol")
-
-        duration_beats = float(row.get("duration_beats", 1.0))
-        if duration_beats <= 0:
-            raise ValueError(f"progression[{idx}] has non-positive duration_beats")
-        duration_steps = max(1, int(round(duration_beats * steps_per_beat)))
-
-        if "start_beat" in row:
-            start_beat = float(row["start_beat"])
-        else:
-            start_beat = cursor_beats
-        start_step = max(0, int(round(start_beat * steps_per_beat)))
-
-        cursor_beats = max(cursor_beats, start_beat + duration_beats)
-        total_steps = max(total_steps, start_step + duration_steps)
-        events.append((start_step, duration_steps, symbol))
-
-        if symbol != rest_symbol:
-            midi = symbol_to_midi.get(symbol)
-            if midi is None:
-                unresolved.append(symbol)
-            elif midi:
-                max_voices = max(max_voices, len(midi))
-
-    voices = [[-1] * total_steps for _ in range(max_voices)]
-    for start, dur, symbol in sorted(events, key=lambda e: e[0]):
-        if symbol == rest_symbol:
-            continue
-        midi = symbol_to_midi.get(symbol)
-        if not midi:
-            continue
-        end = min(total_steps, start + dur)
-        for v_idx, pitch in enumerate(midi):
-            for t in range(start, end):
-                voices[v_idx][t] = pitch
-
-    return voices, total_steps, sorted(set(unresolved))
-
-
-def _read_progression_csv(path: str) -> list[dict[str, Any]]:
-    """Read progression events from CSV (chord_symbol, duration_beats, start_beat?)."""
-    out: list[dict[str, Any]] = []
-    with Path(path).open("r", encoding="utf-8", newline="") as fh:
-        reader = csv.DictReader(fh)
-        for row in reader:
-            if not row:
-                continue
-            event: dict[str, Any] = {}
-            if row.get("bar"):
-                try:
-                    event["bar"] = int(row["bar"])
-                except (TypeError, ValueError):
-                    pass
-            if row.get("start_beat") not in (None, ""):
-                event["start_beat"] = float(row["start_beat"])
-            if row.get("duration_beats") not in (None, ""):
-                event["duration_beats"] = float(row["duration_beats"])
-            event["chord_symbol"] = str(row.get("chord_symbol", "")).strip()
-            out.append(event)
-    return out
-
-
 def tool_chord_progression_to_rolls(
     progression: list[dict[str, Any]],
     chord_lexicon: dict[str, Any] | None = None,
@@ -758,8 +636,8 @@ def tool_chord_progression_to_rolls(
         ``{"voices": [[...], ...], "steps_per_beat": int, "total_steps": int,
            "unresolved_chords": [symbol...], "ok": bool}``
     """
-    symbol_to_midi = _coerce_lexicon(chord_lexicon, chord_lexicon_path)
-    voices, total_steps, unresolved = _progression_to_roll_grid(
+    symbol_to_midi = midi_render.load_chord_lexicon(chord_lexicon, chord_lexicon_path)
+    voices, total_steps, unresolved = midi_render.progression_to_rolls(
         progression, symbol_to_midi, steps_per_beat=steps_per_beat, rest_symbol=rest_symbol
     )
     return {
@@ -790,8 +668,8 @@ def tool_chord_progression_to_midi(
     This bridges lexicon/progression tables directly into the existing
     ``rolls_to_midi`` pipeline expected by the SkyTNT tools.
     """
-    symbol_to_midi = _coerce_lexicon(chord_lexicon, chord_lexicon_path)
-    voices, total_steps, unresolved = _progression_to_roll_grid(
+    symbol_to_midi = midi_render.load_chord_lexicon(chord_lexicon, chord_lexicon_path)
+    voices, total_steps, unresolved = midi_render.progression_to_rolls(
         progression, symbol_to_midi, steps_per_beat=steps_per_beat, rest_symbol=rest_symbol
     )
     if unresolved and strict_missing:
@@ -801,7 +679,7 @@ def tool_chord_progression_to_midi(
             f"{missing}{' ...' if len(unresolved) > 8 else ''}"
         )
 
-    midi_b64 = skytnt_bridge.rolls_to_midi(
+    midi_b64 = midi_render.progression_to_midi(
         voices,
         meter=meter,
         tempo=tempo,
@@ -839,7 +717,7 @@ def tool_chord_progression_csv_to_midi(
         - required: ``chord_symbol``
         - optional: ``duration_beats`` (default 1.0), ``start_beat``
     """
-    progression = _read_progression_csv(progression_csv_path)
+    progression = midi_render.read_progression_csv(progression_csv_path)
     return tool_chord_progression_to_midi(
         progression=progression,
         chord_lexicon_path=chord_lexicon_path,
@@ -948,7 +826,8 @@ def tool_midi_to_rolls(
             "key_guess": str|None, "ticks_per_beat": int}``
     """
     bundle = skytnt_bridge.midi_to_rolls(
-        midi_base64, beats_per_quarter=beats_per_quarter,
+        midi_base64,
+        beats_per_quarter=beats_per_quarter,
     )
     return dict(bundle)
 
@@ -1058,8 +937,7 @@ def call_tool(name: str, arguments: dict[str, Any] | None = None) -> Any:
         fn = _TOOLS[name]
     except KeyError as exc:
         raise KeyError(
-            f"Unknown MCP tool: {name!r}. "
-            f"Available: {', '.join(sorted(_TOOLS))}"
+            f"Unknown MCP tool: {name!r}. Available: {', '.join(sorted(_TOOLS))}"
         ) from exc
     return fn(**(arguments or {}))
 

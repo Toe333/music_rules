@@ -1,0 +1,9 @@
+bar,start_beat,duration_beats,chord_symbol
+1,0.0,4.0,Cmaj9
+2,4.0,4.0,Am9
+3,8.0,4.0,Dm9
+4,12.0,4.0,G13
+5,16.0,4.0,Cmaj9
+6,20.0,4.0,Fmaj9#11
+7,24.0,4.0,Dm9
+8,28.0,4.0,G13

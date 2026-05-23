@@ -14,15 +14,36 @@ from music_rules.core.eis import chords
 class TestChordClassRegistry:
     def test_basic_classes_present(self) -> None:
         for cid in (
-            "triad", "triad-min", "triad-7", "triad-min-7", "9", "6",
-            "dom7", "min7", "min7b5", "min9", "dom7b9", "dom9", "dom13",
-            "dom11", "4th-3p", "4th-4p", "polytonal",
+            "triad",
+            "triad-min",
+            "triad-7",
+            "triad-min-7",
+            "9",
+            "6",
+            "dom7",
+            "min7",
+            "min7b5",
+            "min9",
+            "dom7b9",
+            "dom9",
+            "dom13",
+            "dom11",
+            "4th-3p",
+            "4th-4p",
+            "polytonal",
         ):
             assert cid in chords.CHORD_CLASSES
 
     def test_each_class_has_required_fields(self) -> None:
-        required = {"id", "parts", "intervals", "implied_scale",
-                    "quality", "rule_ref", "description"}
+        required = {
+            "id",
+            "parts",
+            "intervals",
+            "implied_scale",
+            "quality",
+            "rule_ref",
+            "description",
+        }
         for cls in chords.CHORD_CLASSES.values():
             assert required.issubset(set(cls.keys()))
             assert cls["parts"], "parts list must not be empty"
@@ -99,7 +120,10 @@ class TestBuildChord:
     def test_open_voicing_drop2_on_4_part(self) -> None:
         # Drop-2 on C maj7: G (67) drops to G3 (55). Result sorted.
         opened = chords.build_chord(
-            "C", "triad-7", voicing="open", base_octave=4,
+            "C",
+            "triad-7",
+            voicing="open",
+            base_octave=4,
         )
         assert opened == [55, 60, 64, 71]
 
@@ -135,8 +159,17 @@ class TestBuildChord:
             chords.build_chord("C", "triad", inversion=5)
 
     def test_output_is_sorted_low_to_high(self) -> None:
-        for cid in ("triad", "triad-min", "dom7", "min7",
-                    "triad-7", "min9", "dom7b9", "4th-3p", "4th-4p"):
+        for cid in (
+            "triad",
+            "triad-min",
+            "dom7",
+            "min7",
+            "triad-7",
+            "min9",
+            "dom7b9",
+            "4th-3p",
+            "4th-4p",
+        ):
             midi = chords.build_chord("C", cid)
             assert midi == sorted(midi)
 

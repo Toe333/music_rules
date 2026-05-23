@@ -32,21 +32,27 @@ classifiers = [
 # Runtime deps. core/ pulls `mido` + `pydantic`; the Fux counterpoint
 # checkers delegate their music-theory primitives (intervals, motion,
 # triad/consonance) to `music21` rather than hand-rolled logic. EIS stays
-# pure. Adapter deps (typer, fastapi, fastmcp) are imported by the adapters
-# folder but unconditional here so `pip install music-rules` Just Works for
-# any adapter the user picks. SkyTNT/transformers deps are optional (heavy).
+# pure. Adapters that every install needs (typer CLI, FastMCP server)
+# stay on the unconditional list. Heavier or single-purpose adapter
+# deps (FastAPI/uvicorn, transformers/torch) move under
+# [project.optional-dependencies] so `pip install music-rules` stays
+# light by default.
 dependencies = [
     "mido>=1.3.2",
     "music21>=9.1",
     "pydantic>=2.6",
     "typer>=0.12",
-    "fastapi>=0.110",
-    "uvicorn>=0.29",
     "fastmcp>=0.2",
     "python-dotenv>=1.0",
 ]
 
 [project.optional-dependencies]
+# HTTP adapter (adapters/api.py — planned). Pull in only if you need
+# the FastAPI route surface.
+api = [
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+]
 # Heavy: only install if you actually want the SkyTNT bridge.
 skytnt = [
     "transformers>=4.40",
@@ -122,6 +128,7 @@ exclude = [
 line-length = 100
 target-version = "py311"
 src = ["src", "tests"]
+extend-exclude = ["src/music_rules/_version.py"]
 
 [tool.ruff.lint]
 select = [
@@ -167,6 +174,12 @@ ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 module = "fastmcp.*"
+ignore_missing_imports = true
+
+# torch / transformers are optional skytnt extras; only imported under
+# core/midi/skytnt_bridge.py inside a try/except. Don't require stubs.
+[[tool.mypy.overrides]]
+module = ["torch", "torch.*", "transformers", "transformers.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]

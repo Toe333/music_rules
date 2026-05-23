@@ -29,8 +29,8 @@ from music_rules.core.report import CheckReport, empty_report, finalize
 # (e.g. an A4 in G major) carry a noticeable cost without dominating the
 # evaluator's total. Documented in the rule's `tier` field semantically.
 _SMALL_INTERVAL_COST_PER_SEMITONE: float = 0.05  # G7
-_TRITONE_LEAP_EXTRA_COST: float = 2.0            # G7
-_LEAP_OVER_OCTAVE_COST: float = 1.5              # G7 / M1 stylistic preference
+_TRITONE_LEAP_EXTRA_COST: float = 2.0  # G7
+_LEAP_OVER_OCTAVE_COST: float = 1.5  # G7 / M1 stylistic preference
 
 
 def check_melodic_interval(
