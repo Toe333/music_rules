@@ -57,6 +57,38 @@ and the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format.
 
 ### Added
 
+- CLI workflow upgrades for table-first composition and report triage:
+  - `music-rules progression render-csv <progression.csv> <lexicon.json> <out.mid>`
+    renders chord progression tables directly to a MIDI file on disk (with
+    strict/lenient handling for unresolved symbols).
+  - `music-rules progression render-voiced-csv <voiced.csv> <out.mid>`
+    renders pre-voiced bar tables (like `examples/eis_*_harmonized.csv`)
+    directly to MIDI, with optional melody inclusion.
+  - `music-rules progression render-voiced-batch "<glob>" [--out-dir ...]`
+    batch-renders multiple voiced CSV files in one command.
+  - Optional WAV synthesis for `render-voiced-csv` and
+    `render-voiced-batch` via `--write-wav` (uses `fluidsynth` + soundfont,
+    or `timidity` as fallback). If `fluidsynth` is present and no soundfont is
+    passed, the CLI now auto-selects a default `.sf2/.sf3` when available.
+  - `music-rules progression find-soundfonts` scans common Linux locations for
+    `.sf2/.sf3` files to simplify WAV rendering setup.
+  - `music-rules progression audit-voiced-csv <voiced.csv> ...` evaluates a
+    voiced table directly and prints a fix-priority summary (optionally writes
+    full JSON via `--report-out` / `--json`).
+  - `music-rules progression audit-voiced-batch "<glob>" [--summary-out ...]`
+    evaluates many voiced CSV tables at once and emits a compact JSON summary
+    (also supports `--json` stdout).
+  - `music-rules progression pipeline-voiced-batch "<glob>" ...` runs
+    render (+ optional WAV) and audit in one pass, producing a single
+    machine-readable summary payload.
+  - Quality gates for audit/pipeline commands:
+    `--min-grade`, `--max-total-cost`, `--max-hard-count`,
+    `--fail-on-rule`, `--max-rule-total-cost`.
+  - `music-rules evaluate-explain <report.json> [--json]` summarizes an
+    `evaluate_passage` report into fix-priority rule buckets.
+  - New core helper module `music_rules.core.reporting` plus tests for report
+    aggregation and formatting.
+
 - **Phase 8 — full EIS composer, SkyTNT generation, voice-range
   constraints, per-voice instruments, Cowork compose skill.** All
   Phase-7 stubs are now live. Tests: 236 → 316 (80 new). MCP tool
