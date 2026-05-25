@@ -54,14 +54,38 @@ def test_format_passage_report_summary_handles_empty() -> None:
 def test_build_summary_diff_classifies_regression_and_improvement() -> None:
     baseline = {
         "items": [
-            {"file": "examples/a.csv", "grade": "B", "hard_count": 0, "soft_count": 3, "total_cost": 2.0},
-            {"file": "examples/b.csv", "grade": "C", "hard_count": 1, "soft_count": 7, "total_cost": 6.0},
+            {
+                "file": "examples/a.csv",
+                "grade": "B",
+                "hard_count": 0,
+                "soft_count": 3,
+                "total_cost": 2.0,
+            },
+            {
+                "file": "examples/b.csv",
+                "grade": "C",
+                "hard_count": 1,
+                "soft_count": 7,
+                "total_cost": 6.0,
+            },
         ]
     }
     candidate = {
         "items": [
-            {"file": "examples/a.csv", "grade": "C", "hard_count": 1, "soft_count": 5, "total_cost": 3.0},
-            {"file": "examples/b.csv", "grade": "B", "hard_count": 0, "soft_count": 4, "total_cost": 3.0},
+            {
+                "file": "examples/a.csv",
+                "grade": "C",
+                "hard_count": 1,
+                "soft_count": 5,
+                "total_cost": 3.0,
+            },
+            {
+                "file": "examples/b.csv",
+                "grade": "B",
+                "hard_count": 0,
+                "soft_count": 4,
+                "total_cost": 3.0,
+            },
         ]
     }
     diff = build_summary_diff(baseline_payload=baseline, candidate_payload=candidate)

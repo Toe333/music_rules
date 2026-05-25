@@ -65,6 +65,7 @@ class GatePolicy:
     warn_on_rule: list[str]
     warn_rule_total_cost: dict[str, float]
 
+
 # ---------------------------------------------------------------------------
 # Top-level Typer app
 # ---------------------------------------------------------------------------
@@ -376,8 +377,7 @@ def progression_render_csv(
     if unresolved and strict_missing:
         preview = ", ".join(unresolved[:8])
         typer.echo(
-            "error: unresolved chord symbols: "
-            f"{preview}{' ...' if len(unresolved) > 8 else ''}",
+            f"error: unresolved chord symbols: {preview}{' ...' if len(unresolved) > 8 else ''}",
             err=True,
         )
         raise typer.Exit(code=2)
@@ -541,7 +541,11 @@ def progression_render_voiced_batch(
         out_path.write_bytes(base64.b64decode(midi_b64))
         if write_wav:
             wav_name = f"{csv_path.stem}{suffix}".replace(".mid", ".wav")
-            wav_path = (wav_out_dir / wav_name) if wav_out_dir is not None else out_path.with_suffix(".wav")
+            wav_path = (
+                (wav_out_dir / wav_name)
+                if wav_out_dir is not None
+                else out_path.with_suffix(".wav")
+            )
             ok, msg = _try_render_wav(
                 out_midi_path=out_path,
                 out_wav_path=wav_path,
@@ -766,9 +770,7 @@ def progression_audit_voiced_batch(
         except ValueError as exc:
             parse_failures += 1
             typer.echo(f"{csv_path.name}: parse_error={exc}")
-            summary_items.append(
-                {"file": str(csv_path), "ok": False, "error": str(exc)}
-            )
+            summary_items.append({"file": str(csv_path), "ok": False, "error": str(exc)})
             continue
 
         piece = _build_passage_piece(
@@ -959,9 +961,7 @@ def progression_pipeline_voiced_batch(
             )
         except ValueError as exc:
             parse_failures += 1
-            items.append(
-                {"file": str(csv_path), "ok": False, "error": str(exc)}
-            )
+            items.append({"file": str(csv_path), "ok": False, "error": str(exc)})
             if not as_json:
                 typer.echo(f"{csv_path.name}: parse_error={exc}")
             continue
@@ -985,7 +985,11 @@ def progression_pipeline_voiced_batch(
         wav_warning: str | None = None
         if write_wav:
             wav_name = out_name.replace(".mid", ".wav")
-            wav_path = (wav_out_dir / wav_name) if wav_out_dir is not None else midi_out.with_suffix(".wav")
+            wav_path = (
+                (wav_out_dir / wav_name)
+                if wav_out_dir is not None
+                else midi_out.with_suffix(".wav")
+            )
             ok, msg = _try_render_wav(
                 out_midi_path=midi_out,
                 out_wav_path=wav_path,
@@ -1536,11 +1540,7 @@ def _render_voiced_rows(
         raise ValueError("voiced CSV has no rows")
 
     text_rows = [
-        {
-            key: "" if value is None else str(value)
-            for key, value in row.items()
-        }
-        for row in rows
+        {key: "" if value is None else str(value) for key, value in row.items()} for row in rows
     ]
     first_chord = _parse_pipe_midis(text_rows[0].get(chord_column, ""))
     if not first_chord:
@@ -1852,9 +1852,7 @@ def _resolve_policy_settings(
         else _policy_optional_int(policy, "max_hard_count")
     )
     resolved_fail_on_rule = (
-        fail_on_rule
-        if fail_on_rule
-        else _policy_optional_str_list(policy, "fail_on_rule")
+        fail_on_rule if fail_on_rule else _policy_optional_str_list(policy, "fail_on_rule")
     )
     resolved_max_rule_total_cost = (
         max_rule_total_cost
@@ -1862,9 +1860,7 @@ def _resolve_policy_settings(
         else _policy_optional_str_list(policy, "max_rule_total_cost")
     )
     resolved_warn_on_rule = (
-        warn_on_rule
-        if warn_on_rule
-        else _policy_optional_str_list(policy, "warn_on_rule")
+        warn_on_rule if warn_on_rule else _policy_optional_str_list(policy, "warn_on_rule")
     )
     resolved_warn_rule_total_cost = (
         warn_rule_total_cost
@@ -1951,9 +1947,7 @@ def _parse_rule_cost_limits(entries: list[str]) -> dict[str, float]:
         rid, raw = item.split("=", maxsplit=1)
         rid = rid.strip()
         if not rid:
-            raise ValueError(
-                f"Invalid --max-rule-total-cost value {item!r}; missing RULE_ID"
-            )
+            raise ValueError(f"Invalid --max-rule-total-cost value {item!r}; missing RULE_ID")
         try:
             limit = float(raw.strip())
         except ValueError as exc:

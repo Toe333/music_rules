@@ -59,9 +59,7 @@ def _parse_note_name_to_midi(note_name: str) -> int | None:
 def _load_source(path: Path) -> tuple[dict[str, int], dict[str, list[str]]]:
     namespace = runpy.run_path(str(path))
     if "note_to_midi" not in namespace or "chord_to_notes" not in namespace:
-        raise ValueError(
-            "Source file must define both `note_to_midi` and `chord_to_notes`."
-        )
+        raise ValueError("Source file must define both `note_to_midi` and `chord_to_notes`.")
     note_to_midi = namespace["note_to_midi"]
     chord_to_notes = namespace["chord_to_notes"]
     if not isinstance(note_to_midi, dict) or not isinstance(chord_to_notes, dict):

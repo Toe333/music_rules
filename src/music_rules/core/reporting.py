@@ -8,6 +8,7 @@ summaries for CLI or scripting workflows.
 from __future__ import annotations
 
 from collections import defaultdict
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -241,9 +242,7 @@ def build_summary_history(
     }
 
 
-def format_summary_diff_markdown(
-    payload: dict[str, Any], *, only_regressions: bool = False
-) -> str:
+def format_summary_diff_markdown(payload: dict[str, Any], *, only_regressions: bool = False) -> str:
     """Render :func:`build_summary_diff` output as markdown."""
     items = payload.get("items", []) or []
     if only_regressions:
@@ -363,6 +362,7 @@ def sort_batch_summary_items(
     def _key_file(item: dict[str, Any]) -> str:
         return str(item.get("file", ""))
 
+    key_fn: Callable[[dict[str, Any]], Any]
     if key_name == "cost":
         key_fn = _key_cost
     elif key_name == "grade":

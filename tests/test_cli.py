@@ -220,7 +220,9 @@ class TestEvaluateExplain:
     def test_evaluate_explain_text(self, tmp_path: Path) -> None:
         report = {
             "total_cost": 2.0,
-            "hard_violations": [{"rule_id": "P1_1_2v", "position": 1, "voices_involved": [0, 1], "msg": "x"}],
+            "hard_violations": [
+                {"rule_id": "P1_1_2v", "position": 1, "voices_involved": [0, 1], "msg": "x"}
+            ],
             "soft_violations": [
                 {"rule_id": "G4", "position": 1, "cost": 1.5, "msg": "x"},
                 {"rule_id": "G4", "position": 2, "cost": 0.5, "msg": "x"},
@@ -311,9 +313,7 @@ class TestProgressionRenderCsv:
             encoding="utf-8",
         )
         prog.write_text(
-            "bar,start_beat,duration_beats,chord_symbol\n"
-            "1,0,1,Cmaj7\n"
-            "1,1,1,Fmaj7\n",
+            "bar,start_beat,duration_beats,chord_symbol\n1,0,1,Cmaj7\n1,1,1,Fmaj7\n",
             encoding="utf-8",
         )
         result = runner.invoke(
@@ -328,11 +328,11 @@ class TestProgressionRenderCsv:
         lex = tmp_path / "lex.json"
         prog = tmp_path / "prog.csv"
         out = tmp_path / "out.mid"
-        lex.write_text(json.dumps({"chords": {"Cmaj7": {"midi": [60, 64, 67, 71]}}}), encoding="utf-8")
+        lex.write_text(
+            json.dumps({"chords": {"Cmaj7": {"midi": [60, 64, 67, 71]}}}), encoding="utf-8"
+        )
         prog.write_text(
-            "bar,start_beat,duration_beats,chord_symbol\n"
-            "1,0,1,Cmaj7\n"
-            "1,1,1,NOPE\n",
+            "bar,start_beat,duration_beats,chord_symbol\n1,0,1,Cmaj7\n1,1,1,NOPE\n",
             encoding="utf-8",
         )
         result = runner.invoke(
@@ -364,8 +364,7 @@ class TestProgressionRenderVoicedCsv:
         voiced = tmp_path / "voiced.csv"
         out = tmp_path / "voiced.mid"
         voiced.write_text(
-            "bar,chord_midis,melody_qn_midis\n"
-            "1,48|52|55|59,59|60|62\n",
+            "bar,chord_midis,melody_qn_midis\n1,48|52|55|59,59|60|62\n",
             encoding="utf-8",
         )
         result = runner.invoke(
@@ -430,8 +429,7 @@ class TestProgressionAuditVoicedCsv:
         voiced = tmp_path / "voiced.csv"
         out = tmp_path / "report.json"
         voiced.write_text(
-            "bar,chord_midis,melody_qn_midis\n"
-            "1,48|52|55|59,59|60|62|62\n",
+            "bar,chord_midis,melody_qn_midis\n1,48|52|55|59,59|60|62|62\n",
             encoding="utf-8",
         )
         result = runner.invoke(
@@ -462,7 +460,15 @@ class TestProgressionAuditVoicedCsv:
         )
         result = runner.invoke(
             cli_module.app,
-            ["progression", "audit-voiced-csv", str(voiced), "--ruleset", "EIS", "--min-grade", "A"],
+            [
+                "progression",
+                "audit-voiced-csv",
+                str(voiced),
+                "--ruleset",
+                "EIS",
+                "--min-grade",
+                "A",
+            ],
         )
         assert result.exit_code == 1
 
@@ -619,7 +625,9 @@ class TestProgressionAuditVoicedBatch:
 
     def test_audit_voiced_batch_invalid_rule_cost_arg_exits_2(self, tmp_path: Path) -> None:
         a = tmp_path / "eis_e3_harmonized.csv"
-        a.write_text("bar,chord_midis,melody_qn_midis\n1,48|52|55|59,59|60|62|62\n", encoding="utf-8")
+        a.write_text(
+            "bar,chord_midis,melody_qn_midis\n1,48|52|55|59,59|60|62|62\n", encoding="utf-8"
+        )
         result = runner.invoke(
             cli_module.app,
             [
@@ -691,7 +699,9 @@ def test_main_returns_int() -> None:
 
 
 class TestWavRenderHelper:
-    def test_try_render_wav_no_backend(self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    def test_try_render_wav_no_backend(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
         midi = tmp_path / "x.mid"
         wav = tmp_path / "x.wav"
         midi.write_bytes(b"MThd")
@@ -1026,8 +1036,20 @@ class TestProgressionSummaryDiff:
             json.dumps(
                 {
                     "items": [
-                        {"file": "examples/a.csv", "grade": "B", "hard_count": 0, "soft_count": 1, "total_cost": 1.0},
-                        {"file": "examples/b.csv", "grade": "C", "hard_count": 1, "soft_count": 3, "total_cost": 3.0},
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "B",
+                            "hard_count": 0,
+                            "soft_count": 1,
+                            "total_cost": 1.0,
+                        },
+                        {
+                            "file": "examples/b.csv",
+                            "grade": "C",
+                            "hard_count": 1,
+                            "soft_count": 3,
+                            "total_cost": 3.0,
+                        },
                     ]
                 }
             ),
@@ -1037,8 +1059,20 @@ class TestProgressionSummaryDiff:
             json.dumps(
                 {
                     "items": [
-                        {"file": "examples/a.csv", "grade": "C", "hard_count": 1, "soft_count": 2, "total_cost": 2.0},
-                        {"file": "examples/b.csv", "grade": "B", "hard_count": 0, "soft_count": 1, "total_cost": 1.0},
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "C",
+                            "hard_count": 1,
+                            "soft_count": 2,
+                            "total_cost": 2.0,
+                        },
+                        {
+                            "file": "examples/b.csv",
+                            "grade": "B",
+                            "hard_count": 0,
+                            "soft_count": 1,
+                            "total_cost": 1.0,
+                        },
                     ]
                 }
             ),
@@ -1451,7 +1485,9 @@ class TestProgressionApplyGates:
         payload = json.loads(result.stdout)
         assert "per_rule_summary missing" in payload["items"][0]["quality_gate_error"]
 
-    def test_apply_gates_missing_per_rule_with_warn_policy_keeps_exit_0(self, tmp_path: Path) -> None:
+    def test_apply_gates_missing_per_rule_with_warn_policy_keeps_exit_0(
+        self, tmp_path: Path
+    ) -> None:
         summary = tmp_path / "summary.json"
         summary.write_text(
             json.dumps(
