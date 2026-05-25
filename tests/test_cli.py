@@ -216,6 +216,51 @@ class TestEvaluate:
         assert result.exit_code == 2
 
 
+class TestEvaluateExplain:
+    def test_evaluate_explain_text(self, tmp_path: Path) -> None:
+        report = {
+            "total_cost": 2.0,
+            "hard_violations": [
+                {"rule_id": "P1_1_2v", "position": 1, "voices_involved": [0, 1], "msg": "x"}
+            ],
+            "soft_violations": [
+                {"rule_id": "G4", "position": 1, "cost": 1.5, "msg": "x"},
+                {"rule_id": "G4", "position": 2, "cost": 0.5, "msg": "x"},
+            ],
+            "per_rule_summary": {},
+            "grade": "D",
+        }
+        p = tmp_path / "report.json"
+        p.write_text(json.dumps(report), encoding="utf-8")
+        result = runner.invoke(cli_module.app, ["evaluate-explain", str(p)])
+        assert result.exit_code == 0
+        assert "Top hard-rule hits" in result.stdout
+        assert "P1_1_2v" in result.stdout
+        assert "G4" in result.stdout
+
+    def test_evaluate_explain_json(self, tmp_path: Path) -> None:
+        report = {
+            "total_cost": 0.0,
+            "hard_violations": [],
+            "soft_violations": [],
+            "per_rule_summary": {},
+            "grade": "A",
+        }
+        p = tmp_path / "report.json"
+        p.write_text(json.dumps(report), encoding="utf-8")
+        result = runner.invoke(cli_module.app, ["evaluate-explain", str(p), "--json"])
+        assert result.exit_code == 0
+        summary = json.loads(result.stdout)
+        assert summary["grade"] == "A"
+        assert summary["hard_count"] == 0
+
+    def test_evaluate_explain_bad_json_exits_2(self, tmp_path: Path) -> None:
+        p = tmp_path / "bad-report.json"
+        p.write_text("not-json", encoding="utf-8")
+        result = runner.invoke(cli_module.app, ["evaluate-explain", str(p)])
+        assert result.exit_code == 2
+
+
 # ---------------------------------------------------------------------------
 # tools list / schema
 # ---------------------------------------------------------------------------
@@ -251,6 +296,398 @@ class TestToolsCommands:
         assert result.exit_code == 2
 
 
+class TestProgressionRenderCsv:
+    def test_render_csv_writes_midi(self, tmp_path: Path) -> None:
+        lex = tmp_path / "lex.json"
+        prog = tmp_path / "prog.csv"
+        out = tmp_path / "out.mid"
+        lex.write_text(
+            json.dumps(
+                {
+                    "chords": {
+                        "Cmaj7": {"midi": [60, 64, 67, 71]},
+                        "Fmaj7": {"midi": [65, 69, 72, 76]},
+                    }
+                }
+            ),
+            encoding="utf-8",
+        )
+        prog.write_text(
+            "bar,start_beat,duration_beats,chord_symbol\n1,0,1,Cmaj7\n1,1,1,Fmaj7\n",
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            ["progression", "render-csv", str(prog), str(lex), str(out)],
+        )
+        assert result.exit_code == 0
+        assert out.exists()
+        assert out.stat().st_size > 0
+
+    def test_render_csv_strict_missing_exits_2(self, tmp_path: Path) -> None:
+        lex = tmp_path / "lex.json"
+        prog = tmp_path / "prog.csv"
+        out = tmp_path / "out.mid"
+        lex.write_text(
+            json.dumps({"chords": {"Cmaj7": {"midi": [60, 64, 67, 71]}}}), encoding="utf-8"
+        )
+        prog.write_text(
+            "bar,start_beat,duration_beats,chord_symbol\n1,0,1,Cmaj7\n1,1,1,NOPE\n",
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            ["progression", "render-csv", str(prog), str(lex), str(out)],
+        )
+        assert result.exit_code == 2
+
+
+class TestProgressionRenderVoicedCsv:
+    def test_render_voiced_csv_writes_midi(self, tmp_path: Path) -> None:
+        voiced = tmp_path / "voiced.csv"
+        out = tmp_path / "voiced.mid"
+        voiced.write_text(
+            "kind,cycle,bar,root,chord_midis,chord_notes,melody_qn_midis,melody_qn_notes\n"
+            "E3,E3,1,C,48|52|55|59,C3|E3|G3|B3,59|60|62|62,B3|C4|D4|D4\n"
+            "E3,E3,2,D#,46|51|55|62,Bb2|Eb3|G3|D4,62|61|61|61,D4|C#4|C#4|C#4\n",
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            ["progression", "render-voiced-csv", str(voiced), str(out)],
+        )
+        assert result.exit_code == 0
+        assert out.exists()
+        assert out.stat().st_size > 0
+
+    def test_render_voiced_csv_melody_count_mismatch_exits_2(self, tmp_path: Path) -> None:
+        voiced = tmp_path / "voiced.csv"
+        out = tmp_path / "voiced.mid"
+        voiced.write_text(
+            "bar,chord_midis,melody_qn_midis\n1,48|52|55|59,59|60|62\n",
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            ["progression", "render-voiced-csv", str(voiced), str(out)],
+        )
+        assert result.exit_code == 2
+
+
+class TestProgressionRenderVoicedBatch:
+    def test_render_voiced_batch_writes_multiple_midis(self, tmp_path: Path) -> None:
+        a = tmp_path / "eis_e3_harmonized.csv"
+        b = tmp_path / "eis_e4_harmonized.csv"
+        out_dir = tmp_path / "out"
+        payload = (
+            "bar,chord_midis,melody_qn_midis\n"
+            "1,48|52|55|59,59|60|62|62\n"
+            "2,46|51|55|62,62|61|61|61\n"
+        )
+        a.write_text(payload, encoding="utf-8")
+        b.write_text(payload, encoding="utf-8")
+
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "render-voiced-batch",
+                str(tmp_path / "eis_*_harmonized.csv"),
+                "--out-dir",
+                str(out_dir),
+            ],
+        )
+        assert result.exit_code == 0
+        assert (out_dir / "eis_e3_harmonized_cli.mid").exists()
+        assert (out_dir / "eis_e4_harmonized_cli.mid").exists()
+
+    def test_render_voiced_batch_no_matches_exits_2(self, tmp_path: Path) -> None:
+        result = runner.invoke(
+            cli_module.app,
+            ["progression", "render-voiced-batch", str(tmp_path / "nope_*.csv")],
+        )
+        assert result.exit_code == 2
+
+
+class TestProgressionAuditVoicedCsv:
+    def test_audit_voiced_csv_prints_summary(self, tmp_path: Path) -> None:
+        voiced = tmp_path / "voiced.csv"
+        voiced.write_text(
+            "bar,chord_midis,melody_qn_midis\n"
+            "1,48|52|55|59,59|60|62|62\n"
+            "2,46|51|55|62,62|61|61|61\n",
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            ["progression", "audit-voiced-csv", str(voiced), "--ruleset", "EIS"],
+        )
+        assert result.exit_code == 0
+        assert "grade=" in result.stdout
+
+    def test_audit_voiced_csv_report_out_json(self, tmp_path: Path) -> None:
+        voiced = tmp_path / "voiced.csv"
+        out = tmp_path / "report.json"
+        voiced.write_text(
+            "bar,chord_midis,melody_qn_midis\n1,48|52|55|59,59|60|62|62\n",
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "audit-voiced-csv",
+                str(voiced),
+                "--ruleset",
+                "EIS",
+                "--report-out",
+                str(out),
+                "--json",
+            ],
+        )
+        assert result.exit_code == 0
+        assert out.exists()
+        payload = json.loads(out.read_text(encoding="utf-8"))
+        assert "grade" in payload
+
+    def test_audit_voiced_csv_min_grade_gate_exits_1(self, tmp_path: Path) -> None:
+        voiced = tmp_path / "voiced.csv"
+        voiced.write_text(
+            "bar,chord_midis,melody_qn_midis\n"
+            "1,48|52|55|59,59|60|62|62\n"
+            "2,46|51|55|62,62|61|61|61\n",
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "audit-voiced-csv",
+                str(voiced),
+                "--ruleset",
+                "EIS",
+                "--min-grade",
+                "A",
+            ],
+        )
+        assert result.exit_code == 1
+
+    def test_audit_voiced_csv_fail_on_rule_exits_1(self, tmp_path: Path) -> None:
+        voiced = tmp_path / "voiced.csv"
+        voiced.write_text(
+            "bar,chord_midis,melody_qn_midis\n"
+            "1,48|52|55|59,59|60|62|62\n"
+            "2,46|51|55|62,62|61|61|61\n",
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "audit-voiced-csv",
+                str(voiced),
+                "--ruleset",
+                "EIS",
+                "--fail-on-rule",
+                "O-004",
+            ],
+        )
+        assert result.exit_code == 1
+
+    def test_audit_voiced_csv_policy_path_applies_gates(self, tmp_path: Path) -> None:
+        voiced = tmp_path / "voiced.csv"
+        policy = tmp_path / "policy.json"
+        voiced.write_text(
+            "bar,chord_midis,melody_qn_midis\n"
+            "1,48|52|55|59,59|60|62|62\n"
+            "2,46|51|55|62,62|61|61|61\n",
+            encoding="utf-8",
+        )
+        policy.write_text(json.dumps({"min_grade": "A"}), encoding="utf-8")
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "audit-voiced-csv",
+                str(voiced),
+                "--ruleset",
+                "EIS",
+                "--policy-path",
+                str(policy),
+            ],
+        )
+        assert result.exit_code == 1
+
+
+class TestProgressionAuditVoicedBatch:
+    def test_audit_voiced_batch_writes_summary(self, tmp_path: Path) -> None:
+        a = tmp_path / "eis_e3_harmonized.csv"
+        b = tmp_path / "eis_e4_harmonized.csv"
+        summary = tmp_path / "summary.json"
+        payload = (
+            "bar,chord_midis,melody_qn_midis\n"
+            "1,48|52|55|59,59|60|62|62\n"
+            "2,46|51|55|62,62|61|61|61\n"
+        )
+        a.write_text(payload, encoding="utf-8")
+        b.write_text(payload, encoding="utf-8")
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "audit-voiced-batch",
+                str(tmp_path / "eis_*_harmonized.csv"),
+                "--ruleset",
+                "EIS",
+                "--summary-out",
+                str(summary),
+            ],
+        )
+        assert result.exit_code == 0
+        assert summary.exists()
+        bundle = json.loads(summary.read_text(encoding="utf-8"))
+        assert len(bundle["items"]) == 2
+        assert bundle["ruleset"] == "EIS"
+        assert "top_soft_rules" in bundle["items"][0]
+
+    def test_audit_voiced_batch_json_stdout(self, tmp_path: Path) -> None:
+        a = tmp_path / "eis_e3_harmonized.csv"
+        payload = (
+            "bar,chord_midis,melody_qn_midis\n"
+            "1,48|52|55|59,59|60|62|62\n"
+            "2,46|51|55|62,62|61|61|61\n"
+        )
+        a.write_text(payload, encoding="utf-8")
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "audit-voiced-batch",
+                str(tmp_path / "eis_*_harmonized.csv"),
+                "--ruleset",
+                "EIS",
+                "--json",
+            ],
+        )
+        assert result.exit_code == 0
+        bundle = json.loads(result.stdout)
+        assert bundle["file_count"] == 1
+
+    def test_audit_voiced_batch_quality_failure_sets_exit_1(self, tmp_path: Path) -> None:
+        a = tmp_path / "eis_e3_harmonized.csv"
+        payload = (
+            "bar,chord_midis,melody_qn_midis\n"
+            "1,48|52|55|59,59|60|62|62\n"
+            "2,46|51|55|62,62|61|61|61\n"
+        )
+        a.write_text(payload, encoding="utf-8")
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "audit-voiced-batch",
+                str(tmp_path / "eis_*_harmonized.csv"),
+                "--ruleset",
+                "EIS",
+                "--min-grade",
+                "A",
+                "--json",
+            ],
+        )
+        assert result.exit_code == 1
+        bundle = json.loads(result.stdout)
+        assert bundle["quality_failures"] == 1
+
+    def test_audit_voiced_batch_rule_cost_cap_sets_exit_1(self, tmp_path: Path) -> None:
+        a = tmp_path / "eis_e3_harmonized.csv"
+        payload = (
+            "bar,chord_midis,melody_qn_midis\n"
+            "1,48|52|55|59,59|60|62|62\n"
+            "2,46|51|55|62,62|61|61|61\n"
+        )
+        a.write_text(payload, encoding="utf-8")
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "audit-voiced-batch",
+                str(tmp_path / "eis_*_harmonized.csv"),
+                "--ruleset",
+                "EIS",
+                "--max-rule-total-cost",
+                "O-004=1.0",
+                "--json",
+            ],
+        )
+        assert result.exit_code == 1
+        bundle = json.loads(result.stdout)
+        assert bundle["quality_failures"] == 1
+
+    def test_audit_voiced_batch_invalid_rule_cost_arg_exits_2(self, tmp_path: Path) -> None:
+        a = tmp_path / "eis_e3_harmonized.csv"
+        a.write_text(
+            "bar,chord_midis,melody_qn_midis\n1,48|52|55|59,59|60|62|62\n", encoding="utf-8"
+        )
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "audit-voiced-batch",
+                str(tmp_path / "eis_*_harmonized.csv"),
+                "--max-rule-total-cost",
+                "BAD",
+            ],
+        )
+        assert result.exit_code == 2
+
+    def test_audit_voiced_batch_warn_on_rule_keeps_exit_0(self, tmp_path: Path) -> None:
+        a = tmp_path / "eis_e3_harmonized.csv"
+        payload = (
+            "bar,chord_midis,melody_qn_midis\n"
+            "1,48|52|55|59,59|60|62|62\n"
+            "2,46|51|55|62,62|61|61|61\n"
+        )
+        a.write_text(payload, encoding="utf-8")
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "audit-voiced-batch",
+                str(tmp_path / "eis_*_harmonized.csv"),
+                "--ruleset",
+                "EIS",
+                "--warn-on-rule",
+                "O-004",
+                "--json",
+            ],
+        )
+        assert result.exit_code == 0
+        bundle = json.loads(result.stdout)
+        assert bundle["items"][0]["quality_warnings"]
+
+    def test_audit_voiced_batch_policy_path_invalid_type_exits_2(self, tmp_path: Path) -> None:
+        a = tmp_path / "eis_e3_harmonized.csv"
+        policy = tmp_path / "policy.json"
+        payload = (
+            "bar,chord_midis,melody_qn_midis\n"
+            "1,48|52|55|59,59|60|62|62\n"
+            "2,46|51|55|62,62|61|61|61\n"
+        )
+        a.write_text(payload, encoding="utf-8")
+        policy.write_text(json.dumps({"max_total_cost": "not-a-number"}), encoding="utf-8")
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "audit-voiced-batch",
+                str(tmp_path / "eis_*_harmonized.csv"),
+                "--policy-path",
+                str(policy),
+            ],
+        )
+        assert result.exit_code == 2
+
+
 # ---------------------------------------------------------------------------
 # main()
 # ---------------------------------------------------------------------------
@@ -259,3 +696,942 @@ class TestToolsCommands:
 def test_main_returns_int() -> None:
     code = cli_module.main(["version"])
     assert code == 0
+
+
+class TestWavRenderHelper:
+    def test_try_render_wav_no_backend(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        midi = tmp_path / "x.mid"
+        wav = tmp_path / "x.wav"
+        midi.write_bytes(b"MThd")
+        monkeypatch.setattr(cli_module.shutil, "which", lambda _: None)
+        ok, msg = cli_module._try_render_wav(
+            out_midi_path=midi,
+            out_wav_path=wav,
+            soundfont_path=None,
+        )
+        assert ok is False
+        assert "no MIDI synth found" in msg
+
+    def test_try_render_wav_fluidsynth_requires_soundfont(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        midi = tmp_path / "x.mid"
+        wav = tmp_path / "x.wav"
+        midi.write_bytes(b"MThd")
+        monkeypatch.setattr(
+            cli_module.shutil,
+            "which",
+            lambda name: "/usr/bin/fluidsynth" if name == "fluidsynth" else None,
+        )
+        monkeypatch.setattr(cli_module, "_pick_default_soundfont", lambda: None)
+        ok, msg = cli_module._try_render_wav(
+            out_midi_path=midi,
+            out_wav_path=wav,
+            soundfont_path=None,
+        )
+        assert ok is False
+        assert "no soundfont" in msg
+
+
+class TestFindSoundfonts:
+    def test_find_soundfonts_json(self) -> None:
+        result = runner.invoke(cli_module.app, ["progression", "find-soundfonts", "--json"])
+        assert result.exit_code in (0, 1)
+        data = json.loads(result.stdout)
+        assert isinstance(data, list)
+
+
+class TestProgressionPipelineVoicedBatch:
+    def test_pipeline_voiced_batch_writes_outputs_and_summary(self, tmp_path: Path) -> None:
+        a = tmp_path / "eis_e3_harmonized.csv"
+        summary = tmp_path / "pipeline.json"
+        payload = (
+            "bar,chord_midis,melody_qn_midis\n"
+            "1,48|52|55|59,59|60|62|62\n"
+            "2,46|51|55|62,62|61|61|61\n"
+        )
+        a.write_text(payload, encoding="utf-8")
+        out_dir = tmp_path / "out"
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "pipeline-voiced-batch",
+                str(tmp_path / "eis_*_harmonized.csv"),
+                "--out-dir",
+                str(out_dir),
+                "--ruleset",
+                "EIS",
+                "--summary-out",
+                str(summary),
+                "--json",
+            ],
+        )
+        assert result.exit_code == 0
+        assert (out_dir / "eis_e3_harmonized_cli.mid").exists()
+        assert summary.exists()
+        bundle = json.loads(summary.read_text(encoding="utf-8"))
+        assert bundle["file_count"] == 1
+
+    def test_pipeline_voiced_batch_quality_failure_exit_1(self, tmp_path: Path) -> None:
+        a = tmp_path / "eis_e3_harmonized.csv"
+        payload = (
+            "bar,chord_midis,melody_qn_midis\n"
+            "1,48|52|55|59,59|60|62|62\n"
+            "2,46|51|55|62,62|61|61|61\n"
+        )
+        a.write_text(payload, encoding="utf-8")
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "pipeline-voiced-batch",
+                str(tmp_path / "eis_*_harmonized.csv"),
+                "--out-dir",
+                str(tmp_path / "out"),
+                "--ruleset",
+                "EIS",
+                "--min-grade",
+                "A",
+                "--json",
+            ],
+        )
+        assert result.exit_code == 1
+
+
+class TestProgressionSummaryMarkdown:
+    def test_summary_markdown_writes_file(self, tmp_path: Path) -> None:
+        summary = tmp_path / "summary.json"
+        out = tmp_path / "report.md"
+        summary.write_text(
+            json.dumps(
+                {
+                    "ruleset": "EIS",
+                    "hard_failures": 0,
+                    "parse_failures": 0,
+                    "quality_failures": 1,
+                    "wav_failures": 0,
+                    "items": [
+                        {
+                            "file": "examples/eis_e3_harmonized.csv",
+                            "ok": False,
+                            "grade": "C",
+                            "hard_count": 0,
+                            "soft_count": 16,
+                            "total_cost": 8.0,
+                            "top_soft_rules": [{"rule_id": "O-004", "total_cost": 7.0}],
+                        }
+                    ],
+                }
+            ),
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            ["progression", "summary-markdown", str(summary), "--out-path", str(out)],
+        )
+        assert result.exit_code == 0
+        assert out.exists()
+        text = out.read_text(encoding="utf-8")
+        assert "# Progression Batch Summary" in text
+        assert "eis_e3_harmonized.csv" in text
+
+    def test_summary_markdown_failures_only(self, tmp_path: Path) -> None:
+        summary = tmp_path / "summary.json"
+        summary.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {"file": "examples/a.csv", "ok": True, "grade": "A"},
+                        {"file": "examples/b.csv", "ok": False, "grade": "D"},
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            ["progression", "summary-markdown", str(summary), "--failures-only"],
+        )
+        assert result.exit_code == 0
+        assert "a.csv" not in result.stdout
+        assert "b.csv" in result.stdout
+
+    def test_summary_markdown_top_n_and_sort(self, tmp_path: Path) -> None:
+        summary = tmp_path / "summary.json"
+        summary.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {"file": "examples/a.csv", "ok": True, "grade": "A", "total_cost": 1.0},
+                        {"file": "examples/b.csv", "ok": False, "grade": "D", "total_cost": 10.0},
+                        {"file": "examples/c.csv", "ok": False, "grade": "C", "total_cost": 5.0},
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "summary-markdown",
+                str(summary),
+                "--sort-by",
+                "cost",
+                "--descending",
+                "--top-n",
+                "2",
+            ],
+        )
+        assert result.exit_code == 0
+        assert "b.csv" in result.stdout
+        assert "c.csv" in result.stdout
+        assert "a.csv" not in result.stdout
+
+    def test_summary_markdown_invalid_sort_exits_2(self, tmp_path: Path) -> None:
+        summary = tmp_path / "summary.json"
+        summary.write_text(json.dumps({"items": []}), encoding="utf-8")
+        result = runner.invoke(
+            cli_module.app,
+            ["progression", "summary-markdown", str(summary), "--sort-by", "nope"],
+        )
+        assert result.exit_code == 2
+
+
+class TestProgressionPolicyTemplate:
+    def test_policy_template_stdout_json(self) -> None:
+        result = runner.invoke(cli_module.app, ["progression", "policy-template"])
+        assert result.exit_code == 0
+        payload = json.loads(result.stdout)
+        assert payload["min_grade"] == "B"
+        assert "warn_on_rule" in payload
+
+    def test_policy_template_writes_file(self, tmp_path: Path) -> None:
+        out = tmp_path / "gate-policy.json"
+        result = runner.invoke(
+            cli_module.app,
+            ["progression", "policy-template", "--out-path", str(out)],
+        )
+        assert result.exit_code == 0
+        payload = json.loads(out.read_text(encoding="utf-8"))
+        assert payload["max_hard_count"] == 0
+
+
+class TestProgressionSummaryDiff:
+    def test_summary_diff_reports_regressions_exit_1(self, tmp_path: Path) -> None:
+        baseline = tmp_path / "baseline.json"
+        candidate = tmp_path / "candidate.json"
+        baseline.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "B",
+                            "hard_count": 0,
+                            "soft_count": 4,
+                            "total_cost": 2.0,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        candidate.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "C",
+                            "hard_count": 1,
+                            "soft_count": 5,
+                            "total_cost": 3.5,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            ["progression", "summary-diff", str(baseline), str(candidate), "--json"],
+        )
+        assert result.exit_code == 1
+        payload = json.loads(result.stdout)
+        assert payload["regressions"] == 1
+        assert payload["items"][0]["status"] == "regression"
+
+    def test_summary_diff_reports_improvements_exit_0(self, tmp_path: Path) -> None:
+        baseline = tmp_path / "baseline.json"
+        candidate = tmp_path / "candidate.json"
+        baseline.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "C",
+                            "hard_count": 1,
+                            "soft_count": 8,
+                            "total_cost": 6.0,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        candidate.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "B",
+                            "hard_count": 0,
+                            "soft_count": 6,
+                            "total_cost": 3.0,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            ["progression", "summary-diff", str(baseline), str(candidate)],
+        )
+        assert result.exit_code == 0
+        assert "improvements" in result.stdout
+        assert "a.csv" in result.stdout
+
+    def test_summary_diff_writes_file(self, tmp_path: Path) -> None:
+        baseline = tmp_path / "baseline.json"
+        candidate = tmp_path / "candidate.json"
+        out = tmp_path / "diff.md"
+        baseline.write_text(json.dumps({"items": []}), encoding="utf-8")
+        candidate.write_text(json.dumps({"items": []}), encoding="utf-8")
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "summary-diff",
+                str(baseline),
+                str(candidate),
+                "--out-path",
+                str(out),
+            ],
+        )
+        assert result.exit_code == 0
+        assert out.exists()
+        assert "Progression Summary Diff" in out.read_text(encoding="utf-8")
+
+    def test_summary_diff_only_regressions_filters_output(self, tmp_path: Path) -> None:
+        baseline = tmp_path / "baseline.json"
+        candidate = tmp_path / "candidate.json"
+        baseline.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "B",
+                            "hard_count": 0,
+                            "soft_count": 1,
+                            "total_cost": 1.0,
+                        },
+                        {
+                            "file": "examples/b.csv",
+                            "grade": "C",
+                            "hard_count": 1,
+                            "soft_count": 3,
+                            "total_cost": 3.0,
+                        },
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        candidate.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "C",
+                            "hard_count": 1,
+                            "soft_count": 2,
+                            "total_cost": 2.0,
+                        },
+                        {
+                            "file": "examples/b.csv",
+                            "grade": "B",
+                            "hard_count": 0,
+                            "soft_count": 1,
+                            "total_cost": 1.0,
+                        },
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "summary-diff",
+                str(baseline),
+                str(candidate),
+                "--only-regressions",
+            ],
+        )
+        assert result.exit_code == 1
+        assert "a.csv" in result.stdout
+        assert "b.csv" not in result.stdout
+
+
+class TestProgressionSummaryHistory:
+    def test_summary_history_json(self, tmp_path: Path) -> None:
+        first = tmp_path / "summary_1.json"
+        second = tmp_path / "summary_2.json"
+        first.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "B",
+                            "hard_count": 0,
+                            "soft_count": 3,
+                            "total_cost": 2.0,
+                        }
+                    ],
+                    "file_count": 1,
+                }
+            ),
+            encoding="utf-8",
+        )
+        second.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "C",
+                            "hard_count": 1,
+                            "soft_count": 5,
+                            "total_cost": 3.0,
+                        }
+                    ],
+                    "file_count": 1,
+                }
+            ),
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "summary-history",
+                str(tmp_path / "summary_*.json"),
+                "--json",
+            ],
+        )
+        assert result.exit_code == 0
+        payload = json.loads(result.stdout)
+        assert payload["run_count"] == 2
+        assert payload["total_regressions"] == 1
+        assert payload["latest_regression_files"] == ["examples/a.csv"]
+
+    def test_summary_history_fail_on_regressions(self, tmp_path: Path) -> None:
+        first = tmp_path / "summary_1.json"
+        second = tmp_path / "summary_2.json"
+        first.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "A",
+                            "hard_count": 0,
+                            "soft_count": 1,
+                            "total_cost": 1.0,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        second.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "D",
+                            "hard_count": 1,
+                            "soft_count": 6,
+                            "total_cost": 5.0,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "summary-history",
+                str(tmp_path / "summary_*.json"),
+                "--fail-on-regressions",
+            ],
+        )
+        assert result.exit_code == 1
+
+    def test_summary_history_fail_on_latest_regression(self, tmp_path: Path) -> None:
+        first = tmp_path / "summary_1.json"
+        second = tmp_path / "summary_2.json"
+        first.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "A",
+                            "hard_count": 0,
+                            "soft_count": 1,
+                            "total_cost": 1.0,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        second.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "D",
+                            "hard_count": 1,
+                            "soft_count": 6,
+                            "total_cost": 5.0,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "summary-history",
+                str(tmp_path / "summary_*.json"),
+                "--fail-on-latest-regression",
+            ],
+        )
+        assert result.exit_code == 1
+
+    def test_summary_history_max_total_regressions_threshold(self, tmp_path: Path) -> None:
+        first = tmp_path / "summary_1.json"
+        second = tmp_path / "summary_2.json"
+        first.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "B",
+                            "hard_count": 0,
+                            "soft_count": 2,
+                            "total_cost": 2.0,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        second.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "C",
+                            "hard_count": 1,
+                            "soft_count": 4,
+                            "total_cost": 3.0,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "summary-history",
+                str(tmp_path / "summary_*.json"),
+                "--max-total-regressions",
+                "0",
+            ],
+        )
+        assert result.exit_code == 1
+
+    def test_summary_history_max_latest_regressions_threshold(self, tmp_path: Path) -> None:
+        first = tmp_path / "summary_1.json"
+        second = tmp_path / "summary_2.json"
+        first.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "B",
+                            "hard_count": 0,
+                            "soft_count": 2,
+                            "total_cost": 2.0,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        second.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "C",
+                            "hard_count": 1,
+                            "soft_count": 4,
+                            "total_cost": 3.0,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "summary-history",
+                str(tmp_path / "summary_*.json"),
+                "--max-latest-regressions",
+                "0",
+            ],
+        )
+        assert result.exit_code == 1
+
+    def test_summary_history_latest_only_json(self, tmp_path: Path) -> None:
+        first = tmp_path / "summary_1.json"
+        second = tmp_path / "summary_2.json"
+        first.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "A",
+                            "hard_count": 0,
+                            "soft_count": 1,
+                            "total_cost": 1.0,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        second.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/a.csv",
+                            "grade": "D",
+                            "hard_count": 1,
+                            "soft_count": 6,
+                            "total_cost": 5.0,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "summary-history",
+                str(tmp_path / "summary_*.json"),
+                "--latest-only",
+                "--json",
+            ],
+        )
+        assert result.exit_code == 0
+        payload = json.loads(result.stdout)
+        assert payload["run_count"] == 1
+        assert len(payload["runs"]) == 1
+        assert payload["runs"][0]["path"].endswith("summary_2.json")
+
+
+class TestProgressionApplyGates:
+    def test_apply_gates_fail_on_rule_exits_1(self, tmp_path: Path) -> None:
+        summary = tmp_path / "summary.json"
+        summary.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/x.csv",
+                            "grade": "A",
+                            "hard_count": 0,
+                            "total_cost": 0.0,
+                            "per_rule_summary": {"O-004": {"count": 2, "total_cost": 1.0}},
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "apply-gates",
+                str(summary),
+                "--fail-on-rule",
+                "O-004",
+                "--json",
+            ],
+        )
+        assert result.exit_code == 1
+        payload = json.loads(result.stdout)
+        assert payload["quality_failures"] == 1
+        assert payload["items"][0]["quality_gate_error"] is not None
+
+    def test_apply_gates_warn_only_stays_zero(self, tmp_path: Path) -> None:
+        summary = tmp_path / "summary.json"
+        summary.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/x.csv",
+                            "grade": "A",
+                            "hard_count": 0,
+                            "total_cost": 0.0,
+                            "per_rule_summary": {"O-004": {"count": 1, "total_cost": 0.5}},
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "apply-gates",
+                str(summary),
+                "--warn-on-rule",
+                "O-004",
+                "--json",
+            ],
+        )
+        assert result.exit_code == 0
+        payload = json.loads(result.stdout)
+        assert payload["quality_failures"] == 0
+        assert payload["items"][0]["quality_warnings"]
+
+    def test_apply_gates_missing_per_rule_with_fail_policy_exits_1(self, tmp_path: Path) -> None:
+        summary = tmp_path / "summary.json"
+        summary.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/x.csv",
+                            "grade": "A",
+                            "hard_count": 0,
+                            "total_cost": 0.0,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "apply-gates",
+                str(summary),
+                "--fail-on-rule",
+                "O-004",
+                "--json",
+            ],
+        )
+        assert result.exit_code == 1
+        payload = json.loads(result.stdout)
+        assert "per_rule_summary missing" in payload["items"][0]["quality_gate_error"]
+
+    def test_apply_gates_missing_per_rule_with_warn_policy_keeps_exit_0(
+        self, tmp_path: Path
+    ) -> None:
+        summary = tmp_path / "summary.json"
+        summary.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/x.csv",
+                            "grade": "A",
+                            "hard_count": 0,
+                            "total_cost": 0.0,
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "apply-gates",
+                str(summary),
+                "--warn-on-rule",
+                "O-004",
+                "--json",
+            ],
+        )
+        assert result.exit_code == 0
+        payload = json.loads(result.stdout)
+        assert payload["items"][0]["quality_warnings"]
+
+    def test_apply_gates_empty_per_rule_is_valid(self, tmp_path: Path) -> None:
+        summary = tmp_path / "summary.json"
+        summary.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/x.csv",
+                            "grade": "A",
+                            "hard_count": 0,
+                            "total_cost": 0.0,
+                            "per_rule_summary": {},
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "apply-gates",
+                str(summary),
+                "--fail-on-rule",
+                "O-004",
+                "--json",
+            ],
+        )
+        assert result.exit_code == 0
+
+    def test_apply_gates_policy_path_applies_warning(self, tmp_path: Path) -> None:
+        summary = tmp_path / "summary.json"
+        policy = tmp_path / "policy.json"
+        summary.write_text(
+            json.dumps(
+                {
+                    "items": [
+                        {
+                            "file": "examples/x.csv",
+                            "grade": "A",
+                            "hard_count": 0,
+                            "total_cost": 0.0,
+                            "per_rule_summary": {"O-004": {"count": 1, "total_cost": 0.5}},
+                        }
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        policy.write_text(json.dumps({"warn_on_rule": ["O-004"]}), encoding="utf-8")
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "apply-gates",
+                str(summary),
+                "--policy-path",
+                str(policy),
+                "--json",
+            ],
+        )
+        assert result.exit_code == 0
+        payload = json.loads(result.stdout)
+        assert payload["items"][0]["quality_warnings"]
+
+    def test_pipeline_voiced_batch_fail_on_rule_exit_1(self, tmp_path: Path) -> None:
+        a = tmp_path / "eis_e3_harmonized.csv"
+        payload = (
+            "bar,chord_midis,melody_qn_midis\n"
+            "1,48|52|55|59,59|60|62|62\n"
+            "2,46|51|55|62,62|61|61|61\n"
+        )
+        a.write_text(payload, encoding="utf-8")
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "pipeline-voiced-batch",
+                str(tmp_path / "eis_*_harmonized.csv"),
+                "--out-dir",
+                str(tmp_path / "out"),
+                "--ruleset",
+                "EIS",
+                "--fail-on-rule",
+                "O-004",
+            ],
+        )
+        assert result.exit_code == 1
+
+    def test_pipeline_voiced_batch_warn_only_keeps_exit_0(self, tmp_path: Path) -> None:
+        a = tmp_path / "eis_e3_harmonized.csv"
+        payload = (
+            "bar,chord_midis,melody_qn_midis\n"
+            "1,48|52|55|59,59|60|62|62\n"
+            "2,46|51|55|62,62|61|61|61\n"
+        )
+        a.write_text(payload, encoding="utf-8")
+        result = runner.invoke(
+            cli_module.app,
+            [
+                "progression",
+                "pipeline-voiced-batch",
+                str(tmp_path / "eis_*_harmonized.csv"),
+                "--out-dir",
+                str(tmp_path / "out"),
+                "--ruleset",
+                "EIS",
+                "--warn-on-rule",
+                "O-004",
+                "--json",
+            ],
+        )
+        assert result.exit_code == 0
+        payload_json = json.loads(result.stdout)
+        assert payload_json["items"][0]["quality_warnings"]

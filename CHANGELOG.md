@@ -7,11 +7,37 @@ and the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format.
 
 ## [Unreleased]
 
+### Added
+
+- **Deterministic, rule-driven style generator** under
+  `music_rules.core.generate`. Reads a `StyleProfile` (Pydantic-validated
+  JSON in `data/styles/`) and renders multi-track MIDI with a seeded
+  RNG: drums on GM channel 10, bass / lead / pad on melodic channels.
+  One module per role (`drums.py`, `bass.py`, `lead.py`, `chords.py`)
+  plus a thin orchestrator (`generator.py`).
+- First bundled style profile: `dre_1990s_gangsta.json` — 92 BPM
+  G-funk minor vamp (A natural minor i–VI), boom-bap kick/snare/hat,
+  chromatic walking bass, sparse Moog blue-note lead, sustained pad.
+- Runnable example `examples/dre_1990s_gangsta.py` — writes a
+  deterministic `.mid` for any `--seed`.
+- New event-based `core/generate/midi_write.py`: the existing
+  `rolls_to_midi` collapses consecutive identical pitches, which is
+  fatal for drum loops. The new writer emits discrete `note_on` /
+  `note_off` events per hit and supports per-track GM channel.
+- Tests (`tests/test_generate_dre.py`, 7 cases) covering: seeded
+  determinism, every bass downbeat is the chord root, every bar ends
+  one chromatic semitone from the next downbeat, drum pattern
+  reproduces the profile hit-count exactly, B-section velocity boost
+  applies, MIDI round-trips through `mido`.
+
 ### Changed
 
 - Repo-wide cleanup pass: `ruff check` + `ruff format` clean across
   `src/` and `tests/`; `mypy src/music_rules/core` reports zero
   errors. No behavior change to any public API.
+- Reporting refactor: batch-summary and summary-diff markdown rendering plus
+  diff classification are now reusable helpers in
+  `music_rules.core.reporting`; CLI commands call these shared core functions.
 - Moved `fastapi` and `uvicorn` from runtime dependencies into a new
   optional `[api]` extra. The planned `adapters/api.py` route surface
   is the only consumer; default installs are now smaller.
@@ -33,6 +59,64 @@ and the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format.
 ## [0.2.0] — 2026-05-23
 
 ### Added
+
+- CLI workflow upgrades for table-first composition and report triage:
+  - `music-rules progression render-csv <progression.csv> <lexicon.json> <out.mid>`
+    renders chord progression tables directly to a MIDI file on disk (with
+    strict/lenient handling for unresolved symbols).
+  - `music-rules progression render-voiced-csv <voiced.csv> <out.mid>`
+    renders pre-voiced bar tables (like `examples/eis_*_harmonized.csv`)
+    directly to MIDI, with optional melody inclusion.
+  - `music-rules progression render-voiced-batch "<glob>" [--out-dir ...]`
+    batch-renders multiple voiced CSV files in one command.
+  - Optional WAV synthesis for `render-voiced-csv` and
+    `render-voiced-batch` via `--write-wav` (uses `fluidsynth` + soundfont,
+    or `timidity` as fallback). If `fluidsynth` is present and no soundfont is
+    passed, the CLI now auto-selects a default `.sf2/.sf3` when available.
+  - `music-rules progression find-soundfonts` scans common Linux locations for
+    `.sf2/.sf3` files to simplify WAV rendering setup.
+  - `music-rules progression audit-voiced-csv <voiced.csv> ...` evaluates a
+    voiced table directly and prints a fix-priority summary (optionally writes
+    full JSON via `--report-out` / `--json`).
+  - `music-rules progression audit-voiced-batch "<glob>" [--summary-out ...]`
+    evaluates many voiced CSV tables at once and emits a compact JSON summary
+    (also supports `--json` stdout).
+  - `music-rules progression pipeline-voiced-batch "<glob>" ...` runs
+    render (+ optional WAV) and audit in one pass, producing a single
+    machine-readable summary payload.
+  - `music-rules progression summary-markdown <summary.json>` converts batch
+    summary JSON into a readable markdown report (`--failures-only`,
+    `--sort-by`, `--top-n` supported).
+  - `music-rules progression apply-gates <summary.json>` reapplies quality
+    policies to existing summary payloads without rerunning render/audit.
+  - Quality gates for audit/pipeline commands:
+    `--min-grade`, `--max-total-cost`, `--max-hard-count`,
+    `--fail-on-rule`, `--max-rule-total-cost`, plus non-fatal warning
+    policies via `--warn-on-rule` and `--warn-rule-total-cost`.
+  - `music-rules evaluate-explain <report.json> [--json]` summarizes an
+    `evaluate_passage` report into fix-priority rule buckets.
+  - New core helper module `music_rules.core.reporting` plus tests for report
+    aggregation and formatting.
+- Progression gate policies can now be loaded from reusable JSON files via
+  `--policy-path` on `audit-voiced-csv`, `audit-voiced-batch`,
+  `pipeline-voiced-batch`, and `apply-gates`; CLI overrides still take
+  precedence for iterative tuning.
+- Added `music-rules progression policy-template` to print or write a starter
+  gate/warning policy JSON payload.
+- Added `music-rules progression summary-diff <baseline.json> <candidate.json>`
+  to compare two batch summaries and surface regressions/improvements by file
+  (machine-readable via `--json`, markdown via default/out-path).
+- Added `music-rules progression summary-history "<glob>"` to aggregate
+  multiple summary runs into a trend view with regressions/improvements vs
+  previous run (and optional `--fail-on-regressions` for CI guardrails).
+- `summary-history` now emits latest regression/improvement file lists and
+  supports stricter CI gating via `--fail-on-latest-regression` and
+  `--max-total-regressions`.
+- Latest summary-history output now includes per-file latest deltas
+  (cost/hard/grade) and adds `--max-latest-regressions` plus `--top-n-latest`.
+- `summary-diff` now supports `--only-regressions` for compact triage output.
+- `summary-history` now supports `--latest-only` to focus output/gating on the
+  newest run.
 
 - **Phase 8 — full EIS composer, SkyTNT generation, voice-range
   constraints, per-voice instruments, Cowork compose skill.** All

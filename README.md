@@ -94,6 +94,48 @@ print(report["hard_violations"])
 music-rules rules list --system Fux
 music-rules rules show H1_1
 music-rules evaluate path/to/piece.json --species 1 --strict
+music-rules progression render-csv data/chord_tables/progression_template.csv \
+  data/chord_tables/chord_lexicon.json examples/from_table.mid
+music-rules progression render-voiced-csv examples/eis_e3_harmonized.csv \
+  examples/eis_e3_harmonized_cli.mid
+music-rules progression render-voiced-batch "examples/eis_*_harmonized.csv" \
+  --out-dir examples
+music-rules progression render-voiced-batch "examples/eis_*_harmonized.csv" \
+  --out-dir examples --write-wav --soundfont-path /path/to/GeneralUser.sf2
+# soundfont is optional when fluidsynth is installed; a default is auto-picked if found
+music-rules progression find-soundfonts --json
+music-rules progression audit-voiced-csv examples/eis_e3_harmonized.csv \
+  --ruleset EIS --min-grade B --max-total-cost 10 \
+  --fail-on-rule O-004 --max-rule-total-cost O-001=5 \
+  --warn-on-rule O-002 --warn-rule-total-cost O-004=2 \
+  --report-out examples/eis_e3_audit.json
+music-rules progression audit-voiced-batch "examples/eis_*_harmonized.csv" \
+  --ruleset EIS --min-grade B --summary-out examples/eis_audit_summary.json
+music-rules progression audit-voiced-batch "examples/eis_*_harmonized.csv" \
+  --ruleset EIS --json
+music-rules progression pipeline-voiced-batch "examples/eis_*_harmonized.csv" \
+  --out-dir examples --write-wav --ruleset EIS --min-grade B \
+  --fail-on-rule O-002 \
+  --summary-out examples/eis_pipeline_summary.json
+music-rules progression summary-markdown examples/eis_pipeline_summary.json \
+  --out-path examples/eis_pipeline_summary.md
+music-rules progression summary-diff examples/eis_pipeline_summary_prev.json \
+  examples/eis_pipeline_summary.json --out-path examples/eis_pipeline_diff.md
+music-rules progression summary-diff examples/eis_pipeline_summary_prev.json \
+  examples/eis_pipeline_summary.json --only-regressions
+music-rules progression summary-history "examples/eis_pipeline_summary*.json" \
+  --sort-by name --out-path examples/eis_pipeline_history.md
+music-rules progression summary-history "examples/eis_pipeline_summary*.json" \
+  --fail-on-latest-regression --max-total-regressions 0 --max-latest-regressions 0
+music-rules progression summary-history "examples/eis_pipeline_summary*.json" \
+  --latest-only --top-n-latest 5
+music-rules progression summary-markdown examples/eis_pipeline_summary.json \
+  --failures-only --sort-by cost --descending --top-n 5
+music-rules progression apply-gates examples/eis_pipeline_summary.json \
+  --min-grade B --fail-on-rule O-002 --out-path examples/eis_pipeline_regated.json
+music-rules progression policy-template --out-path examples/gate_policy.json
+music-rules progression audit-voiced-batch "examples/eis_*_harmonized.csv" \
+  --ruleset EIS --policy-path examples/gate_policy.json --summary-out examples/eis_audit_summary.json
 ```
 
 ```jsonc
@@ -113,6 +155,16 @@ bridge tools (`chord_progression_to_rolls`, `chord_progression_to_midi`,
 `chord_progression_csv_to_midi`). See
 `examples/opencode_chord_progression_example.json` and the generated tables
 under `data/chord_tables/`.
+
+### Evaluate report triage
+
+If you already have an `evaluate_passage` JSON report and want a compact
+"what should I fix first?" summary:
+
+```bash
+music-rules evaluate-explain path/to/report.json
+music-rules evaluate-explain path/to/report.json --json
+```
 
 ## How it's organized
 
