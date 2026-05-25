@@ -1,0 +1,207 @@
+{
+  "name": "Spaghetti Western",
+  "description": "E minor i–iv–V, 86 BPM western.",
+  "tempo_bpm": 86,
+  "swing": 0.55,
+  "meter": "4/4",
+  "key": {
+    "tonic": "E",
+    "mode": "natural_minor"
+  },
+  "harmony": {
+    "chord_vamp": [
+      {
+        "chord": "Em",
+        "bars": 1
+      },
+      {
+        "chord": "Am",
+        "bars": 1
+      },
+      {
+        "chord": "B7",
+        "bars": 1
+      },
+      {
+        "chord": "Em",
+        "bars": 1
+      }
+    ],
+    "voicing": {
+      "Em": [
+        52,
+        55,
+        59
+      ],
+      "Am": [
+        57,
+        60,
+        64
+      ],
+      "B7": [
+        47,
+        51,
+        53,
+        57
+      ]
+    },
+    "chord_roots": {
+      "Em": "E",
+      "Am": "A",
+      "B7": "B"
+    }
+  },
+  "drums": {
+    "pattern_resolution": "8th",
+    "pattern_spec": "sparse",
+    "pattern": {
+      "kick": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "snare": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "hihat": [
+        1,
+        0,
+        1,
+        0,
+        1,
+        0,
+        1,
+        0
+      ]
+    },
+    "midi_notes": {
+      "kick": 36,
+      "snare": 38,
+      "hihat": 42
+    },
+    "velocity": {
+      "kick": 100,
+      "snare": 92,
+      "hihat": 55
+    },
+    "humanize_velocity": 8
+  },
+  "bass": {
+    "program": 43,
+    "octave": 2,
+    "scale_pool": [
+      "E",
+      "F#",
+      "G",
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "rules": {
+      "downbeat_must_be_chord_root": true,
+      "approach_downbeat_with_chromatic_step": true,
+      "chromatic_approach_direction": "below_or_above",
+      "syncopation_probability": 0.4,
+      "rest_probability": 0.2,
+      "max_leap_semitones": 7
+    },
+    "rhythm_cells_beats": [
+      [
+        2.0,
+        2.0
+      ],
+      [
+        1.5,
+        0.5,
+        2.0
+      ],
+      [
+        2.0,
+        1.0,
+        1.0
+      ]
+    ],
+    "velocity": 95
+  },
+  "lead": {
+    "program": 22,
+    "octave": 5,
+    "scale_pool": [
+      "E",
+      "F#",
+      "G",
+      "Ab",
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "rules": {
+      "active_on_bars_in_phrase": [
+        1,
+        3
+      ],
+      "phrase_length_beats": [
+        2,
+        3,
+        4
+      ],
+      "max_leap_semitones": 7,
+      "emphasize_blue_note": "Ab",
+      "rest_probability_per_bar": 0.5
+    },
+    "rhythm_cells_beats": [
+      [
+        1.0,
+        1.0,
+        2.0
+      ],
+      [
+        0.5,
+        0.5,
+        1.0,
+        2.0
+      ],
+      [
+        2.0,
+        1.0,
+        1.0
+      ],
+      [
+        4.0
+      ]
+    ],
+    "velocity": 88
+  },
+  "chord_pad": {
+    "program": 24,
+    "velocity": 50,
+    "octave_offset": 0
+  },
+  "form": {
+    "structure": [
+      "A",
+      "A",
+      "A",
+      "B"
+    ],
+    "bars_per_section": 4,
+    "B_section": {
+      "lead_active_on_all_bars": true,
+      "drum_velocity_boost": 10
+    }
+  }
+}

@@ -1,0 +1,219 @@
+{
+  "name": "Synthwave 80s",
+  "description": "C# minor 80s synthwave, 100 BPM.",
+  "tempo_bpm": 100,
+  "swing": 0.5,
+  "meter": "4/4",
+  "key": {
+    "tonic": "C#",
+    "mode": "natural_minor"
+  },
+  "harmony": {
+    "chord_vamp": [
+      {
+        "chord": "C#m",
+        "bars": 1
+      },
+      {
+        "chord": "A",
+        "bars": 1
+      },
+      {
+        "chord": "E",
+        "bars": 1
+      },
+      {
+        "chord": "B",
+        "bars": 1
+      }
+    ],
+    "voicing": {
+      "C#m": [
+        49,
+        52,
+        56
+      ],
+      "A": [
+        45,
+        49,
+        52
+      ],
+      "E": [
+        52,
+        56,
+        59
+      ],
+      "B": [
+        47,
+        51,
+        54
+      ]
+    },
+    "chord_roots": {
+      "C#m": "C#",
+      "A": "A",
+      "E": "E",
+      "B": "B"
+    }
+  },
+  "drums": {
+    "pattern_resolution": "8th",
+    "pattern_spec": "gated-80s",
+    "pattern": {
+      "kick": [
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "snare": [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "hihat": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "midi_notes": {
+      "kick": 36,
+      "snare": 38,
+      "hihat": 42
+    },
+    "velocity": {
+      "kick": 118,
+      "snare": 120,
+      "hihat": 70
+    },
+    "humanize_velocity": 2
+  },
+  "bass": {
+    "program": 38,
+    "octave": 2,
+    "scale_pool": [
+      "C#",
+      "D#",
+      "E",
+      "F#",
+      "G#",
+      "A",
+      "B"
+    ],
+    "rules": {
+      "downbeat_must_be_chord_root": true,
+      "approach_downbeat_with_chromatic_step": true,
+      "chromatic_approach_direction": "below_or_above",
+      "syncopation_probability": 0.3,
+      "rest_probability": 0.05,
+      "max_leap_semitones": 7
+    },
+    "rhythm_cells_beats": [
+      [
+        1.0,
+        0.5,
+        0.5,
+        1.0,
+        0.5,
+        0.5
+      ],
+      [
+        1.0,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1.0
+      ],
+      [
+        1.5,
+        0.5,
+        1.0,
+        1.0
+      ]
+    ],
+    "velocity": 95
+  },
+  "lead": {
+    "program": 81,
+    "octave": 5,
+    "scale_pool": [
+      "C#",
+      "D#",
+      "E",
+      "F#",
+      "G#",
+      "A",
+      "B"
+    ],
+    "rules": {
+      "active_on_bars_in_phrase": [
+        1,
+        2,
+        3
+      ],
+      "phrase_length_beats": [
+        2,
+        3,
+        4
+      ],
+      "max_leap_semitones": 5,
+      "emphasize_blue_note": "G",
+      "rest_probability_per_bar": 0.2
+    },
+    "rhythm_cells_beats": [
+      [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      [
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        1.0,
+        1.0
+      ]
+    ],
+    "velocity": 88
+  },
+  "chord_pad": {
+    "program": 90,
+    "velocity": 50,
+    "octave_offset": 0
+  },
+  "form": {
+    "structure": [
+      "A",
+      "A",
+      "A",
+      "B"
+    ],
+    "bars_per_section": 4,
+    "B_section": {
+      "lead_active_on_all_bars": true,
+      "drum_velocity_boost": 10
+    }
+  }
+}
