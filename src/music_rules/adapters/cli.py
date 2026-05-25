@@ -37,6 +37,7 @@ import json
 import shutil
 import subprocess
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -52,6 +53,17 @@ from music_rules.core.midi import render as midi_render
 
 _GRADE_ORDER: dict[str, int] = {"A": 5, "B": 4, "C": 3, "D": 2, "F": 1}
 _PREFERRED_SF2_NAMES: tuple[str, ...] = ("FluidR3_GM.sf2", "TimGM6mb.sf2", "default-GM.sf2")
+
+
+@dataclass(frozen=True)
+class GatePolicy:
+    min_grade: str | None
+    max_total_cost: float | None
+    max_hard_count: int | None
+    fail_on_rule: list[str]
+    max_rule_total_cost: dict[str, float]
+    warn_on_rule: list[str]
+    warn_rule_total_cost: dict[str, float]
 
 # ---------------------------------------------------------------------------
 # Top-level Typer app
@@ -589,6 +601,21 @@ def progression_audit_voiced_csv(
         "--max-rule-total-cost",
         help="Per-rule cost cap as RULE_ID=FLOAT (repeatable).",
     ),
+    warn_on_rule: list[str] = typer.Option(
+        [],
+        "--warn-on-rule",
+        help="Rule ID to warn on (repeatable, non-failing).",
+    ),
+    warn_rule_total_cost: list[str] = typer.Option(
+        [],
+        "--warn-rule-total-cost",
+        help="Per-rule warning cap as RULE_ID=FLOAT (repeatable).",
+    ),
+    policy_path: Path | None = typer.Option(
+        None,
+        "--policy-path",
+        help="Path to JSON policy file for gate/warn settings.",
+    ),
     report_out: Path | None = typer.Option(None, "--report-out"),
     as_json: bool = typer.Option(False, "--json"),
 ) -> None:
@@ -607,13 +634,13 @@ def progression_audit_voiced_csv(
         typer.echo(f"error: {exc}", err=True)
         raise typer.Exit(code=2) from exc
 
-    piece: dict[str, Any] = {
-        "voices": voices,
-        "meter": meter,
-        "key": key,
-        "species": species,
-        "cantus_firmus_voice": cantus_firmus_voice,
-    }
+    piece = _build_passage_piece(
+        voices=voices,
+        meter=meter,
+        key=key,
+        species=species,
+        cantus_firmus_voice=cantus_firmus_voice,
+    )
     report = core_evaluate.evaluate_passage(piece, ruleset=ruleset, strict=strict)
 
     if report_out is not None:
@@ -625,20 +652,33 @@ def progression_audit_voiced_csv(
     else:
         typer.echo(core_reporting.format_passage_report_summary(report))
 
-    if report["hard_violations"]:
-        raise typer.Exit(code=1)
-    try:
-        rule_cost_limits = _parse_rule_cost_limits(max_rule_total_cost)
-    except ValueError as exc:
-        typer.echo(f"error: {exc}", err=True)
-        raise typer.Exit(code=2) from exc
-    gate_msg = _quality_gate_failure(
-        report,
+    gate_policy = _resolve_gate_policy_or_exit(
+        policy_path=policy_path,
         min_grade=min_grade,
         max_total_cost=max_total_cost,
         max_hard_count=max_hard_count,
         fail_on_rule=fail_on_rule,
-        max_rule_total_cost=rule_cost_limits,
+        max_rule_total_cost=max_rule_total_cost,
+        warn_on_rule=warn_on_rule,
+        warn_rule_total_cost=warn_rule_total_cost,
+    )
+    warnings = _quality_gate_warnings(
+        report,
+        warn_on_rule=gate_policy.warn_on_rule,
+        warn_rule_total_cost=gate_policy.warn_rule_total_cost,
+    )
+    for msg in warnings:
+        typer.echo(f"warn: {msg}", err=True)
+
+    if report["hard_violations"]:
+        raise typer.Exit(code=1)
+    gate_msg = _quality_gate_failure(
+        report,
+        min_grade=gate_policy.min_grade,
+        max_total_cost=gate_policy.max_total_cost,
+        max_hard_count=gate_policy.max_hard_count,
+        fail_on_rule=gate_policy.fail_on_rule,
+        max_rule_total_cost=gate_policy.max_rule_total_cost,
     )
     if gate_msg is not None:
         typer.echo(f"error: {gate_msg}", err=True)
@@ -674,6 +714,21 @@ def progression_audit_voiced_batch(
         "--max-rule-total-cost",
         help="Per-rule cost cap as RULE_ID=FLOAT (repeatable).",
     ),
+    warn_on_rule: list[str] = typer.Option(
+        [],
+        "--warn-on-rule",
+        help="Rule ID to warn on (repeatable, non-failing).",
+    ),
+    warn_rule_total_cost: list[str] = typer.Option(
+        [],
+        "--warn-rule-total-cost",
+        help="Per-rule warning cap as RULE_ID=FLOAT (repeatable).",
+    ),
+    policy_path: Path | None = typer.Option(
+        None,
+        "--policy-path",
+        help="Path to JSON policy file for gate/warn settings.",
+    ),
     summary_out: Path | None = typer.Option(None, "--summary-out"),
     as_json: bool = typer.Option(False, "--json"),
 ) -> None:
@@ -683,11 +738,16 @@ def progression_audit_voiced_batch(
         typer.echo(f"error: no files matched {glob_pattern!r}", err=True)
         raise typer.Exit(code=2)
 
-    try:
-        rule_cost_limits = _parse_rule_cost_limits(max_rule_total_cost)
-    except ValueError as exc:
-        typer.echo(f"error: {exc}", err=True)
-        raise typer.Exit(code=2) from exc
+    gate_policy = _resolve_gate_policy_or_exit(
+        policy_path=policy_path,
+        min_grade=min_grade,
+        max_total_cost=max_total_cost,
+        max_hard_count=max_hard_count,
+        fail_on_rule=fail_on_rule,
+        max_rule_total_cost=max_rule_total_cost,
+        warn_on_rule=warn_on_rule,
+        warn_rule_total_cost=warn_rule_total_cost,
+    )
     summary_items: list[dict[str, Any]] = []
     hard_failures = 0
     parse_failures = 0
@@ -711,13 +771,13 @@ def progression_audit_voiced_batch(
             )
             continue
 
-        piece: dict[str, Any] = {
-            "voices": voices,
-            "meter": meter,
-            "key": key,
-            "species": species,
-            "cantus_firmus_voice": cantus_firmus_voice,
-        }
+        piece = _build_passage_piece(
+            voices=voices,
+            meter=meter,
+            key=key,
+            species=species,
+            cantus_firmus_voice=cantus_firmus_voice,
+        )
         report = core_evaluate.evaluate_passage(piece, ruleset=ruleset, strict=strict)
         hard_count = len(report["hard_violations"])
         if hard_count:
@@ -729,13 +789,21 @@ def progression_audit_voiced_batch(
                 f"cost={report['total_cost']}"
             )
         summary = core_reporting.summarize_passage_report(report)
+        warnings = _quality_gate_warnings(
+            report,
+            warn_on_rule=gate_policy.warn_on_rule,
+            warn_rule_total_cost=gate_policy.warn_rule_total_cost,
+        )
+        if warnings and not as_json:
+            for msg in warnings:
+                typer.echo(f"{csv_path.name}: warn={msg}")
         gate_msg = _quality_gate_failure(
             report,
-            min_grade=min_grade,
-            max_total_cost=max_total_cost,
-            max_hard_count=max_hard_count,
-            fail_on_rule=fail_on_rule,
-            max_rule_total_cost=rule_cost_limits,
+            min_grade=gate_policy.min_grade,
+            max_total_cost=gate_policy.max_total_cost,
+            max_hard_count=gate_policy.max_hard_count,
+            fail_on_rule=gate_policy.fail_on_rule,
+            max_rule_total_cost=gate_policy.max_rule_total_cost,
         )
         if gate_msg is not None:
             quality_failures += 1
@@ -747,7 +815,9 @@ def progression_audit_voiced_batch(
                 "hard_count": hard_count,
                 "soft_count": len(report["soft_violations"]),
                 "total_cost": report["total_cost"],
+                "per_rule_summary": report.get("per_rule_summary", {}),
                 "quality_gate_error": gate_msg,
+                "quality_warnings": warnings,
                 "top_hard_rules": summary["top_hard_rules"],
                 "top_soft_rules": summary["top_soft_rules"],
             }
@@ -833,6 +903,21 @@ def progression_pipeline_voiced_batch(
         "--max-rule-total-cost",
         help="Per-rule cost cap as RULE_ID=FLOAT (repeatable).",
     ),
+    warn_on_rule: list[str] = typer.Option(
+        [],
+        "--warn-on-rule",
+        help="Rule ID to warn on (repeatable, non-failing).",
+    ),
+    warn_rule_total_cost: list[str] = typer.Option(
+        [],
+        "--warn-rule-total-cost",
+        help="Per-rule warning cap as RULE_ID=FLOAT (repeatable).",
+    ),
+    policy_path: Path | None = typer.Option(
+        None,
+        "--policy-path",
+        help="Path to JSON policy file for gate/warn settings.",
+    ),
     summary_out: Path | None = typer.Option(None, "--summary-out"),
     as_json: bool = typer.Option(False, "--json"),
 ) -> None:
@@ -850,11 +935,16 @@ def progression_pipeline_voiced_batch(
     hard_failures = 0
     wav_failures = 0
     quality_failures = 0
-    try:
-        rule_cost_limits = _parse_rule_cost_limits(max_rule_total_cost)
-    except ValueError as exc:
-        typer.echo(f"error: {exc}", err=True)
-        raise typer.Exit(code=2) from exc
+    gate_policy = _resolve_gate_policy_or_exit(
+        policy_path=policy_path,
+        min_grade=min_grade,
+        max_total_cost=max_total_cost,
+        max_hard_count=max_hard_count,
+        fail_on_rule=fail_on_rule,
+        max_rule_total_cost=max_rule_total_cost,
+        warn_on_rule=warn_on_rule,
+        warn_rule_total_cost=warn_rule_total_cost,
+    )
 
     for csv_path in matches:
         with csv_path.open("r", encoding="utf-8", newline="") as fh:
@@ -907,25 +997,30 @@ def progression_pipeline_voiced_batch(
                 wav_failures += 1
                 wav_warning = msg
 
-        piece: dict[str, Any] = {
-            "voices": voices,
-            "meter": meter,
-            "key": key,
-            "species": species,
-            "cantus_firmus_voice": cantus_firmus_voice,
-        }
+        piece = _build_passage_piece(
+            voices=voices,
+            meter=meter,
+            key=key,
+            species=species,
+            cantus_firmus_voice=cantus_firmus_voice,
+        )
         report = core_evaluate.evaluate_passage(piece, ruleset=ruleset, strict=strict)
         hard_count = len(report["hard_violations"])
         if hard_count:
             hard_failures += 1
         summary = core_reporting.summarize_passage_report(report)
+        warnings = _quality_gate_warnings(
+            report,
+            warn_on_rule=gate_policy.warn_on_rule,
+            warn_rule_total_cost=gate_policy.warn_rule_total_cost,
+        )
         gate_msg = _quality_gate_failure(
             report,
-            min_grade=min_grade,
-            max_total_cost=max_total_cost,
-            max_hard_count=max_hard_count,
-            fail_on_rule=fail_on_rule,
-            max_rule_total_cost=rule_cost_limits,
+            min_grade=gate_policy.min_grade,
+            max_total_cost=gate_policy.max_total_cost,
+            max_hard_count=gate_policy.max_hard_count,
+            fail_on_rule=gate_policy.fail_on_rule,
+            max_rule_total_cost=gate_policy.max_rule_total_cost,
         )
         if gate_msg is not None:
             quality_failures += 1
@@ -936,10 +1031,12 @@ def progression_pipeline_voiced_batch(
             "hard_count": hard_count,
             "soft_count": len(report["soft_violations"]),
             "total_cost": report["total_cost"],
+            "per_rule_summary": report.get("per_rule_summary", {}),
             "midi_out": str(midi_out),
             "wav_out": wav_out,
             "wav_warning": wav_warning,
             "quality_gate_error": gate_msg,
+            "quality_warnings": warnings,
             "top_hard_rules": summary["top_hard_rules"],
             "top_soft_rules": summary["top_soft_rules"],
         }
@@ -975,6 +1072,360 @@ def progression_pipeline_voiced_batch(
         )
     if parse_failures or hard_failures or quality_failures or (wav_required and wav_failures):
         raise typer.Exit(code=1)
+
+
+@progression_app.command("summary-markdown")
+def progression_summary_markdown(
+    summary_path: Path = typer.Argument(
+        ...,
+        exists=True,
+        readable=True,
+        file_okay=True,
+        dir_okay=False,
+        help="Path to a batch summary JSON (audit/pipeline output).",
+    ),
+    out_path: Path | None = typer.Option(None, "--out-path"),
+    failures_only: bool = typer.Option(False, "--failures-only"),
+    top_n: int | None = typer.Option(None, "--top-n", min=1),
+    sort_by: str = typer.Option("cost", "--sort-by", help="cost | grade | hard | soft | file"),
+    descending: bool = typer.Option(True, "--descending/--ascending"),
+) -> None:
+    """Convert a batch summary JSON payload into a markdown report."""
+    payload = _load_summary_payload_or_exit(summary_path)
+    items = payload["items"]
+
+    if failures_only:
+        items = [it for it in items if not bool(it.get("ok", False))]
+    try:
+        ordered = core_reporting.sort_batch_summary_items(
+            items, sort_by=sort_by, descending=descending
+        )
+    except ValueError as exc:
+        typer.echo(f"error: {exc}", err=True)
+        raise typer.Exit(code=2) from exc
+    if top_n is not None:
+        ordered = ordered[:top_n]
+    md = core_reporting.format_batch_summary_markdown(payload | {"items": ordered})
+    if out_path is not None:
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(md, encoding="utf-8")
+        typer.echo(f"Wrote {out_path}")
+        return
+    typer.echo(md)
+
+
+@progression_app.command("summary-diff")
+def progression_summary_diff(
+    baseline_path: Path = typer.Argument(
+        ...,
+        exists=True,
+        readable=True,
+        file_okay=True,
+        dir_okay=False,
+        help="Path to baseline summary JSON.",
+    ),
+    candidate_path: Path = typer.Argument(
+        ...,
+        exists=True,
+        readable=True,
+        file_okay=True,
+        dir_okay=False,
+        help="Path to candidate summary JSON.",
+    ),
+    only_regressions: bool = typer.Option(False, "--only-regressions"),
+    out_path: Path | None = typer.Option(None, "--out-path"),
+    as_json: bool = typer.Option(False, "--json"),
+) -> None:
+    """Compare two batch summaries and report quality regressions/improvements."""
+    baseline_payload = _load_summary_payload_or_exit(baseline_path)
+    candidate_payload = _load_summary_payload_or_exit(candidate_path)
+    diff_payload = core_reporting.build_summary_diff(
+        baseline_payload=baseline_payload,
+        candidate_payload=candidate_payload,
+    )
+    display_payload = diff_payload
+    if only_regressions:
+        display_payload = {
+            **diff_payload,
+            "items": [
+                item
+                for item in diff_payload.get("items", [])
+                if str(item.get("status", "")) == "regression"
+            ],
+        }
+
+    if as_json:
+        text = json.dumps(display_payload, indent=2)
+    else:
+        text = core_reporting.format_summary_diff_markdown(
+            diff_payload,
+            only_regressions=only_regressions,
+        )
+
+    if out_path is not None:
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(text + ("" if text.endswith("\n") else "\n"), encoding="utf-8")
+        typer.echo(f"Wrote {out_path}")
+    else:
+        typer.echo(text)
+
+    if diff_payload["regressions"] > 0:
+        raise typer.Exit(code=1)
+
+
+@progression_app.command("summary-history")
+def progression_summary_history(
+    glob_pattern: str = typer.Argument(
+        "examples/*summary*.json",
+        help="Glob pattern for ordered summary JSON files.",
+    ),
+    sort_by: str = typer.Option("name", "--sort-by", help="name | mtime"),
+    descending: bool = typer.Option(False, "--descending/--ascending"),
+    fail_on_regressions: bool = typer.Option(False, "--fail-on-regressions"),
+    fail_on_latest_regression: bool = typer.Option(False, "--fail-on-latest-regression"),
+    max_total_regressions: int | None = typer.Option(None, "--max-total-regressions", min=0),
+    max_latest_regressions: int | None = typer.Option(None, "--max-latest-regressions", min=0),
+    top_n_latest: int = typer.Option(10, "--top-n-latest", min=1),
+    latest_only: bool = typer.Option(False, "--latest-only"),
+    out_path: Path | None = typer.Option(None, "--out-path"),
+    as_json: bool = typer.Option(False, "--json"),
+) -> None:
+    """Build trend view across multiple summary JSON runs."""
+    paths = [Path(p) for p in glob.glob(glob_pattern)]
+    if not paths:
+        typer.echo(f"error: no files matched {glob_pattern!r}", err=True)
+        raise typer.Exit(code=2)
+
+    key = sort_by.lower()
+    if key not in {"name", "mtime"}:
+        typer.echo("error: invalid --sort-by (expected name|mtime)", err=True)
+        raise typer.Exit(code=2)
+    if key == "mtime":
+        paths.sort(key=lambda p: p.stat().st_mtime, reverse=descending)
+    else:
+        paths.sort(key=lambda p: str(p), reverse=descending)
+
+    runs: list[dict[str, Any]] = []
+    for path in paths:
+        payload = _load_summary_payload_or_exit(path)
+        runs.append(
+            {
+                "path": str(path),
+                "file_count": int(payload.get("file_count", len(payload.get("items", [])))),
+                "hard_failures": int(payload.get("hard_failures", 0)),
+                "parse_failures": int(payload.get("parse_failures", 0)),
+                "quality_failures": int(payload.get("quality_failures", 0)),
+                "wav_failures": int(payload.get("wav_failures", 0)),
+                "payload": payload,
+            }
+        )
+
+    history = core_reporting.build_summary_history(runs)
+    history_view = history
+    if latest_only and history.get("runs"):
+        latest_run = history["runs"][-1]
+        history_view = {
+            **history,
+            "run_count": 1,
+            "total_regressions": int(latest_run.get("regressions_vs_prev", 0)),
+            "total_improvements": int(latest_run.get("improvements_vs_prev", 0)),
+            "runs": [latest_run],
+        }
+    if as_json:
+        text = json.dumps(history_view, indent=2)
+    else:
+        text = core_reporting.format_summary_history_markdown(
+            history_view,
+            top_n_latest=top_n_latest,
+        )
+
+    if out_path is not None:
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(text + ("" if text.endswith("\n") else "\n"), encoding="utf-8")
+        typer.echo(f"Wrote {out_path}")
+    else:
+        typer.echo(text)
+
+    total_regressions = int(history_view.get("total_regressions", 0))
+    latest_regressions = len(history_view.get("latest_regression_files", []) or [])
+    should_fail = False
+    if fail_on_regressions and total_regressions > 0:
+        should_fail = True
+    if fail_on_latest_regression and latest_regressions > 0:
+        should_fail = True
+    if max_total_regressions is not None and total_regressions > max_total_regressions:
+        should_fail = True
+    if max_latest_regressions is not None and latest_regressions > max_latest_regressions:
+        should_fail = True
+    if should_fail:
+        raise typer.Exit(code=1)
+
+
+@progression_app.command("apply-gates")
+def progression_apply_gates(
+    summary_path: Path = typer.Argument(
+        ...,
+        exists=True,
+        readable=True,
+        file_okay=True,
+        dir_okay=False,
+        help="Path to an audit/pipeline summary JSON payload.",
+    ),
+    min_grade: str | None = typer.Option(None, "--min-grade", help="A | B | C | D | F"),
+    max_total_cost: float | None = typer.Option(None, "--max-total-cost"),
+    max_hard_count: int | None = typer.Option(None, "--max-hard-count", min=0),
+    fail_on_rule: list[str] = typer.Option(
+        [],
+        "--fail-on-rule",
+        help="Rule ID that must have zero hits (repeatable).",
+    ),
+    max_rule_total_cost: list[str] = typer.Option(
+        [],
+        "--max-rule-total-cost",
+        help="Per-rule cost cap as RULE_ID=FLOAT (repeatable).",
+    ),
+    warn_on_rule: list[str] = typer.Option(
+        [],
+        "--warn-on-rule",
+        help="Rule ID to warn on (repeatable, non-failing).",
+    ),
+    warn_rule_total_cost: list[str] = typer.Option(
+        [],
+        "--warn-rule-total-cost",
+        help="Per-rule warning cap as RULE_ID=FLOAT (repeatable).",
+    ),
+    policy_path: Path | None = typer.Option(
+        None,
+        "--policy-path",
+        help="Path to JSON policy file for gate/warn settings.",
+    ),
+    out_path: Path | None = typer.Option(None, "--out-path"),
+    as_json: bool = typer.Option(False, "--json"),
+) -> None:
+    """Re-apply gate/warn policies to an existing summary JSON payload."""
+    payload = _load_summary_payload_or_exit(summary_path)
+    items = payload["items"]
+
+    gate_policy = _resolve_gate_policy_or_exit(
+        policy_path=policy_path,
+        min_grade=min_grade,
+        max_total_cost=max_total_cost,
+        max_hard_count=max_hard_count,
+        fail_on_rule=fail_on_rule,
+        max_rule_total_cost=max_rule_total_cost,
+        warn_on_rule=warn_on_rule,
+        warn_rule_total_cost=warn_rule_total_cost,
+    )
+
+    updated: list[dict[str, Any]] = []
+    hard_failures = 0
+    parse_failures = 0
+    quality_failures = 0
+    needs_rule_data = bool(
+        gate_policy.fail_on_rule
+        or gate_policy.max_rule_total_cost
+        or gate_policy.warn_on_rule
+        or gate_policy.warn_rule_total_cost
+    )
+    for item in items:
+        row = dict(item)
+        if "error" in row:
+            parse_failures += 1
+            row["ok"] = False
+            updated.append(row)
+            continue
+
+        hard_count = int(row.get("hard_count", 0))
+        if hard_count > 0:
+            hard_failures += 1
+
+        has_per_rule_summary = "per_rule_summary" in row
+        per_rule_summary = row.get("per_rule_summary", {}) or {}
+        warnings: list[str] = []
+        gate_msg: str | None = None
+        if needs_rule_data and not has_per_rule_summary:
+            msg = (
+                "per_rule_summary missing; rerun audit/pipeline to enable rule-level "
+                "gate/warn policies"
+            )
+            if gate_policy.fail_on_rule or gate_policy.max_rule_total_cost:
+                gate_msg = msg
+            else:
+                warnings.append(msg)
+
+        pseudo_report: dict[str, Any] = {
+            "grade": row.get("grade", "F"),
+            "total_cost": float(row.get("total_cost", 0.0)),
+            "hard_violations": [None] * hard_count,
+            "per_rule_summary": per_rule_summary,
+        }
+        if gate_msg is None:
+            gate_msg = _quality_gate_failure(
+                pseudo_report,
+                min_grade=gate_policy.min_grade,
+                max_total_cost=gate_policy.max_total_cost,
+                max_hard_count=gate_policy.max_hard_count,
+                fail_on_rule=gate_policy.fail_on_rule,
+                max_rule_total_cost=gate_policy.max_rule_total_cost,
+            )
+        warnings.extend(
+            _quality_gate_warnings(
+                pseudo_report,
+                warn_on_rule=gate_policy.warn_on_rule,
+                warn_rule_total_cost=gate_policy.warn_rule_total_cost,
+            )
+        )
+        if gate_msg is not None:
+            quality_failures += 1
+        row["quality_gate_error"] = gate_msg
+        row["quality_warnings"] = warnings
+        row["ok"] = hard_count == 0 and gate_msg is None
+        updated.append(row)
+
+    out_payload = {
+        **payload,
+        "items": updated,
+        "hard_failures": hard_failures,
+        "parse_failures": parse_failures,
+        "quality_failures": quality_failures,
+    }
+    if out_path is not None:
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(json.dumps(out_payload, indent=2), encoding="utf-8")
+    if as_json:
+        typer.echo(json.dumps(out_payload, indent=2))
+    else:
+        typer.echo(
+            f"Applied gates to {len(updated)} items | hard_failures={hard_failures} "
+            f"parse_failures={parse_failures} quality_failures={quality_failures}"
+        )
+        if out_path is not None:
+            typer.echo(f"Wrote {out_path}")
+    if hard_failures or parse_failures or quality_failures:
+        raise typer.Exit(code=1)
+
+
+@progression_app.command("policy-template")
+def progression_policy_template(
+    out_path: Path | None = typer.Option(None, "--out-path"),
+) -> None:
+    """Print (or write) a reusable gate/warn policy JSON template."""
+    template = {
+        "min_grade": "B",
+        "max_total_cost": 10.0,
+        "max_hard_count": 0,
+        "fail_on_rule": ["O-002"],
+        "max_rule_total_cost": ["O-001=5"],
+        "warn_on_rule": ["O-004"],
+        "warn_rule_total_cost": ["O-004=2"],
+    }
+    text = json.dumps(template, indent=2)
+    if out_path is not None:
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(text + "\n", encoding="utf-8")
+        typer.echo(f"Wrote {out_path}")
+        return
+    typer.echo(text)
 
 
 # ---------------------------------------------------------------------------
@@ -1201,6 +1652,23 @@ def _pick_default_soundfont() -> Path | None:
     return found[0]
 
 
+def _build_passage_piece(
+    *,
+    voices: list[list[int | list[int]]],
+    meter: str,
+    key: str,
+    species: int,
+    cantus_firmus_voice: int,
+) -> dict[str, Any]:
+    return {
+        "voices": voices,
+        "meter": meter,
+        "key": key,
+        "species": species,
+        "cantus_firmus_voice": cantus_firmus_voice,
+    }
+
+
 def _quality_gate_failure(
     report: dict[str, Any],
     *,
@@ -1245,6 +1713,232 @@ def _quality_gate_failure(
         if float(total) > cap:
             return f"rule {rid} total_cost {float(total)} exceeds cap {cap}"
     return None
+
+
+def _quality_gate_warnings(
+    report: dict[str, Any],
+    *,
+    warn_on_rule: list[str],
+    warn_rule_total_cost: dict[str, float],
+) -> list[str]:
+    out: list[str] = []
+    per_rule = report.get("per_rule_summary", {}) or {}
+
+    for rid in warn_on_rule:
+        info = per_rule.get(rid)
+        if info is not None and int(info.get("count", 0)) > 0:
+            out.append(f"rule {rid} has {info['count']} hit(s)")
+
+    for rid, cap in warn_rule_total_cost.items():
+        info = per_rule.get(rid)
+        if info is None:
+            continue
+        total = info.get("total_cost")
+        if total is None:
+            count = int(info.get("count", 0))
+            if count > 0:
+                out.append(f"rule {rid} has hard-only hits")
+            continue
+        if float(total) > cap:
+            out.append(f"rule {rid} total_cost {float(total)} exceeds warning cap {cap}")
+    return out
+
+
+def _load_summary_payload_or_exit(path: Path) -> dict[str, Any]:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        typer.echo(f"error: {path} is not valid JSON: {exc}", err=True)
+        raise typer.Exit(code=2) from exc
+    if not isinstance(payload, dict):
+        typer.echo("error: summary JSON must be an object", err=True)
+        raise typer.Exit(code=2)
+    items = payload.get("items")
+    if not isinstance(items, list):
+        typer.echo("error: summary JSON must include an 'items' array", err=True)
+        raise typer.Exit(code=2)
+    return payload
+
+
+def _resolve_gate_policy_or_exit(
+    *,
+    policy_path: Path | None,
+    min_grade: str | None,
+    max_total_cost: float | None,
+    max_hard_count: int | None,
+    fail_on_rule: list[str],
+    max_rule_total_cost: list[str],
+    warn_on_rule: list[str],
+    warn_rule_total_cost: list[str],
+) -> GatePolicy:
+    try:
+        (
+            resolved_min_grade,
+            resolved_max_total_cost,
+            resolved_max_hard_count,
+            resolved_fail_on_rule,
+            resolved_max_rule_total_cost,
+            resolved_warn_on_rule,
+            resolved_warn_rule_total_cost,
+        ) = _resolve_policy_settings(
+            policy_path=policy_path,
+            min_grade=min_grade,
+            max_total_cost=max_total_cost,
+            max_hard_count=max_hard_count,
+            fail_on_rule=fail_on_rule,
+            max_rule_total_cost=max_rule_total_cost,
+            warn_on_rule=warn_on_rule,
+            warn_rule_total_cost=warn_rule_total_cost,
+        )
+        parsed_max_rule_total_cost = _parse_rule_cost_limits(resolved_max_rule_total_cost)
+        parsed_warn_rule_total_cost = _parse_rule_cost_limits(resolved_warn_rule_total_cost)
+    except ValueError as exc:
+        typer.echo(f"error: {exc}", err=True)
+        raise typer.Exit(code=2) from exc
+    return GatePolicy(
+        min_grade=resolved_min_grade,
+        max_total_cost=resolved_max_total_cost,
+        max_hard_count=resolved_max_hard_count,
+        fail_on_rule=resolved_fail_on_rule,
+        max_rule_total_cost=parsed_max_rule_total_cost,
+        warn_on_rule=resolved_warn_on_rule,
+        warn_rule_total_cost=parsed_warn_rule_total_cost,
+    )
+
+
+def _resolve_policy_settings(
+    *,
+    policy_path: Path | None,
+    min_grade: str | None,
+    max_total_cost: float | None,
+    max_hard_count: int | None,
+    fail_on_rule: list[str],
+    max_rule_total_cost: list[str],
+    warn_on_rule: list[str],
+    warn_rule_total_cost: list[str],
+) -> tuple[
+    str | None,
+    float | None,
+    int | None,
+    list[str],
+    list[str],
+    list[str],
+    list[str],
+]:
+    if policy_path is None:
+        return (
+            min_grade,
+            max_total_cost,
+            max_hard_count,
+            fail_on_rule,
+            max_rule_total_cost,
+            warn_on_rule,
+            warn_rule_total_cost,
+        )
+    policy = _load_policy_json(policy_path)
+    resolved_min_grade = (
+        min_grade
+        if min_grade is not None
+        else _policy_optional_str(policy, "min_grade", allow_empty=False)
+    )
+    resolved_max_total_cost = (
+        max_total_cost
+        if max_total_cost is not None
+        else _policy_optional_float(policy, "max_total_cost")
+    )
+    resolved_max_hard_count = (
+        max_hard_count
+        if max_hard_count is not None
+        else _policy_optional_int(policy, "max_hard_count")
+    )
+    resolved_fail_on_rule = (
+        fail_on_rule
+        if fail_on_rule
+        else _policy_optional_str_list(policy, "fail_on_rule")
+    )
+    resolved_max_rule_total_cost = (
+        max_rule_total_cost
+        if max_rule_total_cost
+        else _policy_optional_str_list(policy, "max_rule_total_cost")
+    )
+    resolved_warn_on_rule = (
+        warn_on_rule
+        if warn_on_rule
+        else _policy_optional_str_list(policy, "warn_on_rule")
+    )
+    resolved_warn_rule_total_cost = (
+        warn_rule_total_cost
+        if warn_rule_total_cost
+        else _policy_optional_str_list(policy, "warn_rule_total_cost")
+    )
+    return (
+        resolved_min_grade,
+        resolved_max_total_cost,
+        resolved_max_hard_count,
+        resolved_fail_on_rule,
+        resolved_max_rule_total_cost,
+        resolved_warn_on_rule,
+        resolved_warn_rule_total_cost,
+    )
+
+
+def _load_policy_json(path: Path) -> dict[str, Any]:
+    try:
+        raw = path.read_text(encoding="utf-8")
+    except OSError as exc:
+        raise ValueError(f"Unable to read policy file {path}: {exc}") from exc
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"Policy file {path} is not valid JSON: {exc}") from exc
+    if not isinstance(data, dict):
+        raise ValueError(f"Policy file {path} must contain a JSON object")
+    return data
+
+
+def _policy_optional_str(
+    policy: dict[str, Any], key: str, *, allow_empty: bool = True
+) -> str | None:
+    if key not in policy or policy[key] is None:
+        return None
+    value = policy[key]
+    if not isinstance(value, str):
+        raise ValueError(f"Policy key {key!r} must be a string")
+    if not allow_empty and not value.strip():
+        raise ValueError(f"Policy key {key!r} cannot be empty")
+    return value
+
+
+def _policy_optional_float(policy: dict[str, Any], key: str) -> float | None:
+    if key not in policy or policy[key] is None:
+        return None
+    value = policy[key]
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise ValueError(f"Policy key {key!r} must be a number")
+    return float(value)
+
+
+def _policy_optional_int(policy: dict[str, Any], key: str) -> int | None:
+    if key not in policy or policy[key] is None:
+        return None
+    value = policy[key]
+    if isinstance(value, bool) or not isinstance(value, int):
+        raise ValueError(f"Policy key {key!r} must be an integer")
+    return value
+
+
+def _policy_optional_str_list(policy: dict[str, Any], key: str) -> list[str]:
+    if key not in policy or policy[key] is None:
+        return []
+    value = policy[key]
+    if not isinstance(value, list):
+        raise ValueError(f"Policy key {key!r} must be a list")
+    items: list[str] = []
+    for idx, item in enumerate(value):
+        if not isinstance(item, str):
+            raise ValueError(f"Policy key {key!r}[{idx}] must be a string")
+        items.append(item)
+    return items
 
 
 def _parse_rule_cost_limits(entries: list[str]) -> dict[str, float]:

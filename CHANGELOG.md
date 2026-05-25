@@ -35,6 +35,9 @@ and the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format.
 - Repo-wide cleanup pass: `ruff check` + `ruff format` clean across
   `src/` and `tests/`; `mypy src/music_rules/core` reports zero
   errors. No behavior change to any public API.
+- Reporting refactor: batch-summary and summary-diff markdown rendering plus
+  diff classification are now reusable helpers in
+  `music_rules.core.reporting`; CLI commands call these shared core functions.
 - Moved `fastapi` and `uvicorn` from runtime dependencies into a new
   optional `[api]` extra. The planned `adapters/api.py` route surface
   is the only consumer; default installs are now smaller.
@@ -81,13 +84,39 @@ and the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format.
   - `music-rules progression pipeline-voiced-batch "<glob>" ...` runs
     render (+ optional WAV) and audit in one pass, producing a single
     machine-readable summary payload.
+  - `music-rules progression summary-markdown <summary.json>` converts batch
+    summary JSON into a readable markdown report (`--failures-only`,
+    `--sort-by`, `--top-n` supported).
+  - `music-rules progression apply-gates <summary.json>` reapplies quality
+    policies to existing summary payloads without rerunning render/audit.
   - Quality gates for audit/pipeline commands:
     `--min-grade`, `--max-total-cost`, `--max-hard-count`,
-    `--fail-on-rule`, `--max-rule-total-cost`.
+    `--fail-on-rule`, `--max-rule-total-cost`, plus non-fatal warning
+    policies via `--warn-on-rule` and `--warn-rule-total-cost`.
   - `music-rules evaluate-explain <report.json> [--json]` summarizes an
     `evaluate_passage` report into fix-priority rule buckets.
   - New core helper module `music_rules.core.reporting` plus tests for report
     aggregation and formatting.
+- Progression gate policies can now be loaded from reusable JSON files via
+  `--policy-path` on `audit-voiced-csv`, `audit-voiced-batch`,
+  `pipeline-voiced-batch`, and `apply-gates`; CLI overrides still take
+  precedence for iterative tuning.
+- Added `music-rules progression policy-template` to print or write a starter
+  gate/warning policy JSON payload.
+- Added `music-rules progression summary-diff <baseline.json> <candidate.json>`
+  to compare two batch summaries and surface regressions/improvements by file
+  (machine-readable via `--json`, markdown via default/out-path).
+- Added `music-rules progression summary-history "<glob>"` to aggregate
+  multiple summary runs into a trend view with regressions/improvements vs
+  previous run (and optional `--fail-on-regressions` for CI guardrails).
+- `summary-history` now emits latest regression/improvement file lists and
+  supports stricter CI gating via `--fail-on-latest-regression` and
+  `--max-total-regressions`.
+- Latest summary-history output now includes per-file latest deltas
+  (cost/hard/grade) and adds `--max-latest-regressions` plus `--top-n-latest`.
+- `summary-diff` now supports `--only-regressions` for compact triage output.
+- `summary-history` now supports `--latest-only` to focus output/gating on the
+  newest run.
 
 - **Phase 8 — full EIS composer, SkyTNT generation, voice-range
   constraints, per-voice instruments, Cowork compose skill.** All
