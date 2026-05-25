@@ -1,0 +1,178 @@
+{
+  "name": "Ambient Drone",
+  "description": "D dorian drone, 60 BPM.",
+  "tempo_bpm": 60,
+  "swing": 0.5,
+  "meter": "4/4",
+  "key": {
+    "tonic": "D",
+    "mode": "dorian"
+  },
+  "harmony": {
+    "chord_vamp": [
+      {
+        "chord": "Dm9",
+        "bars": 2
+      },
+      {
+        "chord": "Gmaj9",
+        "bars": 2
+      }
+    ],
+    "voicing": {
+      "Dm9": [
+        50,
+        53,
+        57,
+        60,
+        64
+      ],
+      "Gmaj9": [
+        55,
+        59,
+        62,
+        66,
+        69
+      ]
+    },
+    "chord_roots": {
+      "Dm9": "D",
+      "Gmaj9": "G"
+    }
+  },
+  "drums": {
+    "pattern_resolution": "8th",
+    "pattern_spec": "silent",
+    "pattern": {
+      "kick": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "snare": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "hihat": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "midi_notes": {
+      "kick": 36,
+      "snare": 38,
+      "hihat": 42
+    },
+    "velocity": {
+      "kick": 1,
+      "snare": 1,
+      "hihat": 1
+    },
+    "humanize_velocity": 0
+  },
+  "bass": {
+    "program": 38,
+    "octave": 2,
+    "scale_pool": [
+      "D",
+      "E",
+      "F",
+      "G",
+      "A",
+      "B",
+      "C"
+    ],
+    "rules": {
+      "downbeat_must_be_chord_root": true,
+      "approach_downbeat_with_chromatic_step": true,
+      "chromatic_approach_direction": "below_or_above",
+      "syncopation_probability": 0.1,
+      "rest_probability": 0.5,
+      "max_leap_semitones": 7
+    },
+    "rhythm_cells_beats": [
+      [
+        4.0
+      ],
+      [
+        2.0,
+        2.0
+      ],
+      [
+        4.0
+      ]
+    ],
+    "velocity": 95
+  },
+  "lead": {
+    "program": 54,
+    "octave": 5,
+    "scale_pool": [
+      "D",
+      "E",
+      "F",
+      "G",
+      "A",
+      "B",
+      "C"
+    ],
+    "rules": {
+      "active_on_bars_in_phrase": [
+        2
+      ],
+      "phrase_length_beats": [
+        2,
+        3,
+        4
+      ],
+      "max_leap_semitones": 5,
+      "emphasize_blue_note": "F",
+      "rest_probability_per_bar": 0.7
+    },
+    "rhythm_cells_beats": [
+      [
+        4.0
+      ],
+      [
+        2.0,
+        2.0
+      ]
+    ],
+    "velocity": 88
+  },
+  "chord_pad": {
+    "program": 94,
+    "velocity": 55,
+    "octave_offset": 0
+  },
+  "form": {
+    "structure": [
+      "A",
+      "B",
+      "A",
+      "B"
+    ],
+    "bars_per_section": 4,
+    "B_section": {
+      "lead_active_on_all_bars": false,
+      "drum_velocity_boost": 0
+    }
+  }
+}

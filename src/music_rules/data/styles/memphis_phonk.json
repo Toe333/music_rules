@@ -1,0 +1,198 @@
+{
+  "name": "Memphis Phonk",
+  "description": "F minor i–bVI half-time phonk.",
+  "tempo_bpm": 72,
+  "swing": 0.5,
+  "meter": "4/4",
+  "key": {
+    "tonic": "F",
+    "mode": "natural_minor"
+  },
+  "harmony": {
+    "chord_vamp": [
+      {
+        "chord": "Fm",
+        "bars": 2
+      },
+      {
+        "chord": "Db",
+        "bars": 2
+      }
+    ],
+    "voicing": {
+      "Fm": [
+        53,
+        56,
+        60
+      ],
+      "Db": [
+        49,
+        53,
+        56
+      ]
+    },
+    "chord_roots": {
+      "Fm": "F",
+      "Db": "Db"
+    }
+  },
+  "drums": {
+    "pattern_resolution": "8th",
+    "pattern_spec": "kit",
+    "pattern": {
+      "kick": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "snare": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "hihat": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "midi_notes": {
+      "kick": 36,
+      "snare": 38,
+      "hihat": 42
+    },
+    "velocity": {
+      "kick": 118,
+      "snare": 110,
+      "hihat": 70
+    },
+    "humanize_velocity": 4
+  },
+  "bass": {
+    "program": 39,
+    "octave": 2,
+    "scale_pool": [
+      "F",
+      "G",
+      "Ab",
+      "Bb",
+      "C",
+      "Db",
+      "Eb"
+    ],
+    "rules": {
+      "downbeat_must_be_chord_root": true,
+      "approach_downbeat_with_chromatic_step": true,
+      "chromatic_approach_direction": "below_or_above",
+      "syncopation_probability": 0.4,
+      "rest_probability": 0.15,
+      "max_leap_semitones": 7
+    },
+    "rhythm_cells_beats": [
+      [
+        1.0,
+        0.5,
+        0.5,
+        1.0,
+        0.5,
+        0.5
+      ],
+      [
+        1.0,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1.0
+      ],
+      [
+        1.5,
+        0.5,
+        1.0,
+        1.0
+      ]
+    ],
+    "velocity": 95
+  },
+  "lead": {
+    "program": 81,
+    "octave": 5,
+    "scale_pool": [
+      "F",
+      "Ab",
+      "Bb",
+      "B",
+      "C",
+      "Eb"
+    ],
+    "rules": {
+      "active_on_bars_in_phrase": [
+        1,
+        3
+      ],
+      "phrase_length_beats": [
+        2,
+        3,
+        4
+      ],
+      "max_leap_semitones": 5,
+      "emphasize_blue_note": "B",
+      "rest_probability_per_bar": 0.5
+    },
+    "rhythm_cells_beats": [
+      [
+        1.0,
+        1.0,
+        2.0
+      ],
+      [
+        0.5,
+        0.5,
+        1.0,
+        2.0
+      ],
+      [
+        2.0,
+        1.0,
+        1.0
+      ],
+      [
+        4.0
+      ]
+    ],
+    "velocity": 88
+  },
+  "chord_pad": {
+    "program": 90,
+    "velocity": 50,
+    "octave_offset": 0
+  },
+  "form": {
+    "structure": [
+      "A",
+      "A",
+      "A",
+      "B"
+    ],
+    "bars_per_section": 4,
+    "B_section": {
+      "lead_active_on_all_bars": true,
+      "drum_velocity_boost": 12
+    }
+  }
+}

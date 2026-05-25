@@ -32,12 +32,14 @@ from __future__ import annotations
 
 import base64
 import csv
+import fnmatch
 import glob
 import json
 import shutil
 import subprocess
 import sys
 from dataclasses import dataclass
+from importlib.resources import files
 from pathlib import Path
 from typing import Any
 
@@ -49,10 +51,13 @@ from music_rules.adapters import openai as openai_adapter
 from music_rules.core import corpus
 from music_rules.core import evaluate as core_evaluate
 from music_rules.core import reporting as core_reporting
+from music_rules.core.generate import generate_track, load_style
 from music_rules.core.midi import render as midi_render
 
 _GRADE_ORDER: dict[str, int] = {"A": 5, "B": 4, "C": 3, "D": 2, "F": 1}
 _PREFERRED_SF2_NAMES: tuple[str, ...] = ("FluidR3_GM.sf2", "TimGM6mb.sf2", "default-GM.sf2")
+_CAVE_STORY_SF2: Path = Path.home() / "Music" / "soundfonts" / "Cave_Story_1.sf2"
+_RENDER_SOUNDFONTS: tuple[str, ...] = ("none", "timidity", "cave_story")
 
 
 @dataclass(frozen=True)
@@ -105,6 +110,186 @@ app.add_typer(progression_app)
 def version() -> None:
     """Print the installed music-rules version and exit."""
     typer.echo(__version__)
+
+
+# ---------------------------------------------------------------------------
+# music-rules render
+# ---------------------------------------------------------------------------
+
+
+@app.command("render")
+def render(
+    styles: str = typer.Option(
+        ...,
+        "--styles",
+        help="Comma-separated globs over bundled style ids (e.g. '*', 'dre_*').",
+    ),
+    seed: int = typer.Option(1990, "--seed", help="RNG seed shared across all selected styles."),
+    out: Path = typer.Option(Path("renders"), "--out", help="Output directory."),
+    soundfont: str = typer.Option(
+        "none",
+        "--soundfont",
+        help="Bounce policy: none | timidity | cave_story.",
+    ),
+    player: bool = typer.Option(
+        False,
+        "--player",
+        help="Add MP3s to webplayer and run `webplayer open` (requires --soundfont).",
+    ),
+    group: str = typer.Option("render", "--group", help="Webplayer group label."),
+) -> None:
+    """Render any subset of bundled style profiles to MIDI (+ optional MP3)."""
+    if soundfont not in _RENDER_SOUNDFONTS:
+        typer.echo(
+            f"error: invalid --soundfont {soundfont!r}; expected one of "
+            f"{', '.join(_RENDER_SOUNDFONTS)}",
+            err=True,
+        )
+        raise typer.Exit(code=2)
+    if player and soundfont == "none":
+        typer.echo("error: --player requires --soundfont timidity|cave_story", err=True)
+        raise typer.Exit(code=2)
+
+    available = _list_bundled_style_ids()
+    selected = _select_style_ids(styles, available)
+    if not selected:
+        typer.echo(f"error: no bundled styles matched {styles!r}", err=True)
+        raise typer.Exit(code=2)
+
+    out.mkdir(parents=True, exist_ok=True)
+    mp3_paths: list[Path] = []
+    for style_id in selected:
+        style = load_style(style_id)
+        result = generate_track(style, seed=seed)
+        mid_path = out / f"{style_id}.mid"
+        mid_path.write_bytes(result.midi_bytes)
+        typer.echo(f"Wrote {mid_path}")
+
+        if soundfont == "none":
+            continue
+        mp3_path = out / f"{style_id}.mp3"
+        ok, msg = _render_style_mp3(
+            midi_path=mid_path,
+            mp3_path=mp3_path,
+            soundfont=soundfont,
+        )
+        if ok:
+            typer.echo(f"Wrote {mp3_path}")
+            mp3_paths.append(mp3_path)
+        else:
+            typer.echo(f"skip mp3 for {style_id}: {msg}")
+
+    if player and mp3_paths:
+        _send_to_webplayer(mp3_paths, group=group)
+
+
+def _list_bundled_style_ids() -> list[str]:
+    root = files("music_rules.data.styles")
+    ids: list[str] = []
+    for entry in root.iterdir():
+        name = entry.name
+        if name.endswith(".json"):
+            ids.append(name[:-5])
+    return sorted(ids)
+
+
+def _select_style_ids(patterns: str, available: list[str]) -> list[str]:
+    selected: list[str] = []
+    seen: set[str] = set()
+    for raw in patterns.split(","):
+        pat = raw.strip()
+        if not pat:
+            continue
+        for sid in available:
+            if sid not in seen and fnmatch.fnmatchcase(sid, pat):
+                seen.add(sid)
+                selected.append(sid)
+    return selected
+
+
+def _render_style_mp3(
+    *,
+    midi_path: Path,
+    mp3_path: Path,
+    soundfont: str,
+) -> tuple[bool, str]:
+    """Bounce a MIDI file to MP3 via the chosen synth + ffmpeg.
+
+    Returns (ok, message). Missing binaries or soundfont files yield
+    a single-line skip notice instead of raising.
+    """
+    ffmpeg_bin = shutil.which("ffmpeg")
+    if ffmpeg_bin is None:
+        return False, "ffmpeg not on PATH"
+    wav_path = mp3_path.with_suffix(".wav")
+    if soundfont == "timidity":
+        timidity_bin = shutil.which("timidity")
+        if timidity_bin is None:
+            return False, "timidity not on PATH"
+        synth_cmd = [timidity_bin, str(midi_path), "-Ow", "-o", str(wav_path)]
+    elif soundfont == "cave_story":
+        fluidsynth_bin = shutil.which("fluidsynth")
+        if fluidsynth_bin is None:
+            return False, "fluidsynth not on PATH"
+        if not _CAVE_STORY_SF2.exists():
+            return False, f"soundfont not found at {_CAVE_STORY_SF2}"
+        synth_cmd = [
+            fluidsynth_bin,
+            "-ni",
+            "-g",
+            "1.0",
+            "-F",
+            str(wav_path),
+            str(_CAVE_STORY_SF2),
+            str(midi_path),
+        ]
+    else:  # pragma: no cover - guarded by caller
+        return False, f"unknown soundfont {soundfont!r}"
+    try:
+        subprocess.run(synth_cmd, check=True, capture_output=True, text=True)
+        subprocess.run(
+            [
+                ffmpeg_bin,
+                "-y",
+                "-i",
+                str(wav_path),
+                "-codec:a",
+                "libmp3lame",
+                "-b:a",
+                "192k",
+                str(mp3_path),
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    except subprocess.CalledProcessError as exc:
+        if wav_path.exists():
+            wav_path.unlink()
+        return False, f"bounce failed: {(exc.stderr or exc.stdout or '').strip()}"
+    if wav_path.exists():
+        wav_path.unlink()
+    return True, "ok"
+
+
+def _send_to_webplayer(mp3_paths: list[Path], *, group: str) -> None:
+    exe = shutil.which("webplayer")
+    if exe is None:
+        typer.echo("--player skipped (webplayer not on PATH)")
+        return
+    subprocess.run(
+        [
+            exe,
+            "add",
+            *(str(p) for p in mp3_paths),
+            "--group",
+            group,
+            "--desc",
+            "music_rules render",
+        ],
+        check=True,
+    )
+    subprocess.run([exe, "open"], check=True)
 
 
 # ---------------------------------------------------------------------------

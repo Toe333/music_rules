@@ -1,0 +1,222 @@
+{
+  "name": "Liquid Dnb",
+  "description": "F minor breakbeat, 174 BPM.",
+  "tempo_bpm": 174,
+  "swing": 0.5,
+  "meter": "4/4",
+  "key": {
+    "tonic": "F",
+    "mode": "natural_minor"
+  },
+  "harmony": {
+    "chord_vamp": [
+      {
+        "chord": "Fm",
+        "bars": 2
+      },
+      {
+        "chord": "Bbm",
+        "bars": 2
+      }
+    ],
+    "voicing": {
+      "Fm": [
+        53,
+        56,
+        60
+      ],
+      "Bbm": [
+        46,
+        49,
+        53
+      ]
+    },
+    "chord_roots": {
+      "Fm": "F",
+      "Bbm": "Bb"
+    }
+  },
+  "drums": {
+    "pattern_resolution": "16th",
+    "pattern_spec": "amen-break",
+    "pattern": {
+      "kick": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "snare": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "hihat": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "midi_notes": {
+      "kick": 36,
+      "snare": 38,
+      "hihat": 42
+    },
+    "velocity": {
+      "kick": 118,
+      "snare": 115,
+      "hihat": 65
+    },
+    "humanize_velocity": 6
+  },
+  "bass": {
+    "program": 39,
+    "octave": 1,
+    "scale_pool": [
+      "F",
+      "G",
+      "Ab",
+      "Bb",
+      "C",
+      "Db",
+      "Eb"
+    ],
+    "rules": {
+      "downbeat_must_be_chord_root": true,
+      "approach_downbeat_with_chromatic_step": true,
+      "chromatic_approach_direction": "below_or_above",
+      "syncopation_probability": 0.4,
+      "rest_probability": 0.1,
+      "max_leap_semitones": 12
+    },
+    "rhythm_cells_beats": [
+      [
+        1.0,
+        0.5,
+        0.5,
+        1.0,
+        0.5,
+        0.5
+      ],
+      [
+        1.0,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        1.0
+      ],
+      [
+        1.5,
+        0.5,
+        1.0,
+        1.0
+      ]
+    ],
+    "velocity": 95
+  },
+  "lead": {
+    "program": 82,
+    "octave": 5,
+    "scale_pool": [
+      "F",
+      "Ab",
+      "Bb",
+      "B",
+      "C",
+      "Eb"
+    ],
+    "rules": {
+      "active_on_bars_in_phrase": [
+        1,
+        3
+      ],
+      "phrase_length_beats": [
+        2,
+        3,
+        4
+      ],
+      "max_leap_semitones": 5,
+      "emphasize_blue_note": "B",
+      "rest_probability_per_bar": 0.55
+    },
+    "rhythm_cells_beats": [
+      [
+        1.0,
+        1.0,
+        2.0
+      ],
+      [
+        0.5,
+        0.5,
+        1.0,
+        2.0
+      ],
+      [
+        2.0,
+        1.0,
+        1.0
+      ],
+      [
+        4.0
+      ]
+    ],
+    "velocity": 88
+  },
+  "chord_pad": {
+    "program": 91,
+    "velocity": 45,
+    "octave_offset": 0
+  },
+  "form": {
+    "structure": [
+      "A",
+      "A",
+      "A",
+      "B"
+    ],
+    "bars_per_section": 4,
+    "B_section": {
+      "lead_active_on_all_bars": true,
+      "drum_velocity_boost": 10
+    }
+  }
+}
